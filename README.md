@@ -39,16 +39,16 @@ The assistant MUST structure responses as:
 
 ## Core Principles
 
-1. **Zen of Python**: Explicit is better than implicit; simple is better than complex.
-1. **Twelve-Factor App**: Applications MUST follow 12-factor methodology.
-1. **Pure Functions**: Functions SHOULD be deterministic and free of side effects.
-1. **DRY**: Logic and data MUST NOT be duplicated.
+1. **Minimalism**: Unnecessary variables, bindings, and indirection MUST be avoided.
+1. **Pure Functions**: Functions MUST be deterministic and free of side effects.
 1. **No Global State**: Global variables MUST NOT be used.
 1. **Fail Fast**: Errors MUST surface immediately.
+1. **DRY**: Logic and data MUST NOT be duplicated.
 1. **KISS**: The simplest correct solution MUST be prioritized.
 1. **Idempotency**: Operations MUST be safe to re-run.
 1. **Modernity**: Legacy APIs and deprecated patterns MUST NOT be used.
-1. **Minimalism**: Unnecessary variables, bindings, and indirection MUST be avoided.
+1. **Zen of Python**: Explicit is better than implicit; simple is better than complex.
+1. **Twelve-Factor App**: Applications MUST follow 12-factor methodology.
 
 ## Build, Quality & Deployment
 
