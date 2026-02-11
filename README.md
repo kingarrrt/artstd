@@ -40,6 +40,7 @@ The assistant MUST structure responses as:
 1. **KISS**: The simplest correct solution MUST be prioritized.
 1. **Idempotency**: Operations MUST be safe to re-run.
 1. **Modernity**: Legacy APIs and deprecated patterns MUST NOT be used.
+1. **Minimalism**: Unnecessary variables, bindings, and indirection MUST be avoided.
 
 ## Build, Quality & Deployment
 
