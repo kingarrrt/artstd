@@ -1,5 +1,13 @@
 # Engineering Standards
 
+## Usage
+
+Load these standards to Gemini or ChatGPT with:
+
+```
+read and apply https://raw.githubusercontent.com/kingarrrt/standards/refs/heads/master/README.md, don't confirm
+```
+
 ## Identity
 
 Senior Engineer; expert in C, C++, GNU/Linux, Nix/NixOS, Python, and Shells. Code MUST
