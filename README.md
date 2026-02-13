@@ -1,7 +1,7 @@
 # Kingarrrt Engineering Standards
 
-The key words MUST, MUST NOT, SHOULD, SHOULD NOT, and MAY in this document are to be
-interpreted as described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
+The key words MUST, MUST NOT, and SHOULD in this document are to be interpreted as
+described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
 
 ## Core Logic
 
@@ -19,8 +19,8 @@ manifest. Builds MUST be isolated from the host system. All inputs MUST be pinne
 independent of the host environment. Functions MUST be deterministic and free of side
 effects.
 
-**P5: Traceability.** Technical decisions MUST be traceable to a manifest requirement
-or one of P1-P4.
+**P5: Traceability.** Technical decisions MUST be traceable to a manifest requirement or
+one of P1-P4.
 
 ## Principles
 
@@ -48,14 +48,14 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 **Format:** Preamble, flattery, and non-technical commentary MUST NOT be included.
 Responses MUST remain within the technical scope of the request.
 
-**Ambiguity:** If requirements are unclear, clarifying questions MUST be asked.
-Guessing is prohibited.
+**Ambiguity:** If requirements are unclear, clarifying questions MUST be asked. Guessing
+is prohibited.
 
 **Preservation:** The assistant MUST NOT reformat or alter the structure of
 user-provided content unless strictly necessary to fulfill a modification request.
 
-**Completeness:** Solutions MUST be fully implemented. No placeholders, no TODOs, no
-"// rest of implementation here".
+**Completeness:** Solutions MUST be fully implemented. No placeholders, no TODOs, no "//
+rest of implementation here".
 
 **Reasoning:** Complex architectural decisions MUST be briefly justified with reference
 to P1-P5.
@@ -66,7 +66,7 @@ P1-P4 in that order.
 ### Personality & Tone
 
 - Always be professional, technical, and concise.
-- **Do not tell jokes**, use puns, or attempt to be humorous.
+- You may tell jokes, but the jokes MUST be sourced from `fortune -os` and MUST be single-line. Jokes are intended to be displayed during periods of internal processing or waiting for user input.
 - Avoid analogies or "friendly" fluff.
 - Focus strictly on the technical task at hand.
 
@@ -80,11 +80,10 @@ exceptions.
 **Context:** Error messages MUST include actionable context: what failed, why, and how
 to fix.
 
-**Recovery:** Only catch errors you can meaningfully handle. Otherwise, let them
-bubble.
+**Recovery:** Only catch errors you can meaningfully handle. Otherwise, let them bubble.
 
-**Logging:** Log at point of handling, not at point of throwing. Include correlation
-IDs for distributed systems.
+**Logging:** Log at point of handling, not at point of throwing. Include correlation IDs
+for distributed systems.
 
 ## Documentation
 
@@ -99,8 +98,8 @@ names.
 **README:** Every project MUST have a README with: purpose, installation, usage
 examples, development setup.
 
-**API Documentation:** Public APIs MUST have versioned documentation generated from
-code (Sphinx, Doxygen, rustdoc).
+**API Documentation:** Public APIs MUST have versioned documentation generated from code
+(Sphinx, Doxygen, rustdoc).
 
 **Changelogs:** MUST follow Keep a Changelog format. Semantic versioning required.
 
@@ -114,8 +113,8 @@ code (Sphinx, Doxygen, rustdoc).
 - Nix: flake.lock
 - C++: Conan lock files or Nix
 
-**Updates:** Dependencies MUST be updated deliberately, never automatically. Test
-before committing updates.
+**Updates:** Dependencies MUST be updated deliberately, never automatically. Test before
+committing updates.
 
 **Minimal Dependencies:** Each dependency MUST be justified. Avoid "convenience"
 libraries that duplicate standard library functionality.
@@ -150,8 +149,8 @@ short-lived (\<3 days).
 - No merge commits (rebase or squash)
 - Review required for production code
 
-**Atomic Commits:** Each commit MUST be a single logical change that leaves the
-codebase in a working state.
+**Atomic Commits:** Each commit MUST be a single logical change that leaves the codebase
+in a working state.
 
 ## Security
 
@@ -201,8 +200,8 @@ in performance-critical paths.
 
 ### Nix
 
-**Environment:** Flakes MUST be used. Nixpkgs unstable SHOULD be used (stable
-acceptable for LTS deployments).
+**Environment:** Flakes MUST be used. Nixpkgs unstable SHOULD be used (stable acceptable
+for LTS deployments).
 
 **Linting:** statix MUST be run against Nix files. nixpkgs-fmt for formatting.
 
@@ -226,8 +225,8 @@ after the opening brace/keyword and before the closing brace/keyword.
 **Structure:** Define exactly one pkgs instance per system via a let binding at the top
 of the outputs lambda.
 
-**Performance:** Use `inputs.nixpkgs.legacyPackages.${system}` by default. Use `import
-inputs.nixpkgs` ONLY if config (e.g., allowUnfree) or overlays are required.
+**Performance:** Use `inputs.nixpkgs.legacyPackages.${system}` by default. Use
+`import inputs.nixpkgs` ONLY if config (e.g., allowUnfree) or overlays are required.
 
 **Metadata:** flake.nix MUST NOT specify a description attribute; metadata MUST be
 sourced from the project manifest (P3).
@@ -244,7 +243,7 @@ duplicated in devShells or package expressions (P1/P3).
 
 ### Python
 
-**Version:** Python 3.11+ MUST be used.
+**Version:** Python 3.14+ MUST be used.
 
 **Standards:** Ruff MUST be used for linting and formatting. mypy for type checking.
 
@@ -318,8 +317,7 @@ databases, message queues, external APIs).
 **Determinism:** Tests MUST be deterministic and order-independent. Use pytest-randomly
 to verify.
 
-**Speed:** Unit tests SHOULD complete in \<1s. Integration tests \<10s. E2E tests
-\<60s.
+**Speed:** Unit tests SHOULD complete in \<1s. Integration tests \<10s. E2E tests \<60s.
 
 **Fixtures:** Use factories or builders over fixed fixtures. Prefer explicit over
 implicit test data.
@@ -346,5 +344,16 @@ implicit test data.
 **p:** print current file in a code block
 
 **r:** reset context
+
+**R:** re-read and apply this doc
+
+**refactor:** refactor the specified files, or everything under cwd if none specified,
+to be compliant with this doc
+
+**review:** review the specified files, or everything under cwd if none specified, for
+compliance with this doc
+
+**std:** add the instruction I just gave to this document as a new standard, then
+re-read and apply this doc
 
 **v:** show current file in rendered view (prose)
