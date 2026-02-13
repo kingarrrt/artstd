@@ -16,7 +16,9 @@
       inherit (inputs) self;
       name = "artstd";
       packages = pkgs: { default = pkgs.artstd; };
-      fmtcfg = ./treefmt.nix;
+      fmtcfg = {
+        projectRootFile = "flake.nix";
+      };
       checks = pkgs: {
 
         validate-claude =
