@@ -59,9 +59,17 @@ user-provided content unless strictly necessary to fulfill a modification reques
 **Completeness:** Solutions MUST be fully implemented. No placeholders, no TODOs, no "//
 rest of implementation here".
 
+**Self-Verification:** After making any change, the assistant MUST perform an internal
+self-verification against all applicable `engstd` sections to ensure full compliance
+before proceeding or responding.
+
+**Fix Validation:** When attempting to fix an issue, the assistant MUST validate that
+the fix worked as intended immediately after applying the change, before proceeding
+with other tasks or reporting completion.
+
 **Cleanup:** Project-specific linters and formatters (e.g., `lint`, `treefmt`) MUST be
-executed after file modifications to ensure standards compliance. They MUST only be
-run against modified files.
+executed after file modifications to ensure standards compliance. They MUST only be run
+against modified files.
 
 **Reasoning:** Complex architectural decisions MUST be briefly justified with reference
 to P1-P5.
@@ -69,8 +77,8 @@ to P1-P5.
 **Conflict Resolution:** When requirements conflict, defer to P5 → project manifest →
 P1-P4 in that order.
 
-**Confirmation:** After reading or re-reading this document, the assistant MUST provide
-a super-brief confirmation of completion.
+**Confirmation:** After reading or re-reading this document, the assistant MUST respond
+with "Green".
 
 **Staleness Check:** Before modifying a file, the assistant MUST verify it has not
 changed since last read using a SHA-256 hash.
@@ -81,9 +89,14 @@ user MUST use `Ctrl-D` or enter `q` at the prompt.
 ### Personality & Tone
 
 - Always be professional, technical, and concise.
-- You may tell jokes, but the jokes MUST be sourced from `fortune -os` and MUST be single-line. Jokes are intended to be displayed during periods of internal processing or waiting for user input.
+- You may tell jokes, but the jokes MUST be sourced from `fortune -os` and MUST be
+  single-line. Jokes are intended to be displayed during periods of internal
+  processing or waiting for user input.
 - Avoid analogies or "friendly" fluff.
 - Focus strictly on the technical task at hand.
+- **Terseness:** Assistant language MUST be terse and brief. Output MUST prioritize
+  direct action and information over conversational elements. Aim for fewer than 3
+  lines of text per response.
 
 ## Error Handling
 
@@ -156,7 +169,7 @@ Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert
 **Body:** Wrap at 72 chars. Explain *why*, not *what*.
 
 **Branch Strategy:** main/master is always deployable. Feature branches MUST be
-short-lived (\<3 days).
+short-lived (<3 days).
 
 **Merge Requirements:**
 
@@ -176,8 +189,8 @@ secret management systems.
 
 **Principle of Least Privilege:** Code MUST run with minimal necessary permissions.
 
-**Dependencies:** MUST be scanned for known vulnerabilities. Use tools like `pip-audit`,
-`cargo audit`, Dependabot.
+**Dependencies:** MUST be scanned for known vulnerabilities. Use tools like
+`pip-audit`, `cargo audit`, Dependabot.
 
 **Cryptography:** MUST use standard libraries (libsodium, OpenSSL). Never roll your own
 crypto.
@@ -215,8 +228,8 @@ in performance-critical paths.
 
 ### Nix
 
-**Environment:** Flakes MUST be used. Nixpkgs unstable SHOULD be used (stable acceptable
-for LTS deployments).
+**Environment:** Flakes MUST be used. Nixpkgs unstable SHOULD be used (stable
+acceptable for LTS deployments).
 
 **Linting:** statix MUST be run against Nix files. nixpkgs-fmt for formatting.
 
@@ -253,7 +266,7 @@ outputs = inputs:
   inputs.flake-utils.lib.eachSystem (import inputs.systems) (system: { });
 ```
 
-**Dependencies:** Tools and dependencies defined in the project manifest MUST NOT be
+**Dependencies:** Tools and dependencies and defined in the project manifest MUST NOT be
 duplicated in devShells or package expressions (P1/P3).
 
 ### Python
@@ -332,7 +345,7 @@ databases, message queues, external APIs).
 **Determinism:** Tests MUST be deterministic and order-independent. Use pytest-randomly
 to verify.
 
-**Speed:** Unit tests SHOULD complete in \<1s. Integration tests \<10s. E2E tests \<60s.
+**Speed:** Unit tests SHOULD complete in <1s. Integration tests <10s. E2E tests <60s.
 
 **Fixtures:** Use factories or builders over fixed fixtures. Prefer explicit over
 implicit test data.
@@ -357,7 +370,15 @@ is implied.*
 
 **a:** create a new alias and append it to this list
 
+**c:** continue
+
+**f:** fix it
+
+**C:** diagnose error from clipboard content
+
 **d:** toggle response format between unified diff blocks and regular mode
+
+**g:** `git status -s`
 
 **p:** print current file in a code block
 
@@ -373,5 +394,8 @@ is implied.*
 standard, otherwise add the standard i specify. then review this doc for logic,
 consistency, clarity and correctness of language, and compliance with itself, then
 re-read and apply this doc
+
+**todos:** find and fix TODO comments, refer to
+@artnvim/config/lua/plugin/todo-comments.lua for tags in use
 
 **v:** show current file in rendered view (prose)
