@@ -57,6 +57,9 @@ user-provided content unless strictly necessary to fulfill a modification reques
 **Completeness:** Solutions MUST be fully implemented. No placeholders, no TODOs, no "//
 rest of implementation here".
 
+**Cleanup:** Project-specific linters and formatters (e.g., `lint`, `treefmt`) MUST be
+executed after file modifications to ensure standards compliance.
+
 **Reasoning:** Complex architectural decisions MUST be briefly justified with reference
 to P1-P5.
 
@@ -353,7 +356,8 @@ to be compliant with this doc
 **review:** review the specified files, or everything under cwd if none specified, for
 compliance with this doc
 
-**std:** add the instruction I just gave to this document as a new standard, then
-re-read and apply this doc
+**std:** add the instruction I just gave to this document as a new standard, review this
+doc for logic, clarity of language, and compliance with itself, then re-read and apply
+this doc
 
 **v:** show current file in rendered view (prose)
