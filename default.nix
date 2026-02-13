@@ -1,5 +1,5 @@
 { lib, stdenv }:
-stdenv.mkDerivation (finalAttrs: {
+stdenv.mkDerivation {
 
   pname = "artstd";
 
@@ -19,4 +19,4 @@ stdenv.mkDerivation (finalAttrs: {
     cp README.md $out
   '';
 
-})
+}
