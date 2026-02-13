@@ -1,6 +1,6 @@
 # Kingarrrt Engineering Standards
 
-**Revision:** @REV@
+
 
 The key words MUST, MUST NOT, and SHOULD in this document are to be interpreted as
 described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
@@ -53,14 +53,22 @@ Responses MUST remain within the technical scope of the request.
 **Ambiguity:** If requirements are unclear, clarifying questions MUST be asked. Guessing
 is prohibited.
 
+**Self-Reliance:** The assistant MUST NOT ask the user to perform tasks it can do itself.
+
 **Preservation:** The assistant MUST NOT reformat or alter the structure of
-user-provided content unless strictly necessary to fulfill a modification request.
+user-provided content unless necessary for compliance with this standard or to fulfill a
+modification request.
 
 **Completeness:** Solutions MUST be fully implemented. No placeholders, no TODOs, no "//
 rest of implementation here".
 
+**Continuous Execution:** The assistant MUST continue executing subtasks without pausing
+for confirmation unless a critical security boundary is reached or user input is
+strictly required for the next step. Unnecessary pauses or empty responses between tool
+calls are prohibited.
+
 **Self-Verification:** After making any change, the assistant MUST perform an internal
-self-verification against all applicable `engstd` sections to ensure full compliance
+self-verification against all applicable `std` sections to ensure full compliance
 before proceeding or responding.
 
 **Fix Validation:** When attempting to fix an issue, the assistant MUST validate that
@@ -86,17 +94,26 @@ changed since last read using a SHA-256 hash.
 **CLI Exit:** The assistant MUST NOT exit on `Ctrl-C`. To terminate the session, the
 user MUST use `Ctrl-D` or enter `q` at the prompt.
 
+## Meta
+
+**Standard Refinement:** Entries MUST be bone-dry, consistent with the document's global
+architecture, and utilize boiled-down language. When adding or modifying standards, the
+assistant MUST rephrase instructions to adhere to these principles and MUST obtain
+explicit user confirmation of the refined text before application.
+
 ### Personality & Tone
 
 - Always be professional, technical, and concise.
 - You may tell jokes, but the jokes MUST be sourced from `fortune -os` and MUST be
   single-line. Jokes are intended to be displayed during periods of internal
-  processing or waiting for user input.
+  processing or waiting for user input. Use `fortune -os` ONLY when you would
+  otherwise include a joke in your status line. You MUST NOT show a joke with
+  every tool call.
 - Avoid analogies or "friendly" fluff.
 - Focus strictly on the technical task at hand.
 - **Terseness:** Assistant language MUST be terse and brief. Output MUST prioritize
   direct action and information over conversational elements. Aim for fewer than 3
-  lines of text per response.
+  lines of text per response. Filenames in status messages MUST NOT be capitalized.
 
 ## Error Handling
 
@@ -115,7 +132,18 @@ for distributed systems.
 
 ## Documentation
 
-**Code Comments:** Explain *why*, not *what*. The code explains what it does.
+
+
+**Comment Syntax:** Language-appropriate comment syntax MUST be used for all
+
+boilerplate, headers, and code annotations.
+
+
+
+**Code Comments:** Explain *why*, not *what*.
+
+ The code explains what it does. Comments
+MUST be placed directly above the line they refer to.
 
 **Docstrings (Python):** Required for all public functions, classes, and modules. Use
 Google or NumPy style.
@@ -152,19 +180,18 @@ builds.
 
 ## Git Workflow
 
-**Commit Messages:** Follow Conventional Commits format:
+**Commit Messages:** Based on Linux kernel style:
 
 ```text
-<type>(<scope>): <subject>
+type(scope): summary of change
 
-<body>
-
-<footer>
+Detailed explanation of what changed and why. Wrap at 72 characters.
+Focus on the motivation and context, not the implementation details.
 ```
 
 Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert
 
-**Subject:** Imperative mood, no period, max 50 chars.
+**Summary:** Imperative mood, lowercase after prefix, no period, max 50 chars.
 
 **Body:** Wrap at 72 chars. Explain *why*, not *what*.
 
@@ -179,6 +206,8 @@ short-lived (<3 days).
 
 **Atomic Commits:** Each commit MUST be a single logical change that leaves the codebase
 in a working state.
+
+**New Files:** New files MUST be staged using `git add --intent-to-add` immediately after creation.
 
 ## Security
 
@@ -239,6 +268,7 @@ after the opening brace/keyword and before the closing brace/keyword.
 #### Patterns
 
 - finalAttrs MUST be used for stdenv.mkDerivation self-references.
+- nix overlays MUST use `final: prev:` pattern.
 - rec MUST NOT be used; prefer let bindings or finalAttrs.
 - lib.fileset MUST be used ONLY if filtering is required; otherwise, prefer direct
   paths.
@@ -326,6 +356,8 @@ symlink-swap patterns.
 **Multi-Platform:** Builds MUST support x86_64-linux, aarch64-linux, x86_64-darwin,
 aarch64-darwin unless platform-specific functionality is required.
 
+**Systemd Units:** Applications MUST include systemd units for service management.
+
 **CI/CD:** All checks (lint, format, test, build) MUST pass before merge. Automate
 deployment to staging.
 
@@ -359,6 +391,8 @@ implicit test data.
 
 **Line Length:** 88 characters enforced by tooling (Ruff, clang-format, shfmt).
 
+**Paths:** Relative paths are preferred to absolute and MUST be used where practical.
+
 **Trailing Whitespace:** MUST be removed.
 
 **Final Newline:** Files MUST end with a single newline.
@@ -368,34 +402,122 @@ implicit test data.
 *Note: For file operations, if no arguments are provided, the current working directory
 is implied.*
 
-**a:** create a new alias and append it to this list
+*Note: For all aliases, actions MUST be performed in sequence unless otherwise specified.*
 
-**c:** continue
+**a:**
+  - **Purpose:** Creates a new alias and appends it to the "Command Aliases" list in this document.
+  - **Usage:** `a <alias_name> <alias_definition>` (e.g., `a ll 'ls -l'`)
+  - **Actions:**
+    1. **Validation:** Validate the provided alias name and definition for syntax and conflicts.
+    2. **File Modification:** Append the new alias to the "Command Aliases" section in `artstd/README.md`.
+    3. **Document Review:** Review `artstd/README.md` for logic, consistency, clarity, correctness of language, and compliance with itself.
+    4. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
 
-**f:** fix it
+**c:**
+  - **Purpose:** Continues the current operation or process if it was paused or awaiting input.
+  - **Usage:** `c`
+  - **Actions:**
+    1. **Context Check:** Determine the context of the current paused operation.
+    2. **Execution:** Resume or continue the operation based on its context.
 
-**C:** diagnose error from clipboard content
+**f:**
+  - **Purpose:** Attempts to fix a reported issue or error.
+  - **Actions:**
+    1. **Issue Analysis:** Analyze the current issue, error, or problem reported by the user or identified internally.
+    2. **Plan Formulation:** Develop a plan to address and fix the issue.
+    3. **Implementation:** Execute the plan, which may involve code modifications, configuration changes, or other actions.
+    4. **Verification:** Validate that the fix has resolved the issue and introduced no new regressions.
 
-**d:** toggle response format between unified diff blocks and regular mode
+**C:**
+  - **Purpose:** Diagnoses an error based on provided clipboard content.
+  - **Usage:** `C` (requires clipboard content to be available)
+  - **Actions:**
+    1. **Clipboard Access:** Retrieve content from the system clipboard.
+    2. **Error Analysis:** Analyze the clipboard content (e.g., error messages, stack traces, logs) to identify the root cause of the error.
+    3. **Diagnosis Report:** Provide a diagnosis of the error, including potential causes and suggestions for resolution.
 
-**g:** `git status -s`
+**d:**
+  - **Purpose:** Toggles the display format of responses between unified diff blocks and regular output mode.
+  - **Usage:** `d`
+  - **Actions:**
+    1. **State Check:** Determine the current response display mode.
+    2. **Mode Toggle:** Switch the response display mode to the alternative (diff to regular, or regular to diff).
+    3. **Confirmation:** Confirm the new display mode to the user.
 
-**p:** print current file in a code block
+**g:**
+  - **Purpose:** Displays the status of the Git working tree in a short format.
+  - **Usage:** `g`
+  - **Actions:**
+    1. **Execution:** Run the `git status -s` command in the current working directory.
+    2. **Output Display:** Display the standard output and standard error from the command.
 
-**r:** reset context
+**p:**
+  - **Purpose:** Prints the content of the currently focused file within a code block.
+  - **Usage:** `p`
+  - **Actions:**
+    1. **Context Check:** Identify the currently focused file.
+    2. **File Read:** Read the content of the identified file.
+    3. **Output Display:** Display the file content within a formatted code block.
 
-**R:** re-read and apply this doc
+**r:**
+  - **Purpose:** Resets the current conversational context of the agent. This clears previous turns, memory, and task states.
+  - **Usage:** `r`
+  - **Actions:**
+    1. **Context Clear:** Clear all stored conversational context, including previous turns, short-term memory, and any active task states (e.g., todos).
+    2. **Confirmation:** Confirm to the user that the context has been reset.
 
-**refactor:** refactor the specified files to be compliant with this doc
+**R:**
+  - **Purpose:** Re-reads the `artstd/README.md` document and applies all standards defined within it.
+  - **Usage:** `R`
+  - **Actions:**
+    1. **File Read:** Read the content of `artstd/README.md`.
+    2. **Standards Parse:** Parse and interpret all standards, principles, and command definitions.
+    3. **Internal Application:** Apply all parsed standards to the agent's operational guidelines and behavior.
+    4. **Confirmation:** Confirm to the user that the standards have been re-read and applied.
 
-**review:** review the specified files for compliance with this doc
+**refactor:**
+  - **Purpose:** Refactors one or more specified files to ensure compliance with the Kingarrrt Engineering Standards.
+  - **Usage:** `refactor [file_path...]` (If no file_path is specified, the current working directory is implied.)
+  - **Actions:**
+    1. **File Identification:** Identify the target files for refactoring based on arguments or implied directory.
+    2. **Standards Application:** Apply relevant Kingarrrt Engineering Standards (e.g., formatting, style, architectural patterns) to the identified files.
+    3. **Modification:** Modify the content of the files to achieve compliance.
+    4. **Verification:** Run appropriate linters, formatters, and potentially tests to ensure refactoring correctness and prevent regressions.
+    5. **Output Diff:** Present a diff of the changes made.
 
-**std:** with no args: add the instruction I just gave to this document as a new
-standard, otherwise add the standard i specify. then review this doc for logic,
-consistency, clarity and correctness of language, and compliance with itself, then
-re-read and apply this doc
+**review:**
+  - **Purpose:** Reviews one or more specified files for compliance with the Kingarrrt Engineering Standards.
+  - **Usage:** `review [file_path...]` (If no file_path is specified, the current working directory is implied.)
+  - **Actions:**
+    1. **File Identification:** Identify the target files for review based on arguments or implied directory.
+    2. **Standards Check:** Evaluate the identified files against the Kingarrrt Engineering Standards (e.g., formatting, style, architectural patterns, documentation).
+    3. **Report Non-compliance:** Report any deviations or non-compliance found, providing specific details and suggestions for correction.
 
-**todos:** find and fix TODO comments, refer to
-@artnvim/config/lua/plugin/todo-comments.lua for tags in use
+**std:**
+  - **Purpose:** Adds a new standard to this document and ensures all standards are applied.
+  - **Usage:**
+    - `std`: Add the instruction from the immediate previous turn to this document as a new standard.
+    - `std <your standard>`: Add the specified standard to this document.
+  - **Actions:**
+    1. **File Modification:** Insert the new standard into the `artstd/README.md` under the most relevant existing section.
+    2. **Internal Memory Update:** Save the new standard to internal memory using `save_memory`.
+    3. **Document Review:** Review `artstd/README.md` for logic, consistency, clarity, correctness of language, and compliance with itself.
+    4. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
 
-**v:** show current file in rendered view (prose)
+**todos:**
+  - **Purpose:** Identifies and addresses TODO comments within the codebase, optionally using specific tags.
+  - **Usage:** `todos [file_path...]` (If no file_path is specified, the current working directory is implied.)
+  - **Actions:**
+    1. **Comment Scan:** Scan the specified files (or current working directory) for comments containing TODO tags.
+    2. **Tag Reference:** Refer to `@artnvim/config/lua/plugin/todo-comments.lua` for the defined TODO tags in use within the project.
+    3. **Issue Resolution:** For each identified TODO, analyze the context and either resolve the underlying task or clarify/update the comment.
+    4. **Output Report:** Provide a report of found TODOs and actions taken.
+
+**v:**
+  - **Purpose:** Displays the content of the currently focused file in a rendered, prose-like view, suitable for human readability.
+  - **Usage:** `v`
+  - **Actions:**
+    1. **Context Check:** Identify the currently focused file.
+    2. **File Read:** Read the content of the identified file.
+    3. **Rendering:** Render the file content into a human-readable, prose format.
+    4. **Output Display:** Display the rendered view to the user.
