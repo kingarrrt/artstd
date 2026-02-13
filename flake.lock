@@ -15,10 +15,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "dirtyRev": "1023ce6e4647ff2ec43ed2b15c16dcb75e819f1f-dirty",
-        "dirtyShortRev": "1023ce6-dirty",
-        "lastModified": 1770892051,
-        "narHash": "sha256-mpNQjUnhl8U5GOwgKPi743z10o1iTmHgO05j9eS8IX8=",
+        "lastModified": 1770987422,
+        "narHash": "sha256-TfrxeRgBD17OC2L3oB4HneP6xbE5j92Lb5PY7gQ5v4g=",
+        "ref": "refs/heads/master",
+        "rev": "bde00ece1190ef4f887ab17fc6c3124d785b9bcc",
+        "revCount": 383,
         "type": "git",
         "url": "file:///home/arthur/wrk/artdev/artpkgs"
       },
@@ -102,11 +103,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769069492,
-        "narHash": "sha256-Efs3VUPelRduf3PpfPP2ovEB4CXT7vHf8W+xc49RL/U=",
+        "lastModified": 1770726378,
+        "narHash": "sha256-kck+vIbGOaM/dHea7aTBxdFYpeUl/jHOy5W3eyRvVx8=",
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "a1ef738813b15cf8ec759bdff5761b027e3e1d23",
+        "rev": "5eaaedde414f6eb1aea8b8525c466dc37bba95ae",
         "type": "github"
       },
       "original": {
@@ -160,11 +161,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1765267181,
-        "narHash": "sha256-d3NBA9zEtBu2JFMnTBqWj7Tmi7R5OikoU2ycrdhQEws=",
+        "lastModified": 1770315571,
+        "narHash": "sha256-hy0gcAgAcxrnSWKGuNO+Ob0x6jQ2xkR6hoaR0qJBHYs=",
         "owner": "Mic92",
         "repo": "nix-index-database",
-        "rev": "82befcf7dc77c909b0f2a09f5da910ec95c5b78f",
+        "rev": "2684bb8080a6f2ca5f9d494de5ef875bc1c4ecdb",
         "type": "github"
       },
       "original": {
@@ -178,7 +179,7 @@
         "dirtyRev": "b92031e26cf1562bee648e9dc58af895e608ee05-dirty",
         "dirtyShortRev": "b92031e-dirty",
         "lastModified": 1770850491,
-        "narHash": "sha256-EnfhaZG78qHVsoC2ttNvQpwC867f6aqsUGapbTOpa38=",
+        "narHash": "sha256-lItM+15m4Ws3qvNceYGQcyo2xJkowtAU6ZU4QnSIcoE=",
         "type": "git",
         "url": "file:///home/arthur/wrk/ext/nixpkgs/unstable"
       },
@@ -189,11 +190,10 @@
     },
     "nixpkgsu": {
       "locked": {
-        "lastModified": 1769351626,
-        "narHash": "sha256-BOxMvXlkWrTIk3xP1iclAwiXQWYsOW8qFNGdpsnbK+o=",
-        "ref": "refs/heads/nixpkgs-unstable",
-        "rev": "0f06cae19296f15ef8a3c86c2ffa642b72b079ad",
-        "revCount": 933854,
+        "dirtyRev": "b92031e26cf1562bee648e9dc58af895e608ee05-dirty",
+        "dirtyShortRev": "b92031e-dirty",
+        "lastModified": 1770850491,
+        "narHash": "sha256-lItM+15m4Ws3qvNceYGQcyo2xJkowtAU6ZU4QnSIcoE=",
         "type": "git",
         "url": "file:///home/arthur/wrk/ext/nixpkgs/unstable"
       },
@@ -241,11 +241,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767881292,
-        "narHash": "sha256-nz8a77ytrItoRGlAI1T+eDNvWSTwpMpa99W87nwMtm4=",
+        "lastModified": 1770910311,
+        "narHash": "sha256-3Ris0/d1m6vEdYIVbrK6ZmdB+TDMmo2/nYSnhPHikNg=",
         "owner": "numtide",
         "repo": "treefmt",
-        "rev": "3a3c5c24990620d2967caa98536d7374fbca7bb3",
+        "rev": "014430583000b2d956651f560d9264f93899d747",
         "type": "github"
       },
       "original": {
@@ -262,11 +262,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769294272,
-        "narHash": "sha256-67vyT1+xClLldnumAzCTBvU0jLZ1YBcf4vANRWP3+Ak=",
+        "lastModified": 1769865426,
+        "narHash": "sha256-3dCXkOlLdC+e4nsYrbeWU6+AGDaTZUIq4Fv2Us2vJUA=",
         "ref": "refs/heads/main",
-        "rev": "c0da94dff7359e0f7ffe4e9e0168b46a0202b80a",
-        "revCount": 530,
+        "rev": "d61b88114525e117c8d8168eba885cebb7f7446b",
+        "revCount": 537,
         "type": "git",
         "url": "file:///home/arthur/wrk/ext/treefmt-nix"
       },

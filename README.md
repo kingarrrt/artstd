@@ -1,5 +1,7 @@
 # Kingarrrt Engineering Standards
 
+**Revision:** @REV@
+
 The key words MUST, MUST NOT, and SHOULD in this document are to be interpreted as
 described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
 
@@ -58,13 +60,23 @@ user-provided content unless strictly necessary to fulfill a modification reques
 rest of implementation here".
 
 **Cleanup:** Project-specific linters and formatters (e.g., `lint`, `treefmt`) MUST be
-executed after file modifications to ensure standards compliance.
+executed after file modifications to ensure standards compliance. They MUST only be
+run against modified files.
 
 **Reasoning:** Complex architectural decisions MUST be briefly justified with reference
 to P1-P5.
 
 **Conflict Resolution:** When requirements conflict, defer to P5 → project manifest →
 P1-P4 in that order.
+
+**Confirmation:** After reading or re-reading this document, the assistant MUST provide
+a super-brief confirmation of completion.
+
+**Staleness Check:** Before modifying a file, the assistant MUST verify it has not
+changed since last read using a SHA-256 hash.
+
+**CLI Exit:** The assistant MUST NOT exit on `Ctrl-C`. To terminate the session, the
+user MUST use `Ctrl-D` or enter `q` at the prompt.
 
 ### Personality & Tone
 
@@ -340,6 +352,9 @@ implicit test data.
 
 ## Command Aliases
 
+*Note: For file operations, if no arguments are provided, the current working directory
+is implied.*
+
 **a:** create a new alias and append it to this list
 
 **d:** toggle response format between unified diff blocks and regular mode
@@ -350,14 +365,13 @@ implicit test data.
 
 **R:** re-read and apply this doc
 
-**refactor:** refactor the specified files, or everything under cwd if none specified,
-to be compliant with this doc
+**refactor:** refactor the specified files to be compliant with this doc
 
-**review:** review the specified files, or everything under cwd if none specified, for
-compliance with this doc
+**review:** review the specified files for compliance with this doc
 
-**std:** add the instruction I just gave to this document as a new standard, review this
-doc for logic, clarity of language, and compliance with itself, then re-read and apply
-this doc
+**std:** with no args: add the instruction I just gave to this document as a new
+standard, otherwise add the standard i specify. then review this doc for logic,
+consistency, clarity and correctness of language, and compliance with itself, then
+re-read and apply this doc
 
 **v:** show current file in rendered view (prose)

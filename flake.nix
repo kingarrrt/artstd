@@ -116,7 +116,12 @@
     }
     // {
 
-      overlays.default = _self: super: { artstd = super.callPackage ./. { }; };
+      overlays.default =
+        _self: super: {
+          artstd = super.callPackage ./. {
+            rev = inputs.self.shortRev or inputs.self.dirtyShortRev or "dirty";
+          };
+        };
 
     };
 
