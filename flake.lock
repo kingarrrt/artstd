@@ -15,11 +15,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1770987422,
-        "narHash": "sha256-TfrxeRgBD17OC2L3oB4HneP6xbE5j92Lb5PY7gQ5v4g=",
+        "lastModified": 1770994996,
+        "narHash": "sha256-YZLZAXaCN3Ib2mnXKizDGiFuGQ7xJjJrElLHd9ZRMf4=",
         "ref": "refs/heads/master",
-        "rev": "bde00ece1190ef4f887ab17fc6c3124d785b9bcc",
-        "revCount": 383,
+        "rev": "0c0e689b3d1475f3002fd3dd63c6943eb3a7c6ad",
+        "revCount": 390,
         "type": "git",
         "url": "file:///home/arthur/wrk/artdev/artpkgs"
       },
@@ -176,10 +176,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "dirtyRev": "b92031e26cf1562bee648e9dc58af895e608ee05-dirty",
-        "dirtyShortRev": "b92031e-dirty",
-        "lastModified": 1770850491,
-        "narHash": "sha256-lItM+15m4Ws3qvNceYGQcyo2xJkowtAU6ZU4QnSIcoE=",
+        "lastModified": 1770989743,
+        "narHash": "sha256-ySKJe4hBAQwYFBKt+3TX1Q9x7FLuExDnnChpIfnzjO4=",
+        "ref": "refs/heads/nixpkgs-unstable",
+        "rev": "19ce2e3a88e9fc1f0729844f46b9089212a121d8",
+        "revCount": 934401,
         "type": "git",
         "url": "file:///home/arthur/wrk/ext/nixpkgs/unstable"
       },
@@ -190,10 +191,11 @@
     },
     "nixpkgsu": {
       "locked": {
-        "dirtyRev": "b92031e26cf1562bee648e9dc58af895e608ee05-dirty",
-        "dirtyShortRev": "b92031e-dirty",
-        "lastModified": 1770850491,
-        "narHash": "sha256-lItM+15m4Ws3qvNceYGQcyo2xJkowtAU6ZU4QnSIcoE=",
+        "lastModified": 1770989743,
+        "narHash": "sha256-ySKJe4hBAQwYFBKt+3TX1Q9x7FLuExDnnChpIfnzjO4=",
+        "ref": "refs/heads/nixpkgs-unstable",
+        "rev": "19ce2e3a88e9fc1f0729844f46b9089212a121d8",
+        "revCount": 934401,
         "type": "git",
         "url": "file:///home/arthur/wrk/ext/nixpkgs/unstable"
       },
