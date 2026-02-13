@@ -1,75 +1,80 @@
 {
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    artpkgs = {
+      url = "git+file:///home/arthur/wrk/artdev/artpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixpkgs.url = "git+file:///home/arthur/wrk/ext/nixpkgs/unstable";
   };
+
+  nixConfig.extra-experimental-features = [ "impure-derivations" ];
 
   outputs =
     inputs:
-    inputs.flake-utils.lib.eachDefaultSystem (
-      system:
-      let
+    inputs.artpkgs.lib.flakeSet {
+      inherit (inputs) self;
+      name = "artstd";
+      packages = pkgs: { default = pkgs.artstd; };
+    }
+    // {
+      overlays.default = _self: super: {
+        artstd = super.callPackage ./. { };
+      };
+    };
 
-        # Identity-compliant model list with restored documentation
-        models = [
-          # Flagship - Gemini 3 Series
-          "gemini-3-pro-preview" # 2M Context | ~100 prompts/day | Advanced reasoning
-          "gemini-3-flash-preview" # 1M Context | General access | High-speed multimodal
-          "gemini-3-pro-image-preview" # Reasoning-enhanced vision | 30 images/month
-          "gemini-3-deep-think" # 1M Context | ~50 prompts/day | Specialized deep logic
+        devShells.default =
+          with pkgs;
+          mkShellNoCC {
+            packages = [
+              claude-code
+              gemini-cli
+            ];
+          };
 
-          # Stable Production - Gemini 2.5 Series
-          "gemini-2.5-pro" # 1M Context | 15 RPM | Mature reasoning
-          "gemini-2.5-flash" # 1M Context | 200 RPM | Versatile speed/logic
-          "gemini-2.5-flash-lite" # 1M Context | 200 RPM | Cost-optimized throughput
-          "gemini-2.5-flash-image" # 2,000 images/day | Native vision/generation
+        checks.validate =
+          pkgs.runCommand "validate-standard"
+            {
 
-          # Real-time & Specialized
-          "gemini-live-2.5-flash-native-audio" # ~2 hours/day | Bidirectional streaming
-          "gemini-2.5-flash-preview-tts" # 1M chars/month | Text-to-speech specialization
+              __impure = true;
 
-          # Legacy/Compatibility (Retirement pending mid-2026)
-          "gemini-2.0-flash-001" # 1M Context | Legacy stable
-          "gemini-2.0-flash-lite-001" # 1M Context | Legacy cost-optimized
-        ];
+              nativeBuildInputs = with pkgs; [
+                curl
+                jq
+              ];
 
-        pkgs = import inputs.nixpkgs { inherit system; };
-        inherit (pkgs) lib;
+              ANTHROPIC_API_KEY = builtins.getEnv "ANTHROPIC_API_KEY";
 
-        modelPackages = lib.genAttrs models (
-          name:
-          pkgs.stdenv.mkDerivation {
-            inherit name;
-            dontUnpack = true;
-            nativeBuildInputs = [ pkgs.makeWrapper ];
-            installPhase = ''
-              mkdir -p $out/bin
-              makeWrapper ${lib.getExe pkgs.gemini-cli} $out/bin/gemini \
-                --set GEMINI_MODEL ${name} \
-                --set GEMINI_SYSTEM_MD ${./README.md}
+            }
+            ''
+              [[ -n "$ANTHROPIC_API_KEY" ]] || {
+                echo >&2 "ANTHROPIC_API_KEY not set"
+                exit 1
+              }
+
+              response=$(curl -sf https://api.anthropic.com/v1/messages \
+                -H "x-api-key: $ANTHROPIC_API_KEY" \
+                -H "anthropic-version: 2023-06-01" \
+                -H "content-type: application/json" \
+                -d "$(jq -n --arg doc "$(cat ${./README.md})" '{
+                  model: "claude-opus-4-latest",
+                  max_tokens: 1024,
+                  messages: [{
+                    role: "user",
+                    content: "Validate this engineering standards document. Check for:\n1. RFC 2119 keyword consistency (MUST/SHOULD/MAY usage)\n2. Internal contradictions\n3. Ambiguous requirements\n\nRespond with ONLY \"PASS\" if valid, or \"FAIL: <issues>\" if not.\n\n\($doc)"
+                  }]
+                }')")
+
+              result=$(echo "$response" | jq -r '.content[0].text')
+              echo "$result"
+
+              if echo "$result" | grep -q "^PASS"; then
+                mkdir $out
+                echo "$response" > $out/response.json
+              else
+                exit 1
+              fi
             '';
-          }
-        );
-
-        modelShells = lib.mapAttrs (
-          name: pkg:
-          pkgs.mkShell {
-            packages = [ pkg ];
-            shellHook = ''echo "using ${pkg.name}"'';
-          }
-        ) modelPackages;
-
-      in
-      rec {
-
-        packages = modelPackages // {
-          default = modelPackages.gemini-3-flash-preview;
-        };
-
-        devShells = modelShells // {
-          default = modelShells.${packages.default.name};
-        };
 
       }
     );
