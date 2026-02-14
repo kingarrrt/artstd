@@ -277,7 +277,7 @@ in performance-critical paths.
 **Environment:** Flakes MUST be used. Nixpkgs unstable SHOULD be used (stable
 acceptable for LTS deployments).
 
-**Linting:** statix MUST be run against Nix files. nixfmt for formatting.
+**Linting:** deadnix and statix MUST be run against Nix files. nixfmt for formatting.
 
 #### Patterns
 
