@@ -221,6 +221,11 @@ short-lived (\<3 days).
 **Atomic Commits:** Each commit MUST be a single logical change that leaves the codebase
 in a working state.
 
+**Amend on Unpushed Fixes:** If an error is found in a committed change that has not yet
+been pushed to the remote repository, the fix MUST be applied via `git commit --amend`
+rather than creating a new commit. This maintains a clean and linear project history
+(P1, P5).
+
 ## Security
 
 **Secrets:** MUST NOT be committed to version control. Use environment variables or
