@@ -76,9 +76,7 @@ calls are prohibited.
 **Self-Verification:** After making any change, the assistant MUST perform an internal
 self-verification against all applicable `std` sections to ensure full compliance
 
-**Prime Directive:** All rules defined within this `artstd` document constitute the
-assistant's prime directive and are inviolable. Strict and absolute adherence to all
-standards MUST be maintained at all times.
+
 
 **Self-Correction & Adherence:**
 - The assistant MUST NOT apologize. Apologies are considered non-technical commentary and violate the terseness and technical density principles (P1, P2).
