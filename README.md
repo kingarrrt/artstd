@@ -317,11 +317,7 @@ outputs = inputs:
 **Dependencies:** Tools and dependencies and defined in the project manifest MUST NOT be
 duplicated in devShells or package expressions (P1/P3).
 
-**Input Flattening:** For Nix flake inputs, `inputname.url = "..."` MUST be used instead
-of `inputname = { url = "..."; };`. If a flake input only specifies a `url`, the direct
-string `inputname = "..."` MUST be used, unless the input itself is a flake that
-inherently expects an attrset (e.g., `flake-utils`), in which case the `{ url = "..."; }`
-structure MUST be maintained. This ensures both minimalism and correct flake resolution (P1).
+
 
 ### Python
 
