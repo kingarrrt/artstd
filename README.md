@@ -290,7 +290,7 @@ acceptable for LTS deployments).
 - Package expressions MUST be in a directory with a default.nix suitable for
   callPackage.
 - Empty patterns `{ ... }:` MUST be replaced with `_:`.
-- Attrsets with a single key MUST be flattened to their value to avoid unnecessary nesting (P1).
+- Attrsets with a single key MUST be flattened to their value to avoid unnecessary nesting (P1). For Nix flake inputs, this means using `inputname.url = "..."` instead of `inputname = { url = "..."; };`. Similarly, if a flake input only specifies a `url`, use the direct string `inputname = "..."`. This ensures both minimalism and correct flake resolution.
 - Lists of packages MUST use `with pkgs; [ ... ]` to eliminate repetitive prefixes.
 
 #### Flakes
