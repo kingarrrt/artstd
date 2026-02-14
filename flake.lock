@@ -15,11 +15,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1770994996,
-        "narHash": "sha256-YZLZAXaCN3Ib2mnXKizDGiFuGQ7xJjJrElLHd9ZRMf4=",
+        "lastModified": 1771088627,
+        "narHash": "sha256-qKwpVBqUotfI3sl/Wveu5z77mO8TNYk40iAMVkiyT3A=",
         "ref": "refs/heads/master",
-        "rev": "0c0e689b3d1475f3002fd3dd63c6943eb3a7c6ad",
-        "revCount": 390,
+        "rev": "b30d626b33c3b8b7e30df27036a7c0ebb62c1f34",
+        "revCount": 392,
         "type": "git",
         "url": "file:///home/arthur/wrk/artdev/artpkgs"
       },
