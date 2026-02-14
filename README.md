@@ -588,6 +588,7 @@ is implied.*
      correctness of language, and compliance with itself.
   1. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
   1. **Commit:** Commit changes to `artstd/README.md` after every modification.
+  1. **Push:** Push the committed changes to the remote repository.
 
 **Workflow: Manage TODOs (`todos`)**
 
