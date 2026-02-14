@@ -196,7 +196,9 @@ builds.
 
 **Commit Messages:** Based on Linux kernel style:
 
-````text type(scope): summary of change
+```text
+type(scope): summary of change
+
 
 Detailed explanation of what changed and why. Wrap at 72 characters. Focus on the
 motivation and context, not the implementation details. ```
@@ -301,7 +303,7 @@ of the outputs lambda.
 ```nix
 outputs = inputs:
   inputs.flake-utils.lib.eachSystem (import inputs.systems) (system: { });
-````
+```
 
 **Dependencies:** Tools and dependencies and defined in the project manifest MUST NOT be
 duplicated in devShells or package expressions (P1/P3).
