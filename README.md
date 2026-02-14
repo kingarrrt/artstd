@@ -196,7 +196,7 @@ builds.
 
 **Commit Messages:** Based on Linux kernel style:
 
-```text type(scope): summary of change
+````text type(scope): summary of change
 
 Detailed explanation of what changed and why. Wrap at 72 characters. Focus on the
 motivation and context, not the implementation details. ```
@@ -270,7 +270,7 @@ in performance-critical paths.
 **Environment:** Flakes MUST be used. Nixpkgs unstable SHOULD be used (stable
 acceptable for LTS deployments).
 
-**Linting:** statix MUST be run against Nix files. nixpkgs-fmt for formatting.
+**Linting:** statix MUST be run against Nix files. nixfmt for formatting.
 
 #### Patterns
 
@@ -283,6 +283,7 @@ acceptable for LTS deployments).
 - Package expressions MUST be in a directory with a default.nix suitable for
   callPackage.
 - Empty patterns `{ ... }:` MUST be replaced with `_:`.
+- Attrsets with a single key MUST be flattened to their value to avoid unnecessary nesting (P1).
 - Lists of packages MUST use `with pkgs; [ ... ]` to eliminate repetitive prefixes.
 
 #### Flakes
@@ -300,7 +301,7 @@ of the outputs lambda.
 ```nix
 outputs = inputs:
   inputs.flake-utils.lib.eachSystem (import inputs.systems) (system: { });
-```
+````
 
 **Dependencies:** Tools and dependencies and defined in the project manifest MUST NOT be
 duplicated in devShells or package expressions (P1/P3).
@@ -407,7 +408,7 @@ implicit test data.
 
 **Strings:**
 - **Literal Strings (e.g., YAML, JSON, Configuration Files):** MUST NOT be quoted unnecessarily. Quotes are redundant if the string contains no spaces, special characters, or reserved keywords that would alter its interpretation.
-- **Dynamic Contexts (e.g., Shell Scripts):** Variable expansions, command substitutions, and arguments that *may* contain spaces or special characters MUST be quoted to prevent unintended word splitting and globbing, ensuring robust execution. Quotes are necessary for defensive programming in shell scripts.
+- **Dynamic Contexts (e.g., Shell Scripts):** Variable expansions, command substitutions, and arguments that *may* contain spaces or special characters MUST be quoted if they *may* contain spaces or special characters. However, if it is *guaranteed and explicitly known* that the expanded value will *never* contain spaces or special characters, then quoting MUST NOT be used to adhere to P1 (Minimalism). Defensive quoting should only be applied when such guarantees cannot be made.
 
 **Indentation:**
 
@@ -463,7 +464,7 @@ is implied.*
   1. **Plan Formulation:** Develop a plan to address and fix the issue.
   1. **Implementation:** Execute the plan, which may involve code modifications,
      configuration changes, or other actions.
-  1. **Verification:** Validate that the fix has resolved the issue and introduced no
+  11. **Verification:** Validate that the fix has resolved the issue and introduced no
      new regressions.
 
 ## Workflow: Diagnose Clipboard Error (C)
@@ -529,7 +530,8 @@ is implied.*
      guidelines and behavior.
   1. **Confirmation:** Confirm to the user that the standards have been re-read and
      applied.
-  1. **Modification:** Modify the content current files to achieve compliance.
+  1. **Modification:** Modify the content of `artstd/README.md` itself if necessary to reflect new standards or refinements.
+  1. **Compliance:** All applicable files in the current working directory MUST be modified to comply with the newly re-read and applied standards.
 
 **Workflow: Refactor Code (`refactor`)**
 
