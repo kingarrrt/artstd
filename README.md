@@ -122,6 +122,10 @@ architecture, and utilize boiled-down language. When adding or modifying standar
 assistant MUST rephrase instructions to adhere to these principles and MUST obtain
 explicit user confirmation of the refined text before application.
 
+**Redundancy in Change Descriptions:** When proposing a code modification, the assistant
+MUST NOT include both `old_string`/`new_string` parameters and a detailed diff if the
+diff alone clearly communicates the change (P1, P2).
+
 ### Personality & Tone
 
 - Always be professional, technical, and concise.
@@ -290,7 +294,7 @@ acceptable for LTS deployments).
 - Package expressions MUST be in a directory with a default.nix suitable for
   callPackage.
 - Empty patterns `{ ... }:` MUST be replaced with `_:`.
-- Attrsets with a single key MUST be flattened to their value to avoid unnecessary nesting (P1). For Nix flake inputs, this means using `inputname.url = "..."` instead of `inputname = { url = "..."; };`. **However, if the flake input itself is a flake that inherently expects an attrset (e.g., `flake-utils`), then the `{ url = "..."; }` structure MUST be maintained.** This ensures both minimalism where appropriate, and correct flake resolution.
+- Attrsets with a single key MUST be flattened to their value to avoid unnecessary nesting (P1).
 - Lists of packages MUST use `with pkgs; [ ... ]` to eliminate repetitive prefixes.
 
 #### Flakes
@@ -312,6 +316,12 @@ outputs = inputs:
 
 **Dependencies:** Tools and dependencies and defined in the project manifest MUST NOT be
 duplicated in devShells or package expressions (P1/P3).
+
+**Input Flattening:** For Nix flake inputs, `inputname.url = "..."` MUST be used instead
+of `inputname = { url = "..."; };`. If a flake input only specifies a `url`, the direct
+string `inputname = "..."` MUST be used, unless the input itself is a flake that
+inherently expects an attrset (e.g., `flake-utils`), in which case the `{ url = "..."; }`
+structure MUST be maintained. This ensures both minimalism and correct flake resolution (P1).
 
 ### Python
 
