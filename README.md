@@ -422,21 +422,21 @@ is implied.*
 
 *Note: For all aliases, actions MUST be performed in sequence unless otherwise specified.*
 
-**Workflow: Add Workflow (a)**
+## Workflow: Add Workflow (a)
 
 - **Purpose:** Creates a new workflow and appends it to the "Workflows" list in this
   document.
 - **Usage:** `a <alias_name> <alias_definition>` (e.g., `a ll 'ls -l'`)
 - **Actions:**
   1. **Validation:** Validate the provided alias name and definition for syntax and
-  conflicts.
+     conflicts.
   1. **File Modification:** Append the new alias to the "Workflows" section in
-  `artstd/README.md`.
+     `artstd/README.md`.
   1. **Document Review:** Review `artstd/README.md` for logic, consistency, clarity,
-  correctness of language, and compliance with itself.
+     correctness of language, and compliance with itself.
   1. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
 
-**Workflow: Continue Operation (c)**
+## Workflow: Continue Operation (c)
 
 - **Purpose:** Continues the current operation or process if it was paused or awaiting
   input.
@@ -445,30 +445,30 @@ is implied.*
   1. **Context Check:** Determine the context of the current paused operation.
   1. **Execution:** Resume or continue the operation based on its context.
 
-**Workflow: Fix Issue (f)**
+## Workflow: Fix Issue (f)
 
 - **Purpose:** Attempts to fix a reported issue or error.
 - **Actions:**
   1. **Issue Analysis:** Analyze the current issue, error, or problem reported by the
-  user or identified internally.
+     user or identified internally.
   1. **Plan Formulation:** Develop a plan to address and fix the issue.
   1. **Implementation:** Execute the plan, which may involve code modifications,
-  configuration changes, or other actions.
+     configuration changes, or other actions.
   1. **Verification:** Validate that the fix has resolved the issue and introduced no
-  new regressions.
+     new regressions.
 
-**Workflow: Diagnose Clipboard Error (C)**
+## Workflow: Diagnose Clipboard Error (C)
 
 - **Purpose:** Diagnoses an error based on provided clipboard content.
 - **Usage:** `C` (requires clipboard content to be available)
 - **Actions:**
   1. **Clipboard Access:** Retrieve content from the system clipboard.
   1. **Error Analysis:** Analyze the clipboard content (e.g., error messages, stack
-  traces, logs) to identify the root cause of the error.
+     traces, logs) to identify the root cause of the error.
   1. **Diagnosis Report:** Provide a diagnosis of the error, including potential causes
-  and suggestions for resolution.
+     and suggestions for resolution.
 
-**Workflow: Toggle Diff Display (d)**
+## Workflow: Toggle Diff Display (d)
 
 - **Purpose:** Toggles the display format of responses between unified diff blocks and
   regular output mode.
@@ -476,19 +476,19 @@ is implied.*
 - **Actions:**
   1. **State Check:** Determine the current response display mode.
   1. **Mode Toggle:** Switch the response display mode to the alternative (diff to
-  regular, or regular to diff).
+     regular, or regular to diff).
   1. **Confirmation:** Confirm the new display mode to the user.
 
-**Workflow: Git Status (g)**
+## Workflow: Git Status (g)
 
 - **Purpose:** Displays the status of the Git working tree in a short format.
 - **Usage:** `g`
 - **Actions:**
   1. **Execution:** Run the `git status -s` command in the current working directory.
   1. **Output Display:** Display the standard output and standard error from the
-  command.
+     command.
 
-**Workflow: Print Focused File (p)**
+## Workflow: Print Focused File (p)
 
 - **Purpose:** Prints the content of the currently focused file within a code block.
 - **Usage:** `p`
@@ -497,17 +497,17 @@ is implied.*
   1. **File Read:** Read the content of the identified file.
   1. **Output Display:** Display the file content within a formatted code block.
 
-**Workflow: Reset Context (r)**
+## Workflow: Reset Context (r)
 
 - **Purpose:** Resets the current conversational context of the agent. This clears
   previous turns, memory, and task states.
 - **Usage:** `r`
 - **Actions:**
   1. **Context Clear:** Clear all stored conversational context, including previous
-  turns, short-term memory, and any active task states (e.g., todos).
+     turns, short-term memory, and any active task states (e.g., todos).
   1. **Confirmation:** Confirm to the user that the context has been reset.
 
-**Workflow: Reread Standards (R)**
+## Workflow: Reread Standards (R)
 
 - **Purpose:** Re-reads the `artstd/README.md` document and applies all standards
   defined within it.
@@ -515,11 +515,11 @@ is implied.*
 - **Actions:**
   1. **File Read:** Read the content of `artstd/README.md`.
   1. **Standards Parse:** Parse and interpret all standards, principles, and command
-  definitions.
+     definitions.
   1. **Internal Application:** Apply all parsed standards to the agent's operational
-  guidelines and behavior.
+     guidelines and behavior.
   1. **Confirmation:** Confirm to the user that the standards have been re-read and
-  applied.
+     applied.
   1. **Modification:** Modify the content current files to achieve compliance.
 
 **Workflow: Refactor Code (`refactor`)**
@@ -530,12 +530,12 @@ is implied.*
   working directory is implied.)
 - **Actions:**
   1. **File Identification:** Identify the target files for refactoring based on
-  arguments or implied directory.
+     arguments or implied directory.
   1. **Standards Application:** Apply relevant Kingarrrt Engineering Standards (e.g.,
-  formatting, style, architectural patterns) to the identified files.
+     formatting, style, architectural patterns) to the identified files.
   1. **Modification:** Modify the content of the files to achieve compliance.
   1. **Verification:** Run appropriate linters, formatters, and potentially tests to
-  ensure refactoring correctness and prevent regressions.
+     ensure refactoring correctness and prevent regressions.
   1. **Output Diff:** Present a diff of the changes made.
 
 **Workflow: Review Code (`review`)**
@@ -546,12 +546,12 @@ is implied.*
   directory is implied.)
 - **Actions:**
   1. **File Identification:** Identify the target files for review based on arguments or
-  implied directory.
+     implied directory.
   1. **Standards Check:** Evaluate the identified files against the Kingarrrt
-  Engineering Standards (e.g., formatting, style, architectural patterns,
-  documentation).
+     Engineering Standards (e.g., formatting, style, architectural patterns,
+     documentation).
   1. **Report Non-compliance:** Report any deviations or non-compliance found, providing
-  specific details and suggestions for correction.
+     specific details and suggestions for correction.
 
 **Workflow: Add Standard (`std`)**
 
@@ -563,11 +563,11 @@ is implied.*
   - `std <your standard>`: Add the specified standard to this document.
 - **Actions:**
   1. **File Modification:** Insert the new standard into the `artstd/README.md` under
-  the most relevant existing section.
+     the most relevant existing section.
   1. **Internal Memory Update:** Save the new standard to internal memory using
-  `save_memory`.
+     `save_memory`.
   1. **Document Review:** Review `artstd/README.md` for logic, consistency, clarity,
-  correctness of language, and compliance with itself.
+     correctness of language, and compliance with itself.
   1. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
 
 **Workflow: Manage TODOs (`todos`)**
@@ -578,14 +578,14 @@ is implied.*
   directory is implied.)
 - **Actions:**
   1. **Comment Scan:** Scan the specified files (or current working directory) for
-  comments containing TODO tags.
+     comments containing TODO tags.
   1. **Tag Reference:** Refer to `@artnvim/config/lua/plugin/todo-comments.lua` for the
-  defined TODO tags in use within the project.
+     defined TODO tags in use within the project.
   1. **Issue Resolution:** For each identified TODO, analyze the context and either
-  resolve the underlying task or clarify/update the comment.
+     resolve the underlying task or clarify/update the comment.
   1. **Output Report:** Provide a report of found TODOs and actions taken.
 
-**Workflow: View Focused File (v)**
+## Workflow: View Focused File (v)
 
 - **Purpose:** Displays the content of the currently focused file in a rendered,
   prose-like view, suitable for human readability.
