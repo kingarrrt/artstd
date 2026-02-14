@@ -580,6 +580,7 @@ is implied.*
   1. **Document Review:** Review `artstd/README.md` for logic, consistency, clarity,
      correctness of language, and compliance with itself.
   1. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
+  1. **Commit:** Commit changes to `artstd/README.md` after every modification.
 
 **Workflow: Manage TODOs (`todos`)**
 
