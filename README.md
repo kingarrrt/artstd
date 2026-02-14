@@ -22,6 +22,10 @@ effects.
 **P5: Traceability.** Technical decisions MUST be traceable to a manifest requirement or
 one of P1-P4.
 
+### Exceptions
+
+- **GitHub Actions Tagging**: For GitHub Actions, pinning to major versions (e.g., `vX`) is permitted. This deviates from strict hermeticity (P3) and determinism (P4) to balance maintainability and security patching in CI/CD workflows.
+
 ## Principles
 
 **No Global State:** Global variables MUST NOT be used.
@@ -177,6 +181,10 @@ Stallman was right!
 
 **Updates:** Dependencies MUST be updated deliberately, never automatically. Test before
 committing updates.
+
+**Initial Versioning:** For new projects and/or new dependencies to an existing project,
+the dependency MUST be its latest stable release at the time of inclusion. Once
+included, dependencies fall under the existing pinning and deliberate update policies.
 
 **Minimal Dependencies:** Each dependency MUST be justified. Avoid "convenience"
 libraries that duplicate standard library functionality.
@@ -397,7 +405,9 @@ implicit test data.
 
 ## Formatting Standards
 
-**Strings:** MUST NOT be quoted unnecessarily.
+**Strings:**
+- **Literal Strings (e.g., YAML, JSON, Configuration Files):** MUST NOT be quoted unnecessarily. Quotes are redundant if the string contains no spaces, special characters, or reserved keywords that would alter its interpretation.
+- **Dynamic Contexts (e.g., Shell Scripts):** Variable expansions, command substitutions, and arguments that *may* contain spaces or special characters MUST be quoted to prevent unintended word splitting and globbing, ensuring robust execution. Quotes are necessary for defensive programming in shell scripts.
 
 **Indentation:**
 
