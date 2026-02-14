@@ -264,9 +264,6 @@ acceptable for LTS deployments).
 
 **Linting:** statix MUST be run against Nix files. nixpkgs-fmt for formatting.
 
-**Vertical Padding:** Attribute sets and let blocks MUST have exactly one blank line
-after the opening brace/keyword and before the closing brace/keyword.
-
 #### Patterns
 
 - finalAttrs MUST be used for stdenv.mkDerivation self-references.
@@ -399,6 +396,8 @@ to verify.
 implicit test data.
 
 ## Formatting Standards
+
+**Strings:** MUST NOT be quoted unnecessarily.
 
 **Indentation:**
 
