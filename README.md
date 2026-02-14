@@ -354,7 +354,7 @@ determinism checks.
 
 **Strict Mode:** Scripts MUST begin with `set -euo pipefail`.
 
-**Linting:** ShellCheck MUST be used with zero warnings.
+**Linting:** ShellCheck MUST be used with zero warnings. For GitHub Actions workflows (`.github/workflows/*.yml`), any `${{ ... }}` expressions within `run` blocks MUST be replaced with fixed, dummy strings before invoking ShellCheck to prevent false positives related to YAML interpolation. This ensures ShellCheck can accurately analyze the shell script logic.
 
 **Formatting:** shfmt MUST be used with `-i 2 -ci` flags.
 
