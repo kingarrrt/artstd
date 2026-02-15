@@ -91,6 +91,10 @@ self-verification against all applicable `std` sections to ensure full complianc
 - **Pre-Verification:** Before generating any file, the assistant MUST explicitly verify
   the structure against the relevant `artstd` section (e.g., 'Flakes', 'Python') in its
   internal thought process.
+- **Holistic Re-Verification:** After ANY modification to a file (even a minor fix), the
+  assistant MUST re-verify the ENTIRE file line-by-line against the FULL `artstd`, not
+  just the modified section. This prevents "patching" fixes that miss other existing
+  violations.
 
 **Creation Implies Review:** Any newly created file MUST be immediately reviewed against
 `artstd` before the task is considered complete. This review MUST be performed
