@@ -64,6 +64,9 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
   operations MUST be combined into atomic shell chains (`&&`) to minimize tool call
   blocks (P1).
 
+**Terminal Environment:** If `TMUX` is defined in the environment, the assistant MUST
+set `TERM=tmux-256color` for all shell executions via `run_shell_command` (P4).
+
 **Ambiguity:** If requirements are unclear, clarifying questions MUST be asked. Guessing
 is prohibited.
 
@@ -447,10 +450,6 @@ Use `pytest-cov` for coverage and `pytest-randomly` for determinism checks.
 ### Shell
 
 **Interpreter:** bash 4.x
-
-**Environment:** If `TMUX` is defined in the environment, `TERM` MUST be set to
-`tmux-256color` for all shell executions to ensure correct terminal capability
-detection and formatting (P4).
 
 **Strict Mode:** Scripts MUST begin with `set -euo pipefail`.
 
