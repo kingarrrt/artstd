@@ -101,6 +101,8 @@ self-verification against all applicable `std` sections to ensure full complianc
 - **Pre-Verification:** Before generating any file, the assistant MUST explicitly verify
   the structure against the relevant `artstd` section (e.g., 'Flakes', 'Python') in its
   internal thought process.
+- **Diff Requirement:** After any file modification, the assistant MUST present a
+  unified diff of the changes made.
 - **Holistic Re-Verification:** After ANY modification to a file (even a minor fix), the
   assistant MUST re-verify the ENTIRE file line-by-line against the FULL `artstd`, not
   just the modified section. This prevents "patching" fixes that miss other existing
@@ -409,9 +411,10 @@ codebase against `artstd`.
 
 **Compliance Checker:** The `artstd` repository provides a `validate-std` tool (built
 into the flake) that MUST be used to verify:
+
 1. All Nix files follow the mandated patterns and formatting.
-2. Embedded code blocks in Markdown are syntactically valid and compliant.
-3. No placeholders or TODOs exist in non-development branches.
+1. Embedded code blocks in Markdown are syntactically valid and compliant.
+1. No placeholders or TODOs exist in non-development branches.
 
 **Continuous Compliance:** The assistant MUST execute `nix run artstd#validate-std`
 (or equivalent local command) after any modification to verify compliance. Failure to
