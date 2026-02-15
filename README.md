@@ -241,7 +241,8 @@ type(scope): summary of change
 
 
 Detailed explanation of what changed and why. Wrap at 72 characters. Focus on the
-motivation and context, not the implementation details. ```
+motivation and context, not the implementation details.
+```
 
 Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert
 
