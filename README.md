@@ -286,8 +286,9 @@ in performance-critical paths.
 **Formatting:** mdformat MUST be used.
 
 **Embedded Code:** Embedded code blocks MUST be fully validated, linted, and formatted.
-Code MUST be syntactically valid and pass all defined linters and formatters for its
-language.
+Code MUST be syntactically valid, pass all defined linters and formatters for its
+language, and adhere to all language-specific standards defined in this document (e.g.,
+flake output patterns, attribute set flattening).
 
 **Links:** MUST be checked for validity in CI.
 
