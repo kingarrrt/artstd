@@ -207,11 +207,13 @@ name as the repository.
 
 For all file modifications, the assistant MUST follow this sequence:
 
-1. **Read File:** Read the entire content of the target file into memory.
-1. **Modify In-Memory:** Apply the necessary changes to the file's content in memory, generating the complete new content.
-1. **Write File:** Use `write_file` to overwrite the original file with the new, modified content.
-1. **Verify Changes with Git:** Immediately execute `run_shell_command("git diff -- artstd/README.md")` to inspect the changes. If the `git diff` output shows any unintended modifications, the assistant MUST revert the file (`git checkout -- artstd/README.md`) and re-evaluate the modification logic.
-1. **Standard Compliance:** After successful verification, the assistant MUST run any relevant project-specific linters or formatters on the modified file to ensure it adheres to `artstd` and project conventions.
+1. **Internal Change Generation**: Generate the intended changes in-memory.
+2. **Temporary File Creation**: Write the generated changes to a temporary file in `${TEMP_DIR}`.
+3. **Linting and Formatting**: Apply project-specific linters and formatters to the temporary file.
+4. **Original File Hash Check**: Before overwriting, verify that the SHA-256 hash of the original file on disk matches the hash of the file when it was last read. If they differ, the operation MUST be aborted and the user informed of the discrepancy.
+5. **Overwrite Original File**: Replace the original file's content with the processed content from the temporary file.
+6. **Git Diff Verification**: Immediately execute `git diff -- <file_path>` to confirm that only the intended changes were applied. If the diff shows any unintended modifications, the assistant MUST revert the file (`git checkout -- <file_path>`) and inform the user.
+7. **Temporary File Deletion**: Delete the temporary file.
 
 ## Meta
 
