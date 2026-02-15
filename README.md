@@ -363,9 +363,9 @@ MAKEFLAGS += --warn-undefined-variables
 
 ### Markdown
 
-**Linting:** markdownlint MUST be used.
+**Linting:** nixpkgs#markdownlint-cli MUST be used.
 
-**Formatting:** mdformat MUST be used.
+**Formatting:** nixpkgs#mdformat MUST be used.
 
 **Embedded Code:** Embedded code blocks MUST be fully validated, linted, and formatted.
 Code MUST be syntactically valid, pass all defined linters and formatters for its
@@ -379,7 +379,7 @@ flake output patterns, attribute set flattening).
 **Environment:** Flakes MUST be used. Nixpkgs unstable SHOULD be used (stable
 acceptable for LTS deployments).
 
-Linting: deadnix and statix MUST be run against Nix files. nixfmt for formatting.
+Linting: nixpkgs#deadnix and nixpkgs#statix MUST be run against Nix files. nixpkgs#nixfmt for formatting.
 
 #### Patterns
 
@@ -405,7 +405,7 @@ of the outputs lambda.
 **Performance:** Use `inputs.nixpkgs.legacyPackages.${system}` by default. Use
 `import inputs.nixpkgs` ONLY if config (e.g., allowUnfree) or overlays are required.
 
-**Metadata:**  metadata MUST be sourced from the project manifest (P3).
+**Metadata:** metadata MUST be sourced from the project manifest (P3).
 
 **Outputs:** Flake outputs MUST use the pattern: ...
 
@@ -421,7 +421,7 @@ duplicated in devShells or package expressions (P1/P3).
 
 **Version:** Latest release at time of writing MUST be used.
 
-**Standards:** Ruff MUST be used for linting and formatting. Astral ty for type
+**Standards:** nixpkgs#ruff MUST be used for linting and formatting. nixpkgs#ty for type
 checking.
 
 **Logic:** Code MUST follow modern idiomatic patterns (asyncio, protocols, structural
@@ -433,7 +433,7 @@ truth (P3).
 **CLI:** Logic MUST be minimal and decoupled from parsing (P1). Use Click or Typer for
 argument parsing.
 
-**Testing:** pytest MUST be used. pytest-cov for coverage, pytest-randomly for
+**Testing:** nixpkgs#python3Packages.pytest MUST be used. pytest-cov for coverage, nixpkgs#python3Packages.pytest-randomly for
 determinism checks.
 
 **Type Hints:** MUST be used for all public APIs. Aim for mypy strict mode compliance.
@@ -446,13 +446,13 @@ determinism checks.
 
 **Strict Mode:** Scripts MUST begin with `set -euo pipefail`.
 
-**Linting:** ShellCheck MUST be used with zero warnings. For GitHub Actions workflows
+**Linting:** nixpkgs#shellcheck MUST be used with zero warnings. For GitHub Actions workflows
 (`.github/workflows/*.yml`), any `${{ ... }}` expressions within `run` blocks MUST be
-replaced with fixed, dummy strings before invoking ShellCheck to prevent false positives
-related to YAML interpolation. This ensures ShellCheck can accurately analyze the shell
+replaced with fixed, dummy strings before invoking nixpkgs#shellcheck to prevent false positives
+related to YAML interpolation. This ensures nixpkgs#shellcheck can accurately analyze the shell
 script logic.
 
-**Formatting:** shfmt MUST be used with `-i 2 -ci` flags.
+**Formatting:** nixpkgs#shfmt MUST be used with `-i 2 -ci` flags.
 
 **Portability:** Avoid bashisms if POSIX compliance is required. Otherwise, use bash
 features freely.
@@ -463,9 +463,9 @@ reserved for cases where command failure should not cause immediate script exit.
 
 ### YAML
 
-**Linting:** check-jsonschema MUST be used.
+**Linting:** nixpkgs#check-jsonschema MUST be used.
 
-**Formatting:** prettier MUST be used.
+**Formatting:** nixpkgs#nodePackages.prettier MUST be used.
 
 **List Style:** Block style MUST be used for lists. Flow style (JSON-like) MUST NOT be
 used (P1).
@@ -508,7 +508,7 @@ deployment to staging.
 **Isolation:** Tests MUST mock all external dependencies (network, filesystem,
 databases, message queues, external APIs).
 
-**Determinism:** Tests MUST be deterministic and order-independent. Use pytest-randomly
+**Determinism:** Tests MUST be deterministic and order-independent. Use nixpkgs#python3Packages.pytest-randomly
 to verify.
 
 **Speed:** Unit tests SHOULD complete in \<1s. Integration tests \<10s. E2E tests \<60s.
@@ -535,7 +535,7 @@ implicit test data.
 - General: 2 spaces
 - Python: 4 spaces (PEP 8)
 
-**Line Length:** 88 characters enforced by tooling (Ruff, clang-format, shfmt).
+**Line Length:** 88 characters enforced by tooling (nixpkgs#ruff, nixpkgs#clang-tools, nixpkgs#shfmt).
 
 **Paths:** Relative paths are preferred to absolute and MUST be used where practical.
 
@@ -608,7 +608,7 @@ specified.*
   1. **Mode Activation:** The assistant's Git interaction capabilities are disabled for the
      duration of this mode. No `git add`, `git commit`, or similar state-changing Git
      commands will be executed.
-  2. **Confirmation:** Confirm to the user that "dev mode" has been activated and Git
+  1. **Confirmation:** Confirm to the user that "dev mode" has been activated and Git
      interactions are suspended.
 
 ## Workflow: Diagnose Clipboard Error (C)
