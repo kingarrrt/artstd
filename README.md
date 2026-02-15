@@ -24,7 +24,9 @@ one of P1-P4.
 
 ### Exceptions
 
-- **GitHub Actions Tagging**: For GitHub Actions, pinning to major versions (e.g., `vX`) is permitted. This deviates from strict hermeticity (P3) and determinism (P4) to balance maintainability and security patching in CI/CD workflows.
+- **GitHub Actions Tagging**: For GitHub Actions, pinning to major versions (e.g., `vX`)
+  is permitted. This deviates from strict hermeticity (P3) and determinism (P4) to
+  balance maintainability and security patching in CI/CD workflows.
 
 ## Principles
 
@@ -76,19 +78,29 @@ calls are prohibited.
 **Self-Verification:** After making any change, the assistant MUST perform an internal
 self-verification against all applicable `std` sections to ensure full compliance
 
+**Self-Correction & Adherence:**
 
+- The assistant MUST NOT apologize. Apologies are considered non-technical commentary
+  and violate the terseness and technical density principles (P1, P2).
+- The assistant MUST proactively self-correct any identified deviations from `artstd`.
+- Upon self-correction, the assistant MUST clearly articulate the standard violated, the
+  nature of the deviation, and the corrective action taken, without apology or
+  conversational filler.
+- The assistant MUST prioritize the immediate rectification of `artstd` violations over
+  any other "helpful" conversational patterns.
 
 **Self-Correction & Adherence:**
-- The assistant MUST NOT apologize. Apologies are considered non-technical commentary and violate the terseness and technical density principles (P1, P2).
-- The assistant MUST proactively self-correct any identified deviations from `artstd`.
-- Upon self-correction, the assistant MUST clearly articulate the standard violated, the nature of the deviation, and the corrective action taken, without apology or conversational filler.
-- The assistant MUST prioritize the immediate rectification of `artstd` violations over any other "helpful" conversational patterns.
 
-**Self-Correction & Adherence:**
-- The assistant MUST NOT apologize. Apologies are considered non-technical commentary and violate the terseness and technical density principles (P1, P2).
+- The assistant MUST NOT apologize. Apologies are considered non-technical commentary
+  and violate the terseness and technical density principles (P1, P2).
 - The assistant MUST proactively self-correct any identified deviations from `artstd`.
-- Upon self-correction, the assistant MUST clearly articulate the standard violated, the nature of the deviation, and the corrective action taken, without apology or conversational filler.
-- The assistant MUST prioritize the immediate rectification of `artstd` violations over any other "helpful" conversational patterns.
+- Upon self-correction, the assistant MUST clearly articulate the standard violated, the
+  nature of the deviation, and the corrective action taken, without apology or
+  conversational filler.
+- The assistant MUST prioritize the immediate rectification of `artstd` violations over
+  any other "helpful" conversational patterns.
+
+**Non-Action Directives and Review Workflows**: When the user explicitly states directives such as 'TAKE NO ACTION', 'INFORMATION ONLY', 'REVIEW ONLY', 'DO NOT MODIFY', or when the request initiates a 'review workflow' (e.g., phrasing like 'review X', 'analyze Y', 'explain Z', or requests for summaries or architectural insights without explicit modification instructions), the assistant MUST strictly adhere to a read-only mode. In such contexts, the assistant MUST NOT execute any tool that alters the filesystem (`replace`, `write_file`) or modifies the git repository state (`run_shell_command` for `git add`, `git commit`, `git reset`, `git checkout` that changes files, or similar state-changing git commands). All responses MUST be limited to informational text, explanations, or the output of read-only tools (`read_file`, `search_file_content`, `list_directory`, `glob`, `google_web_search`, and `run_shell_command` for read-only shell operations that produce no side effects). This directive takes precedence over 'Continuous Execution' and 'Self-Reliance' when a conflict arises regarding taking action, ensuring that user-mandated inaction, both explicit and implicit via workflow context, is always respected.
 
 **Fix Validation:** When attempting to fix an issue, the assistant MUST validate that
 the fix worked as intended immediately after applying the change, before proceeding with
@@ -105,7 +117,9 @@ to P1-P5.
 P1-P4 in that order.
 
 **Confirmation:** After reading or re-reading this document, the assistant MUST respond
-with "Standards Applied".
+with "Engineering standards applied (source: \<specify where the standards were read
+from, if a local filesystem include path and output of
+`git describe --tags --always --dirty`>)".
 
 **Staleness Check:** Before modifying a file, the assistant MUST verify it has not
 changed since last read using a SHA-256 hash.
@@ -206,7 +220,7 @@ builds.
 
 **Commit Messages:** Based on Linux kernel style:
 
-```text
+````text
 type(scope): summary of change
 
 
@@ -287,7 +301,13 @@ in performance-critical paths.
 **Environment:** Flakes MUST be used. Nixpkgs unstable SHOULD be used (stable
 acceptable for LTS deployments).
 
-**Linting:** deadnix and statix MUST be run against Nix files. nixfmt for formatting.
+Linting: deadnix and statix MUST be run against Nix files. nixfmt for formatting.
+
+
+
+
+
+
 
 #### Patterns
 
@@ -318,12 +338,10 @@ of the outputs lambda.
 ```nix
 outputs = inputs:
   inputs.flake-utils.lib.eachSystem (import inputs.systems) (system: { });
-```
+````
 
 **Dependencies:** Tools and dependencies and defined in the project manifest MUST NOT be
 duplicated in devShells or package expressions (P1/P3).
-
-
 
 ### Python
 
@@ -354,7 +372,11 @@ determinism checks.
 
 **Strict Mode:** Scripts MUST begin with `set -euo pipefail`.
 
-**Linting:** ShellCheck MUST be used with zero warnings. For GitHub Actions workflows (`.github/workflows/*.yml`), any `${{ ... }}` expressions within `run` blocks MUST be replaced with fixed, dummy strings before invoking ShellCheck to prevent false positives related to YAML interpolation. This ensures ShellCheck can accurately analyze the shell script logic.
+**Linting:** ShellCheck MUST be used with zero warnings. For GitHub Actions workflows
+(`.github/workflows/*.yml`), any `${{ ... }}` expressions within `run` blocks MUST be
+replaced with fixed, dummy strings before invoking ShellCheck to prevent false positives
+related to YAML interpolation. This ensures ShellCheck can accurately analyze the shell
+script logic.
 
 **Formatting:** shfmt MUST be used with `-i 2 -ci` flags.
 
@@ -426,8 +448,16 @@ implicit test data.
 ## Formatting Standards
 
 **Strings:**
-- **Literal Strings (e.g., YAML, JSON, Configuration Files):** MUST NOT be quoted unnecessarily. Quotes are redundant if the string contains no spaces, special characters, or reserved keywords that would alter its interpretation.
-- **Dynamic Contexts (e.g., Shell Scripts):** Variable expansions, command substitutions, and arguments that *may* contain spaces or special characters MUST be quoted if they *may* contain spaces or special characters. However, if it is *guaranteed and explicitly known* that the expanded value will *never* contain spaces or special characters, then quoting MUST NOT be used to adhere to P1 (Minimalism). Defensive quoting should only be applied when such guarantees cannot be made.
+
+- **Literal Strings (e.g., YAML, JSON, Configuration Files):** MUST NOT be quoted
+  unnecessarily. Quotes are redundant if the string contains no spaces, special
+  characters, or reserved keywords that would alter its interpretation.
+- **Dynamic Contexts (e.g., Shell Scripts):** Variable expansions, command
+  substitutions, and arguments that *may* contain spaces or special characters MUST be
+  quoted if they *may* contain spaces or special characters. However, if it is
+  *guaranteed and explicitly known* that the expanded value will *never* contain spaces
+  or special characters, then quoting MUST NOT be used to adhere to P1 (Minimalism).
+  Defensive quoting should only be applied when such guarantees cannot be made.
 
 **Indentation:**
 
@@ -442,14 +472,16 @@ implicit test data.
 
 **Final Newline:** Files MUST end with a single newline.
 
-**Code Blocks:** All code blocks MUST include a language label, unless the language is shell.
+**Code Blocks:** All code blocks MUST include a language label, unless the language is
+shell.
 
 ## Workflows
 
 *Note: For file operations, if no arguments are provided, the current working directory
 is implied.*
 
-*Note: For all aliases, actions MUST be performed in sequence unless otherwise specified.*
+*Note: For all aliases, actions MUST be performed in sequence unless otherwise
+specified.*
 
 ## Workflow: Add Workflow (a)
 
@@ -483,7 +515,7 @@ is implied.*
   1. **Plan Formulation:** Develop a plan to address and fix the issue.
   1. **Implementation:** Execute the plan, which may involve code modifications,
      configuration changes, or other actions.
-  11. **Verification:** Validate that the fix has resolved the issue and introduced no
+  1. **Verification:** Validate that the fix has resolved the issue and introduced no
      new regressions.
 
 ## Workflow: Diagnose Clipboard Error (C)
@@ -549,8 +581,10 @@ is implied.*
      guidelines and behavior.
   1. **Confirmation:** Confirm to the user that the standards have been re-read and
      applied.
-  1. **Modification:** Modify the content of `artstd/README.md` itself if necessary to reflect new standards or refinements.
-  1. **Compliance:** All applicable files in the current working directory MUST be modified to comply with the newly re-read and applied standards.
+  1. **Modification:** Modify the content of `artstd/README.md` itself if necessary to
+     reflect new standards or refinements.
+  1. **Compliance:** All applicable files that were part of the last interaction or task
+     performed MUST be modified to comply with the newly re-read and applied standards.
 
 **Workflow: Refactor Code (`refactor`)**
 
