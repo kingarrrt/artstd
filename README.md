@@ -285,6 +285,10 @@ in performance-critical paths.
 
 **Formatting:** mdformat MUST be used.
 
+**Embedded Code:** All embedded code blocks MUST be linted and formatted using the
+standardized tools defined for their respective languages (e.g., Nix blocks formatted
+with nixfmt).
+
 **Links:** MUST be checked for validity in CI.
 
 ### Nix
