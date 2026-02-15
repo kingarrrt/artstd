@@ -388,8 +388,6 @@ nixpkgs#nixfmt for formatting.
   nesting. Conversely, multiple flat keys sharing the same root MUST be nested to reduce
   duplication (P1).
 - Lists of packages MUST use `with pkgs; [ ... ]` to eliminate repetitive prefixes.
-- Embedded shell scripts in Nix strings MUST be prefixed with `/* sh */` to enable
-  correct syntax highlighting in editors (e.g., `''/* sh */ ... ''`).
 
 #### Flakes
 
