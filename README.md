@@ -331,7 +331,8 @@ of the outputs lambda.
 
 **Metadata:**  metadata MUST be sourced from the project manifest (P3).
 
-**Outputs:** Flake outputs MUST use the pattern: ...
+**Outputs:** Flake outputs MUST use the pattern below. This applies universally to all
+`flake.nix` files, including examples, tests, and sub-projects, without exception.
 
 ```nix
 outputs = inputs:
