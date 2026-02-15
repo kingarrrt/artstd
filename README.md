@@ -794,8 +794,6 @@ specified.*
      guidelines and behavior.
   1. **Confirmation:** Confirm to the user that the standards have been re-read and
      applied.
-  1. **Modification:** Modify the content of `artstd/README.md` itself if necessary to
-     reflect new standards or refinements.
   1. **Compliance:** All applicable files that were part of the last interaction or task
      performed MUST be modified to comply with the newly re-read and applied standards.
 
