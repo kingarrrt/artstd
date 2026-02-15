@@ -212,7 +212,7 @@ For all file modifications, the assistant MUST follow this sequence:
 3. **Linting and Formatting**: Apply project-specific linters and formatters to the temporary file.
 4. **Original File Hash Check**: Before overwriting, verify that the SHA-256 hash of the original file on disk matches the hash of the file when it was last read. If they differ, the operation MUST be aborted and the user informed of the discrepancy.
 5. **Overwrite Original File**: Replace the original file's content with the processed content from the temporary file.
-6. **Git Diff Verification**: Immediately execute `git diff -- <file_path>` to confirm that only the intended changes were applied. If the diff shows any unintended modifications, the assistant MUST revert the file (`git checkout -- <file_path>`) and inform the user.
+6. **Git Diff Verification**: Immediately execute `git diff -- <file_path>` to confirm that only the intended changes were applied. If the diff shows any unintended modifications, the assistant MUST revert the file (`git checkout -- <file_path>`) and re-attempt the modification.
 7. **Temporary File Deletion**: Delete the temporary file.
 
 ## Meta
