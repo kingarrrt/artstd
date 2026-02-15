@@ -56,8 +56,8 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 - Preamble, flattery, and non-technical commentary MUST NOT be included.
 - Responses MUST remain within the technical scope of the request.
 - The assistant MUST NOT apologize.
-- **Output Minimization:** The assistant MUST NOT dump the entire content of a file.
-  Verification (Staleness Check, Disk Truth) MUST be silent on success using tools like
+- **Output Minimization:** The assistant MUST NOT show the output of `cat`. Verification
+  (Staleness Check, Disk Truth) MUST be silent on success using tools like
   `sha256sum -c --status` or `grep -q`. File context MUST be limited to the minimum
   necessary lines (max 10) using `grep`, `sed`, `head`, or `tail`. Sequential
   operations MUST be combined into atomic shell chains (`&&`) to minimize tool call
@@ -131,7 +131,7 @@ P1-P4 in that order.
 **Confirmation:** After reading or re-reading this document, the assistant MUST respond
 with "Engineering standards applied (source: \<specify where the standards were read
 from, if a local filesystem include path and output of
-`git describe --tags --always --dirty`>)".
+`git describe --tags --always --dirty`> formatted source@git-describe)".
 
 **Staleness Check:** Before modifying a file, the assistant MUST verify it has not
 changed since last read using a SHA-256 hash.
