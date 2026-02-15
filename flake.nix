@@ -52,8 +52,11 @@
             mdformat --check .
 
             echo "Checking Shell scripts..."
-            find . -name "*.sh" -exec shellcheck {} +
-            find . -name "*.sh" -exec shfmt -d {} +
+            mapfile -t scripts < <(find . -name "*.sh")
+            if [[ ''${#scripts[@]} -gt 0 ]]; then
+              shellcheck "''${scripts[@]}"
+              shfmt -d "''${scripts[@]}"
+            fi
 
             echo "Standards check passed."
           '';
