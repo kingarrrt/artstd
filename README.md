@@ -292,7 +292,8 @@ short-lived (\<3 days).
 +changes to the remote repository after every commit (P1). This mode MUST be
 +disabled by default.
 \+
-**Atomic Commits:** Each commit MUST be a single logical change that leaves the codebasein a working state.
+**Atomic Commits:** Each commit MUST be a single logical change that leaves the codebase
+in a working state.
 
 **Amend on Unpushed Fixes:** If an error is found in a committed change that has not yet
 been pushed to the remote repository, the fix MUST be applied via `git commit --amend`
@@ -425,6 +426,16 @@ into the flake) that MUST be used to verify:
 **Continuous Compliance:** The assistant MUST execute `nix run artstd#validate-std`
 (or equivalent local command) after any modification to verify compliance. Failure to
 pass validation MUST be treated as a blocking error (Fail Fast).
+
+### CI/CD Integration
+
+Use the provided reusable workflow to enforce standards in CI:
+
+```yaml
+jobs:
+  lint:
+    uses: kingarrrt/artstd/.github/workflows/std.yml@master
+```
 
 ### Python
 

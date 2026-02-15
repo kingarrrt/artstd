@@ -1,0 +1,22 @@
+name: Standards Compliance
+
+on:
+  workflow_call:
+
+jobs:
+  validate:
+    name: KingArrrt Engineering Standards
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Nix Setup
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            accept-flake-config = true
+
+      - name: Validate Standards
+        run: |
+          nix run "github:kingarrrt/artstd#validate-std"

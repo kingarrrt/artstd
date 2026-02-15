@@ -31,8 +31,15 @@
         };
         validate-std = pkgs.writeShellApplication {
           name = "validate-std";
-          runtimeInputs = with pkgs;
-            [ deadnix statix nixfmt markdownlint-cli mdformat shellcheck shfmt ];
+          runtimeInputs = with pkgs; [
+            deadnix
+            statix
+            nixfmt
+            markdownlint-cli
+            mdformat
+            shellcheck
+            shfmt
+          ];
           text = ''
             set -eo pipefail
             echo "Checking Nix files..."
@@ -45,7 +52,7 @@
             mdformat --check .
 
             echo "Checking Shell scripts..."
-            find . -name "*.sh" -exec shellcheck {} + 
+            find . -name "*.sh" -exec shellcheck {} +
             find . -name "*.sh" -exec shfmt -d {} +
 
             echo "Standards check passed."
@@ -79,8 +86,10 @@
           pkgs.runCommand "validate-claude"
             {
               __impure = true;
-              nativeBuildInputs = with pkgs;
-                [ curl jq ];
+              nativeBuildInputs = with pkgs; [
+                curl
+                jq
+              ];
               ANTHROPIC_API_KEY = builtins.getEnv "ANTHROPIC_API_KEY";
             }
             ''
@@ -120,8 +129,10 @@
           in
           pkgs.runCommand "validate-markdown"
             {
-              nativeBuildInputs = with pkgs;
-                [ markdownlint-cli mdformat ];
+              nativeBuildInputs = with pkgs; [
+                markdownlint-cli
+                mdformat
+              ];
             }
             ''
               markdownlint --config ${mdlintConfig} ${./README.md}
@@ -140,7 +151,10 @@
             '';
       };
       devpkgs =
-        pkgs: with pkgs; [ claude-code gemini-cli ];
+        pkgs: with pkgs; [
+          claude-code
+          gemini-cli
+        ];
     }
     // {
       overlays.default = final: _prev: {
