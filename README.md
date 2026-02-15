@@ -467,7 +467,9 @@ shell.
 ## Workflows
 
 *Note: For file operations, if no arguments are provided, the current working directory
-is implied.*
+is implied. If the operation is initiated from outside a submodule, the submodule's
+directory is not implicitly included in the "current working directory" unless
+explicitly specified or if the operation started directly within it.*
 
 *Note: For all aliases, actions MUST be performed in sequence unless otherwise
 specified.*
