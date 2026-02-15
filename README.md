@@ -288,8 +288,11 @@ short-lived (\<3 days).
 - No merge commits (rebase or squash)
 - Review required for production code
 
-**Atomic Commits:** Each commit MUST be a single logical change that leaves the codebase
-in a working state.
++**Auto Push:** If auto-push mode is enabled, the assistant MUST automatically push
++changes to the remote repository after every commit (P1). This mode MUST be
++disabled by default.
+\+
+**Atomic Commits:** Each commit MUST be a single logical change that leaves the codebasein a working state.
 
 **Amend on Unpushed Fixes:** If an error is found in a committed change that has not yet
 been pushed to the remote repository, the fix MUST be applied via `git commit --amend`
@@ -732,6 +735,17 @@ specified.*
      documentation).
   1. **Report Non-compliance:** Report any deviations or non-compliance found, providing
      specific details and suggestions for correction.
+
+## Workflow: Toggle Auto Push (P)
+
+- **Purpose:** Toggles the "Auto Push" mode, which determines if commits are
+  automatically pushed to the remote repository.
+- **Usage:** `P`
+- **Actions:**
+  1. **Mode Toggle:** Toggle the internal state of the auto-push mode.
+  1. **Push Local Commits:** If the mode is toggled to "enabled", the assistant MUST
+     immediately push all unpushed local commits to the remote repository.
+  1. **Confirmation:** Confirm the new state (enabled/disabled) to the user.
 
 ## Workflow: Toggle Diff Display (d)
 

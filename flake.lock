@@ -3,14 +3,18 @@
     "artpkgs": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "flake-utils": "flake-utils",
+        "flake-utils": [
+          "flake-utils"
+        ],
         "git-hooks": "git-hooks",
         "nix-index-database": "nix-index-database",
         "nixpkgs": [
           "nixpkgs"
         ],
         "nixpkgsu": "nixpkgsu",
-        "systems": "systems",
+        "systems": [
+          "systems"
+        ],
         "treefmt": "treefmt",
         "treefmt-nix": "treefmt-nix"
       },
@@ -72,7 +76,6 @@
     "flake-utils": {
       "inputs": {
         "systems": [
-          "artpkgs",
           "systems"
         ]
       },
@@ -207,7 +210,9 @@
     "root": {
       "inputs": {
         "artpkgs": "artpkgs",
-        "nixpkgs": "nixpkgs"
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs",
+        "systems": "systems"
       }
     },
     "systems": {
