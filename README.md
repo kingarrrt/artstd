@@ -661,8 +661,6 @@ specified.*
 - **Actions:**
   1. **File Modification:** Insert the new standard into the `artstd/README.md` under
      the most relevant existing section.
-  1. **Internal Memory Update:** Save the new standard to internal memory using
-     `save_memory`.
   1. **Document Review:** Review `artstd/README.md` for logic, consistency, clarity,
      correctness of language, and compliance with itself.
   1. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
