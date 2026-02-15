@@ -617,7 +617,7 @@ specified.*
   1. **Compliance:** All applicable files that were part of the last interaction or task
      performed MUST be modified to comply with the newly re-read and applied standards.
 
-**Workflow: Refactor Code (`refactor`)**
+## Workflow: Refactor Code (`refactor`)
 
 - **Purpose:** Refactors one or more specified files to ensure compliance with the
   Kingarrrt Engineering Standards.
@@ -633,7 +633,7 @@ specified.*
      ensure refactoring correctness and prevent regressions.
   1. **Output Diff:** Present a diff of the changes made.
 
-**Workflow: Review Code (`review`)**
+## Workflow: Review Code (`review`)
 
 - **Purpose:** Reviews one or more specified files for compliance with the Kingarrrt
   Engineering Standards.
@@ -648,7 +648,7 @@ specified.*
   1. **Report Non-compliance:** Report any deviations or non-compliance found, providing
      specific details and suggestions for correction.
 
-**Workflow: Add Standard (`std`)**
+## Workflow: Add Standard (`std`)
 
 - **Purpose:** Adds a new standard to this document and ensures all standards are
   applied.
@@ -667,7 +667,7 @@ specified.*
   1. **Commit:** Commit changes to `artstd/README.md` after every modification.
   1. **Push:** Push the committed changes to the remote repository.
 
-**Workflow: Manage TODOs (`todos`)**
+## Workflow: Manage TODOs (`todos`)
 
 - **Purpose:** Identifies and addresses TODO comments within the codebase, optionally
   using specific tags.
