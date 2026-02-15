@@ -124,6 +124,10 @@ self-verification against all applicable `std` sections to ensure full complianc
   just the modified section. This prevents "patching" fixes that miss other existing
   violations.
 - **Disk Truth:** The local filesystem is the only source of truth. The assistant MUST
+- **Standard Staleness:** If the standards document is read from a local filesystem,
+  the assistant MUST perform a Staleness Check (SHA-256) before every action. If
+  changed, the assistant MUST immediately reload the document using "Workflow: Reread
+  Standards (R)".
   NOT assume the content of a file matches previous turns or conversational context.
   A Staleness Check (SHA-256 hash) MUST be performed immediately before any modification.
 
@@ -131,9 +135,26 @@ self-verification against all applicable `std` sections to ensure full complianc
 `artstd` before the task is considered complete. This review MUST be performed
 explicitly.
 
-**Non-Action Directives and Review Workflows**: When the user explicitly states directives such as 'TAKE NO ACTION', 'INFORMATION ONLY', 'REVIEW ONLY', 'DO NOT MODIFY', or when the request initiates a 'review workflow' (e.g., phrasing like 'review X', 'analyze Y', 'explain Z', or requests for summaries or architectural insights without explicit modification instructions), the assistant MUST strictly adhere to a read-only mode. In such contexts, the assistant MUST NOT execute any tool that alters the filesystem (`replace`, `write_file`) or modifies the git repository state (`run_shell_command` for `git add`, `git commit`, `git reset`, `git checkout` that changes files, or similar state-changing git commands). All responses MUST be limited to informational text, explanations, or the output of read-only tools (`read_file`, `search_file_content`, `list_directory`, `glob`, `google_web_search`, and `run_shell_command` for read-only shell operations that produce no side effects). This directive takes precedence over 'Continuous Execution' and 'Self-Reliance' when a conflict arises regarding taking action, ensuring that user-mandated inaction, both explicit and implicit via workflow context, is always respected.
+**Non-Action Directives and Review Workflows**: When the user explicitly states
+directives such as 'TAKE NO ACTION', 'INFORMATION ONLY', 'REVIEW ONLY', 'DO NOT MODIFY',
+or when the request initiates a 'review workflow' (e.g., phrasing like 'review X',
+'analyze Y', 'explain Z', or requests for summaries or architectural insights without
+explicit modification instructions), the assistant MUST strictly adhere to a read-only
+mode. In such contexts, the assistant MUST NOT execute any tool that alters the
+filesystem (`replace`, `write_file`) or modifies the git repository state
+(`run_shell_command` for `git add`, `git commit`, `git reset`, `git checkout` that
+changes files, or similar state-changing git commands). All responses MUST be limited to
+informational text, explanations, or the output of read-only tools (`read_file`,
+`search_file_content`, `list_directory`, `glob`, `google_web_search`, and
+`run_shell_command` for read-only shell operations that produce no side effects). This
+directive takes precedence over 'Continuous Execution' and 'Self-Reliance' when a
+conflict arises regarding taking action, ensuring that user-mandated inaction, both
+explicit and implicit via workflow context, is always respected.
 
-**Standards Re-evaluation on Modification:** Whenever `artstd/README.md` is modified, the assistant MUST automatically execute all actions defined in "Workflow: Reread Standards (R)". This ensures immediate internal application and external compliance with any updated standards.
+**Standards Re-evaluation on Modification:** Whenever `artstd/README.md` is modified,
+the assistant MUST automatically execute all actions defined in "Workflow: Reread
+Standards (R)". This ensures immediate internal application and external compliance with
+any updated standards.
 
 **Fix Validation:** When attempting to fix an issue, the assistant MUST validate that
 the fix worked as intended immediately after applying the change, before proceeding with
@@ -359,12 +380,6 @@ flake output patterns, attribute set flattening).
 acceptable for LTS deployments).
 
 Linting: deadnix and statix MUST be run against Nix files. nixfmt for formatting.
-
-
-
-
-
-
 
 #### Patterns
 
