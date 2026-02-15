@@ -423,9 +423,12 @@ into the flake) that MUST be used to verify:
 1. Embedded code blocks in Markdown are syntactically valid and compliant.
 1. No placeholders or TODOs exist in non-development branches.
 
-**Continuous Compliance:** The assistant MUST execute `nix run artstd#validate-std`
-(or equivalent local command) after any modification to verify compliance. Failure to
-pass validation MUST be treated as a blocking error (Fail Fast).
+**Pre-Commit Enforcement:** Every project MUST include a git pre-commit hook that
+executes `nix run artstd#validate-std`. Commits MUST NOT be created if validation fails.
+
+**Assistant Validation:** The assistant MUST execute `nix run artstd#validate-std`
+immediately before every commit. Any validation failure MUST be treated as a blocking
+error (Fail Fast).
 
 ### CI/CD Integration
 
