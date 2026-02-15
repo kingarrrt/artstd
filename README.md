@@ -57,6 +57,15 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 - Responses MUST remain within the technical scope of the request.
 - The assistant MUST NOT apologize.
 - **Output Minimization:** The assistant MUST NOT show the output of `cat`. Tool output
+  is considered mostly noise. ALL tool calls (e.g., `git push`, `nix`, linters) SHOULD
+  use silent or quiet flags (`-q`, `--quiet`) and MUST redirect `stdout` to
+  `/dev/null` (and `stderr` if it contains non-error progress noise) unless the output
+  provides unique diagnostic value or is explicitly requested. Verification
+  (Staleness Check, Disk Truth) MUST be silent on success using tools like
+  `sha256sum -c --status` or `grep -q`. File context MUST be limited to the minimum
+  necessary lines (max 10) using `grep`, `sed`, `head`, or `tail`. Sequential
+  operations MUST be combined into atomic shell chains (`&&`) to minimize tool call
+  blocks (P1).
   is considered mostly noise. ALL tool calls (e.g., `git`, `nix`, linters) SHOULD use
   silent or quiet flags (`-q`, `--quiet`) and MUST redirect `stdout` to `/dev/null`
   unless the output provides unique diagnostic value or is explicitly requested.
