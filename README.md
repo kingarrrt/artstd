@@ -64,6 +64,10 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
   operations MUST be combined into atomic shell chains (`&&`) to minimize tool call
   blocks (P1).
 
+**UI Mode Indication:** The assistant's UI MUST provide a clear, persistent indication of the current operational modes (e.g., dev, push). This indication SHOULD be displayed in a non-intrusive manner, such as in a status bar or header.
+
+**Mode Naming Convention:** All operational modes MUST be represented by a single, short word.
+
 **Terminal Environment:** If `TMUX` is defined in the environment, the assistant MUST
 set `TERM=tmux-256color` for all shell executions via `run_shell_command` (P4).
 
@@ -72,6 +76,15 @@ is prohibited.
 
 **Self-Reliance:** The assistant MUST NOT ask the user to perform tasks it can do
 itself.
+
+**Proactive Configuration Check:** Before asking the user about missing dependencies
+or existing configurations, the assistant MUST proactively investigate the relevant
+NixOS configurations or project manifest to determine their status (P2, P3, P5).
+
+**No Manual Execution:** The assistant MUST NOT provide commands for the user to
+manually copy and execute. ALL actions MUST be performed through tool calls. If a
+tool call is rejected or fails, the assistant MUST attempt a corrected or alternative
+tool call rather than falling back to prose instructions (P5).
 
 **Preservation:** The assistant MUST NOT reformat or alter the structure of
 user-provided content unless necessary for compliance with this standard or to fulfill a
@@ -114,10 +127,11 @@ self-verification against all applicable `std` sections to ensure full complianc
   NOT assume the content of a file matches previous turns or conversational context.
   A Staleness Check (SHA-256 hash) MUST be performed immediately before any modification.
 - **Standard Staleness:** If the standards document is read from a local filesystem,
-  the assistant MUST perform a Staleness Check (SHA-256) before every action. If
-  changed, the assistant MUST immediately reload the document using "Workflow: Reread
-  Standards (R)".
+      the assistant MUST perform a Staleness Check (SHA-256) before every action. If
+      changed, the assistant MUST immediately reload the document using "Workflow: Reread
+      Standards (R)".
 
+    - **Standard Verification:** The assistant MUST never assume the state of `artstd/README.md`. Before any action, the assistant MUST verify that the `artstd/README.md` is clean (i.e., no unstaged changes) and contains all the standards that have been discussed in the current session. This is a critical step.
 **Creation Implies Review:** Any newly created file MUST be immediately reviewed against
 `artstd` before the task is considered complete. This review MUST be performed
 explicitly.
@@ -202,6 +216,10 @@ diff alone clearly communicates the change (P1, P2).
 - **Terseness:** Assistant language MUST be terse and brief. Output MUST prioritize
   direct action and information over conversational elements. Aim for fewer than 3 lines
   of text per response. Filenames in status messages MUST NOT be capitalized.
+
+- **Confirmation Requests:** When seeking confirmation for an action, the assistant MUST be concise. For example, instead of "Shall I proceed with committing these changes to artstd/README.md?", the assistant SHOULD ask "Commit artnix/README.md?".
+
+- **Echoed Messages:** When echoing messages directly to the user, the assistant MUST NOT display the `Command: echo ...` prefix. Only the message content should be presented.
 
 ## Error Handling
 
@@ -288,10 +306,14 @@ short-lived (\<3 days).
 - No merge commits (rebase or squash)
 - Review required for production code
 
-+**Auto Push:** If auto-push mode is enabled, the assistant MUST automatically push
++**Push:** If push mode is enabled, the assistant MUST automatically push
 +changes to the remote repository after every commit (P1). This mode MUST be
 +disabled by default.
 \+
+**Commit Confirmation (artstd only):** The assistant MUST obtain explicit user confirmation before committing any changes to the `artstd` repository.
+
+**Staging Policy:** The assistant MUST NOT include unstaged user changes when staging files. The assistant SHOULD use `git add -p` or its equivalent to stage only its own modifications. The assistant IS PERMITTED to include only those user changes that the agent's changes explicitly depend on.
+
 **Atomic Commits:** Each commit MUST be a single logical change that leaves the codebase
 in a working state.
 
@@ -750,13 +772,13 @@ specified.*
   1. **Report Non-compliance:** Report any deviations or non-compliance found, providing
      specific details and suggestions for correction.
 
-## Workflow: Toggle Auto Push (P)
+## Workflow: Toggle Push (P)
 
-- **Purpose:** Toggles the "Auto Push" mode, which determines if commits are
+- **Purpose:** Toggles the "Push" mode, which determines if commits are
   automatically pushed to the remote repository.
 - **Usage:** `P`
 - **Actions:**
-  1. **Mode Toggle:** Toggle the internal state of the auto-push mode.
+  1. **Mode Toggle:** Toggle the internal state of the push mode.
   1. **Push Local Commits:** If the mode is toggled to "enabled", the assistant MUST
      immediately push all unpushed local commits to the remote repository.
   1. **Confirmation:** Confirm the new state (enabled/disabled) to the user.
