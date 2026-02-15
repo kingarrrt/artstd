@@ -776,19 +776,12 @@ specified.*
 
 ## Workflow: Refactor Code (`refactor`)
 
-- **Purpose:** Refactors one or more specified files to ensure compliance with the
-  Kingarrrt Engineering Standards.
-- **Usage:** `refactor [file_path...]` (If no file_path is specified, the current
-  working directory is implied.)
+- **Purpose:** Ensures one or more specified files comply with Kingarrrt Engineering Standards.
+- **Usage:** `refactor [file_path...]` (Current working directory implied if no path specified.)
 - **Actions:**
-  11\. **File Identification:** Identify the target files for refactoring based on
-  arguments or implied directory.
-  1. **Standards Application:** Apply relevant Kingarrrt Engineering Standards (e.g.,
-     formatting, style, architectural patterns) to the identified files.
-  1. **Modification:** Modify the content of the files to achieve compliance.
-  1. **Verification:** Run appropriate linters, formatters, and potentially tests to
-     ensure refactoring correctness and prevent regressions.
-  1. **Output Diff:** Present a diff of the changes made.
+  1. **Identify Files:** Determine target files.
+  2. **Apply Standards:** Modify files to comply with Kingarrrt Engineering Standards.
+  3. **Report Changes:** Present a diff of modifications.
 
 ## Workflow: Reread Standards (R)
 
