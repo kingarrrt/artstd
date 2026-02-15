@@ -41,6 +41,7 @@
             shfmt
           ];
           text = ''
+            /* sh */
             set -eo pipefail
             echo "Checking Nix files..."
             deadnix --fail .
@@ -96,6 +97,7 @@
               ANTHROPIC_API_KEY = builtins.getEnv "ANTHROPIC_API_KEY";
             }
             ''
+              /* sh */
               [[ -n "$ANTHROPIC_API_KEY" ]] || {
                 echo >&2 "ANTHROPIC_API_KEY not set"
                 exit 1
@@ -138,6 +140,7 @@
               ];
             }
             ''
+              /* sh */
               markdownlint --config ${mdlintConfig} ${./README.md}
               mdformat --wrap 88 --check ${./README.md} | tee $out
             '';
@@ -149,6 +152,7 @@
               nativeBuildInputs = with pkgs; [ lychee ];
             }
             ''
+              /* sh */
               lychee --no-progress ${./README.md}
               mkdir $out
             '';
