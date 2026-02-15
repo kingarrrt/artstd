@@ -236,7 +236,7 @@ builds.
 
 **Commit Messages:** Based on Linux kernel style:
 
-````text
+```text
 type(scope): summary of change
 
 
@@ -375,7 +375,7 @@ of the outputs lambda.
 ```nix
 outputs = inputs:
   inputs.flake-utils.lib.eachSystem (import inputs.systems) (system: { });
-````
+```
 
 **Dependencies:** Tools and dependencies and defined in the project manifest MUST NOT be
 duplicated in devShells or package expressions (P1/P3).
