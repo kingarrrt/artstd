@@ -433,6 +433,18 @@ outputs = inputs:
 **Dependencies:** Tools and dependencies and defined in the project manifest MUST NOT be
 duplicated in devShells or package expressions (P1/P3).
 
+#### artnix Systems
+
+**Impermanence:** artnix systems are impermanent by default. This means that any
+state not explicitly declared as persistent will be lost across system rebuilds
+or reboots (P3, P4).
+
+**Persistent State Paths:** Any persistent state MUST be explicitly declared via
+`artnix.state.pstServicePaths`. These paths are relative to `/var/lib` (P3, P4).
+
+**Consequence of Omission:** Persistent service data or configurations not listed
+in `artnix.state.pstServicePaths` WILL be lost (P3, P4).
+
 ## Enforcement
 
 **Automated Validation:** Every project MUST include a CI job that validates the
