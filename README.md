@@ -274,6 +274,8 @@ enforced.
 
 ## Language & Tooling Standards
 
+**Tool Execution:** Required tools MUST be executed through `nix run`.
+
 ### C/C++
 
 **Standard:** C++20 MUST be the minimum standard.
@@ -395,6 +397,12 @@ features freely.
 **Error Handling:** Rely on `set -e` for immediate exit on failure. Use `trap` for
 cleanup on error. Explicit error handling (`||`, `if ! command; then ... fi`) is
 reserved for cases where command failure should not cause immediate script exit.
+
+### YAML
+
+**Linting:** check-jsonschema MUST be used.
+
+**Formatting:** prettier MUST be used.
 
 ### Make
 
