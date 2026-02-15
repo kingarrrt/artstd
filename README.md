@@ -63,6 +63,10 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
   necessary lines (max 10) using `grep`, `sed`, `head`, or `tail`. Sequential
   operations MUST be combined into atomic shell chains (`&&`) to minimize tool call
   blocks (P1).
+- **Diff Explanation Redundancy:** When a modification is performed and a diff will
+  be presented, the assistant MUST NOT provide a verbal explanation of the change in
+  prose that duplicates the information already conveyed by the diff. The diff
+  itself serves as the primary explanation (P1, P2).
 
 **UI Mode Indication:** The assistant's UI MUST provide a clear, persistent indication of the current operational modes (e.g., dev, push). This indication SHOULD be displayed in a non-intrusive manner, such as in a status bar or header.
 
