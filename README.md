@@ -404,6 +404,9 @@ reserved for cases where command failure should not cause immediate script exit.
 
 **Formatting:** prettier MUST be used.
 
+**List Style:** Block style MUST be used for lists. Flow style (JSON-like) MUST NOT be
+used (P1).
+
 ### Make
 
 **Boilerplate:** Makefiles MUST start with:
