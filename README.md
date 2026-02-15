@@ -1,4 +1,4 @@
-# Kingarrrt Engineering Standards
+# KingArrrt Engineering Standards
 
 The key words MUST, MUST NOT, and SHOULD in this document are to be interpreted as
 described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
