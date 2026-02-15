@@ -56,10 +56,12 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 - Preamble, flattery, and non-technical commentary MUST NOT be included.
 - Responses MUST remain within the technical scope of the request.
 - The assistant MUST NOT apologize.
-- **Output Minimization:** The assistant MUST NOT dump the entire content of a file. Verification (Staleness Check, Disk Truth) MUST be silent on success using tools like `sha256sum -c --status` or `grep -q`. File context MUST be limited to the minimum necessary lines (max 10) using `grep`, `sed`, `head`, or `tail`. Sequential operations MUST be combined into atomic shell chains (`&&`) to minimize tool call blocks (P1).
-  Verification (Staleness Check, Disk Truth) MUST use minimal-output tools (e.g.,
-  `sha256sum`). File context MUST be limited to the minimum necessary lines using
-  `grep`, `sed`, `head`, or `tail`.
+- **Output Minimization:** The assistant MUST NOT dump the entire content of a file.
+  Verification (Staleness Check, Disk Truth) MUST be silent on success using tools like
+  `sha256sum -c --status` or `grep -q`. File context MUST be limited to the minimum
+  necessary lines (max 10) using `grep`, `sed`, `head`, or `tail`. Sequential
+  operations MUST be combined into atomic shell chains (`&&`) to minimize tool call
+  blocks (P1).
 
 **Ambiguity:** If requirements are unclear, clarifying questions MUST be asked. Guessing
 is prohibited.
@@ -514,6 +516,25 @@ explicitly specified or if the operation started directly within it.*
 *Note: For all aliases, actions MUST be performed in sequence unless otherwise
 specified.*
 
+## Workflow: Add Standard (`std`)
+
+- **Purpose:** Adds a new standard to this document and ensures all standards are
+  applied.
+- **Usage:**
+  - `std`: Add the instruction from the immediate previous turn to this document as a
+    new standard.
+  - `std <your standard>`: Add the specified standard to this document.
+- **Actions:**
+  1. **File Modification:** Insert the new standard into the `artstd/README.md` under
+     the most relevant existing section.
+  1. **Internal Memory Update:** Save the new standard to internal memory using
+     `save_memory`.
+  1. **Document Review:** Review `artstd/README.md` for logic, consistency, clarity,
+     correctness of language, and compliance with itself.
+  1. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
+  1. **Commit:** Commit changes to `artstd/README.md` after every modification.
+  1. **Push:** Push the committed changes to the remote repository.
+
 ## Workflow: Add Workflow (a)
 
 - **Purpose:** Creates a new workflow and appends it to the "Workflows" list in this
@@ -537,17 +558,18 @@ specified.*
   1. **Context Check:** Determine the context of the current paused operation.
   1. **Execution:** Resume or continue the operation based on its context.
 
-## Workflow: Fix Issue (f)
+## Workflow: Dev (dev)
 
-- **Purpose:** Attempts to fix a reported issue or error.
+- **Purpose:** Enables a "development mode" where the assistant ceases all Git interaction
+  (no staging, no committing) to allow for rapid iteration and experimentation without
+  modifying repository history.
+- **Usage:** `dev`
 - **Actions:**
-  1. **Issue Analysis:** Analyze the current issue, error, or problem reported by the
-     user or identified internally.
-  1. **Plan Formulation:** Develop a plan to address and fix the issue.
-  1. **Implementation:** Execute the plan, which may involve code modifications,
-     configuration changes, or other actions.
-  1. **Verification:** Validate that the fix has resolved the issue and introduced no
-     new regressions.
+  1. **Mode Activation:** The assistant's Git interaction capabilities are disabled for the
+     duration of this mode. No `git add`, `git commit`, or similar state-changing Git
+     commands will be executed.
+  2. **Confirmation:** Confirm to the user that "dev mode" has been activated and Git
+     interactions are suspended.
 
 ## Workflow: Diagnose Clipboard Error (C)
 
@@ -560,16 +582,17 @@ specified.*
   1. **Diagnosis Report:** Provide a diagnosis of the error, including potential causes
      and suggestions for resolution.
 
-## Workflow: Toggle Diff Display (d)
+## Workflow: Fix Issue (f)
 
-- **Purpose:** Toggles the display format of responses between unified diff blocks and
-  regular output mode.
-- **Usage:** `d`
+- **Purpose:** Attempts to fix a reported issue or error.
 - **Actions:**
-  1. **State Check:** Determine the current response display mode.
-  1. **Mode Toggle:** Switch the response display mode to the alternative (diff to
-     regular, or regular to diff).
-  1. **Confirmation:** Confirm the new display mode to the user.
+  1. **Issue Analysis:** Analyze the current issue, error, or problem reported by the
+     user or identified internally.
+  1. **Plan Formulation:** Develop a plan to address and fix the issue.
+  1. **Implementation:** Execute the plan, which may involve code modifications,
+     configuration changes, or other actions.
+  1. **Verification:** Validate that the fix has resolved the issue and introduced no
+     new regressions.
 
 ## Workflow: Git Status (g)
 
@@ -580,6 +603,21 @@ specified.*
   1. **Output Display:** Display the standard output and standard error from the
      command.
 
+## Workflow: Manage TODOs (`todos`)
+
+- **Purpose:** Identifies and addresses TODO comments within the codebase, optionally
+  using specific tags.
+- **Usage:** `todos [file_path...]` (If no file_path is specified, the current working
+  directory is implied.)
+- **Actions:**
+  1. **Comment Scan:** Scan the specified files (or current working directory) for
+     comments containing TODO tags.
+  1. **Tag Reference:** Refer to `@artnvim/config/lua/plugin/todo-comments.lua` for the
+     defined TODO tags in use within the project.
+  1. **Issue Resolution:** For each identified TODO, analyze the context and either
+     resolve the underlying task or clarify/update the comment.
+  1. **Output Report:** Provide a report of found TODOs and actions taken.
+
 ## Workflow: Print Focused File (p)
 
 - **Purpose:** Prints the content of the currently focused file within a code block.
@@ -589,15 +627,21 @@ specified.*
   1. **File Read:** Read the content of the identified file.
   1. **Output Display:** Display the file content within a formatted code block.
 
-## Workflow: Reset Context (r)
+## Workflow: Refactor Code (`refactor`)
 
-- **Purpose:** Resets the current conversational context of the agent. This clears
-  previous turns, memory, and task states.
-- **Usage:** `r`
+- **Purpose:** Refactors one or more specified files to ensure compliance with the
+  Kingarrrt Engineering Standards.
+- **Usage:** `refactor [file_path...]` (If no file_path is specified, the current
+  working directory is implied.)
 - **Actions:**
-  1. **Context Clear:** Clear all stored conversational context, including previous
-     turns, short-term memory, and any active task states (e.g., todos).
-  1. **Confirmation:** Confirm to the user that the context has been reset.
+  1. **File Identification:** Identify the target files for refactoring based on
+     arguments or implied directory.
+  1. **Standards Application:** Apply relevant Kingarrrt Engineering Standards (e.g.,
+     formatting, style, architectural patterns) to the identified files.
+  1. **Modification:** Modify the content of the files to achieve compliance.
+  1. **Verification:** Run appropriate linters, formatters, and potentially tests to
+     ensure refactoring correctness and prevent regressions.
+  1. **Output Diff:** Present a diff of the changes made.
 
 ## Workflow: Reread Standards (R)
 
@@ -617,21 +661,15 @@ specified.*
   1. **Compliance:** All applicable files that were part of the last interaction or task
      performed MUST be modified to comply with the newly re-read and applied standards.
 
-## Workflow: Refactor Code (`refactor`)
+## Workflow: Reset Context (r)
 
-- **Purpose:** Refactors one or more specified files to ensure compliance with the
-  Kingarrrt Engineering Standards.
-- **Usage:** `refactor [file_path...]` (If no file_path is specified, the current
-  working directory is implied.)
+- **Purpose:** Resets the current conversational context of the agent. This clears
+  previous turns, memory, and task states.
+- **Usage:** `r`
 - **Actions:**
-  1. **File Identification:** Identify the target files for refactoring based on
-     arguments or implied directory.
-  1. **Standards Application:** Apply relevant Kingarrrt Engineering Standards (e.g.,
-     formatting, style, architectural patterns) to the identified files.
-  1. **Modification:** Modify the content of the files to achieve compliance.
-  1. **Verification:** Run appropriate linters, formatters, and potentially tests to
-     ensure refactoring correctness and prevent regressions.
-  1. **Output Diff:** Present a diff of the changes made.
+  1. **Context Clear:** Clear all stored conversational context, including previous
+     turns, short-term memory, and any active task states (e.g., todos).
+  1. **Confirmation:** Confirm to the user that the context has been reset.
 
 ## Workflow: Review Code (`review`)
 
@@ -648,39 +686,16 @@ specified.*
   1. **Report Non-compliance:** Report any deviations or non-compliance found, providing
      specific details and suggestions for correction.
 
-## Workflow: Add Standard (`std`)
+## Workflow: Toggle Diff Display (d)
 
-- **Purpose:** Adds a new standard to this document and ensures all standards are
-  applied.
-- **Usage:**
-  - `std`: Add the instruction from the immediate previous turn to this document as a
-    new standard.
-  - `std <your standard>`: Add the specified standard to this document.
+- **Purpose:** Toggles the display format of responses between unified diff blocks and
+  regular output mode.
+- **Usage:** `d`
 - **Actions:**
-  1. **File Modification:** Insert the new standard into the `artstd/README.md` under
-     the most relevant existing section.
-  1. **Internal Memory Update:** Save the new standard to internal memory using
-     `save_memory`.
-  1. **Document Review:** Review `artstd/README.md` for logic, consistency, clarity,
-     correctness of language, and compliance with itself.
-  1. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
-  1. **Commit:** Commit changes to `artstd/README.md` after every modification.
-  1. **Push:** Push the committed changes to the remote repository.
-
-## Workflow: Manage TODOs (`todos`)
-
-- **Purpose:** Identifies and addresses TODO comments within the codebase, optionally
-  using specific tags.
-- **Usage:** `todos [file_path...]` (If no file_path is specified, the current working
-  directory is implied.)
-- **Actions:**
-  1. **Comment Scan:** Scan the specified files (or current working directory) for
-     comments containing TODO tags.
-  1. **Tag Reference:** Refer to `@artnvim/config/lua/plugin/todo-comments.lua` for the
-     defined TODO tags in use within the project.
-  1. **Issue Resolution:** For each identified TODO, analyze the context and either
-     resolve the underlying task or clarify/update the comment.
-  1. **Output Report:** Provide a report of found TODOs and actions taken.
+  1. **State Check:** Determine the current response display mode.
+  1. **Mode Toggle:** Switch the response display mode to the alternative (diff to
+     regular, or regular to diff).
+  1. **Confirmation:** Confirm the new display mode to the user.
 
 ## Workflow: View Focused File (v)
 
@@ -692,16 +707,3 @@ specified.*
   1. **File Read:** Read the content of the identified file.
   1. **Rendering:** Render the file content into a human-readable, prose format.
   1. **Output Display:** Display the rendered view to the user.
-
-## Workflow: Dev (dev)
-
-- **Purpose:** Enables a "development mode" where the assistant ceases all Git interaction
-  (no staging, no committing) to allow for rapid iteration and experimentation without
-  modifying repository history.
-- **Usage:** `dev`
-- **Actions:**
-  1. **Mode Activation:** The assistant's Git interaction capabilities are disabled for the
-     duration of this mode. No `git add`, `git commit`, or similar state-changing Git
-     commands will be executed.
-  2. **Confirmation:** Confirm to the user that "dev mode" has been activated and Git
-     interactions are suspended.
