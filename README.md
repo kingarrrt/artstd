@@ -379,7 +379,8 @@ flake output patterns, attribute set flattening).
 **Environment:** Flakes MUST be used. Nixpkgs unstable SHOULD be used (stable
 acceptable for LTS deployments).
 
-Linting: nixpkgs#deadnix and nixpkgs#statix MUST be run against Nix files. nixpkgs#nixfmt for formatting.
+Linting: nixpkgs#deadnix and nixpkgs#statix MUST be run against Nix files.
+nixpkgs#nixfmt for formatting.
 
 #### Patterns
 
@@ -433,8 +434,9 @@ truth (P3).
 **CLI:** Logic MUST be minimal and decoupled from parsing (P1). Use Click or Typer for
 argument parsing.
 
-**Testing:** nixpkgs#python3Packages.pytest MUST be used. pytest-cov for coverage, nixpkgs#python3Packages.pytest-randomly for
-determinism checks.
+**Testing:** nixpkgs#python3Packages.pytest MUST be used. All mentioned Python packages
+(e.g., `pytest-cov`, `pytest-randomly`) are attributes of `nixpkgs#python3Packages`.
+Use `pytest-cov` for coverage and `pytest-randomly` for determinism checks.
 
 **Type Hints:** MUST be used for all public APIs. Aim for mypy strict mode compliance.
 
@@ -448,9 +450,9 @@ determinism checks.
 
 **Linting:** nixpkgs#shellcheck MUST be used with zero warnings. For GitHub Actions workflows
 (`.github/workflows/*.yml`), any `${{ ... }}` expressions within `run` blocks MUST be
-replaced with fixed, dummy strings before invoking nixpkgs#shellcheck to prevent false positives
-related to YAML interpolation. This ensures nixpkgs#shellcheck can accurately analyze the shell
-script logic.
+replaced with fixed, dummy strings before invoking nixpkgs#shellcheck to prevent false
+positives related to YAML interpolation. This ensures nixpkgs#shellcheck can accurately
+analyze the shell script logic.
 
 **Formatting:** nixpkgs#shfmt MUST be used with `-i 2 -ci` flags.
 
@@ -508,7 +510,7 @@ deployment to staging.
 **Isolation:** Tests MUST mock all external dependencies (network, filesystem,
 databases, message queues, external APIs).
 
-**Determinism:** Tests MUST be deterministic and order-independent. Use nixpkgs#python3Packages.pytest-randomly
+**Determinism:** Tests MUST be deterministic and order-independent. Use pytest-randomly
 to verify.
 
 **Speed:** Unit tests SHOULD complete in \<1s. Integration tests \<10s. E2E tests \<60s.
