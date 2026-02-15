@@ -57,24 +57,6 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 - Responses MUST remain within the technical scope of the request.
 - The assistant MUST NOT apologize.
 - **Output Minimization:** The assistant MUST NOT show the output of `cat`. Tool output
-  is considered mostly noise. ALL tool calls (e.g., `git commit`, `git push`, `nix`,
-  linters) SHOULD use silent or quiet flags (`-q`, `--quiet`) and MUST redirect
-  `stdout` to `/dev/null` (and `stderr` if it contains non-error progress noise)
-  unless the output provides unique diagnostic value or is explicitly requested.
-  Verification (Staleness Check, Disk Truth) MUST be silent on success using tools like
-  `sha256sum -c --status` or `grep -q`. File context MUST be limited to the minimum
-  necessary lines (max 10) using `grep`, `sed`, `head`, or `tail`. Sequential
-  operations MUST be combined into atomic shell chains (`&&`) to minimize tool call
-  blocks (P1).
-  is considered mostly noise. ALL tool calls (e.g., `git push`, `nix`, linters) SHOULD
-  use silent or quiet flags (`-q`, `--quiet`) and MUST redirect `stdout` to
-  `/dev/null` (and `stderr` if it contains non-error progress noise) unless the output
-  provides unique diagnostic value or is explicitly requested. Verification
-  (Staleness Check, Disk Truth) MUST be silent on success using tools like
-  `sha256sum -c --status` or `grep -q`. File context MUST be limited to the minimum
-  necessary lines (max 10) using `grep`, `sed`, `head`, or `tail`. Sequential
-  operations MUST be combined into atomic shell chains (`&&`) to minimize tool call
-  blocks (P1).
   is considered mostly noise. ALL tool calls (e.g., `git`, `nix`, linters) SHOULD use
   silent or quiet flags (`-q`, `--quiet`) and MUST redirect `stdout` to `/dev/null`
   unless the output provides unique diagnostic value or is explicitly requested.
@@ -104,7 +86,7 @@ strictly required for the next step. Unnecessary pauses or empty responses betwe
 calls are prohibited.
 
 **Self-Verification:** After making any change, the assistant MUST perform an internal
-self-verification against all applicable `std` sections to ensure full compliance
+self-verification against all applicable `std` sections to ensure full compliance.
 
 **Self-Correction & Adherence:**
 
@@ -124,12 +106,12 @@ self-verification against all applicable `std` sections to ensure full complianc
   just the modified section. This prevents "patching" fixes that miss other existing
   violations.
 - **Disk Truth:** The local filesystem is the only source of truth. The assistant MUST
+  NOT assume the content of a file matches previous turns or conversational context.
+  A Staleness Check (SHA-256 hash) MUST be performed immediately before any modification.
 - **Standard Staleness:** If the standards document is read from a local filesystem,
   the assistant MUST perform a Staleness Check (SHA-256) before every action. If
   changed, the assistant MUST immediately reload the document using "Workflow: Reread
   Standards (R)".
-  NOT assume the content of a file matches previous turns or conversational context.
-  A Staleness Check (SHA-256 hash) MUST be performed immediately before any modification.
 
 **Creation Implies Review:** Any newly created file MUST be immediately reviewed against
 `artstd` before the task is considered complete. This review MUST be performed
@@ -408,15 +390,32 @@ of the outputs lambda.
 
 **Metadata:** metadata MUST be sourced from the project manifest (P3).
 
-**Outputs:** Flake outputs MUST use the pattern: ...
+**Outputs:** Flake outputs MUST use the pattern:
 
 ```nix
 outputs = inputs:
-  inputs.flake-utils.lib.eachSystem (import inputs.systems) (system: { });
+  inputs.flake-utils.lib.eachSystem (import inputs.systems) (system: {
+    packages.default = inputs.nixpkgs.legacyPackages.${system}.hello;
+  });
 ```
 
 **Dependencies:** Tools and dependencies and defined in the project manifest MUST NOT be
 duplicated in devShells or package expressions (P1/P3).
+
+## Enforcement
+
+**Automated Validation:** Every project MUST include a CI job that validates the
+codebase against `artstd`.
+
+**Compliance Checker:** The `artstd` repository provides a `validate-std` tool (built
+into the flake) that MUST be used to verify:
+1. All Nix files follow the mandated patterns and formatting.
+2. Embedded code blocks in Markdown are syntactically valid and compliant.
+3. No placeholders or TODOs exist in non-development branches.
+
+**Continuous Compliance:** The assistant MUST execute `nix run artstd#validate-std`
+(or equivalent local command) after any modification to verify compliance. Failure to
+pass validation MUST be treated as a blocking error (Fail Fast).
 
 ### Python
 
