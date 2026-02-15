@@ -71,8 +71,9 @@ itself.
 user-provided content unless necessary for compliance with this standard or to fulfill a
 modification request.
 
-**Completeness:** Solutions MUST be fully implemented. No placeholders, no TODOs, no "//
-rest of implementation here".
+**Completeness:** Solutions implemented by the assistant MUST be fully implemented. The
+assistant MUST NOT introduce placeholders, TODOs, or incomplete logic. Existing
+user-provided TODOs MUST NOT be removed unless explicitly instructed to resolve them.
 
 **Continuous Execution:** The assistant MUST continue executing subtasks without pausing
 for confirmation unless a critical security boundary is reached or user input is
