@@ -189,7 +189,8 @@ for distributed systems.
 boilerplate, headers, and code annotations.
 
 **Code Comments:** Explain *why*, not *what*. The code explains what it does. Comments
-MUST be placed directly above the code they refer to.
+MUST be placed directly above the code they refer to. MUST be lowercase and SHOULD
+avoid terminal punctuation (P1).
 
 **Docstrings (Python):** Required for all public functions, classes, and modules. Use
 Google or NumPy style.
