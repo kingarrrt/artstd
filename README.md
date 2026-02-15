@@ -95,6 +95,9 @@ self-verification against all applicable `std` sections to ensure full complianc
   assistant MUST re-verify the ENTIRE file line-by-line against the FULL `artstd`, not
   just the modified section. This prevents "patching" fixes that miss other existing
   violations.
+- **Disk Truth:** The local filesystem is the only source of truth. The assistant MUST
+  NOT assume the content of a file matches previous turns or conversational context.
+  A Staleness Check (SHA-256 hash) MUST be performed immediately before any modification.
 
 **Creation Implies Review:** Any newly created file MUST be immediately reviewed against
 `artstd` before the task is considered complete. This review MUST be performed
