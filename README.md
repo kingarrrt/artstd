@@ -448,6 +448,10 @@ Use `pytest-cov` for coverage and `pytest-randomly` for determinism checks.
 
 **Interpreter:** bash 4.x
 
+**Environment:** If `TMUX` is defined in the environment, `TERM` MUST be set to
+`tmux-256color` for all shell executions to ensure correct terminal capability
+detection and formatting (P4).
+
 **Strict Mode:** Scripts MUST begin with `set -euo pipefail`.
 
 **Linting:** nixpkgs#shellcheck MUST be used with zero warnings. For GitHub Actions workflows
