@@ -154,6 +154,9 @@ architecture, and utilize boiled-down language. When adding or modifying standar
 assistant MUST rephrase instructions to adhere to these principles and MUST obtain
 explicit user confirmation of the refined text before application.
 
+**Document Sorting:** Sections under `## Workflows` and `## Language & Tooling Standards`
+MUST be sorted alphabetically by their respective headers (P1).
+
 **Redundancy in Change Descriptions:** When proposing a code modification, the assistant
 MUST NOT include both `old_string`/`new_string` parameters and a detailed diff if the
 diff alone clearly communicates the change (P1, P2).
@@ -303,6 +306,18 @@ pointers. Use std::span for array views.
 **Error Handling:** Use std::expected (C++23) or similar Result types. Avoid exceptions
 in performance-critical paths.
 
+### Make
+
+**Boilerplate:** Makefiles MUST start with:
+
+```make
+MAKEFLAGS += --warn-undefined-variables
+
+.DELETE_ON_ERROR:
+```
+
+**Warnings:** Makefiles MUST NOT emit warnings.
+
 ### Markdown
 
 **Linting:** markdownlint MUST be used.
@@ -417,18 +432,6 @@ reserved for cases where command failure should not cause immediate script exit.
 
 **List Style:** Block style MUST be used for lists. Flow style (JSON-like) MUST NOT be
 used (P1).
-
-### Make
-
-**Boilerplate:** Makefiles MUST start with:
-
-```make
-MAKEFLAGS += --warn-undefined-variables
-
-.DELETE_ON_ERROR:
-```
-
-**Warnings:** Makefiles MUST NOT emit warnings.
 
 ## Build, Quality & Deployment
 
