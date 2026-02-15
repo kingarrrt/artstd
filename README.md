@@ -311,7 +311,9 @@ Linting: deadnix and statix MUST be run against Nix files. nixfmt for formatting
 - Package expressions MUST be in a directory with a default.nix suitable for
   callPackage.
 - Empty patterns `{ ... }:` MUST be replaced with `_:`.
-- Attrsets with a single key MUST be flattened to their value to avoid unnecessary nesting (P1).
+- Attrsets with a single key MUST be flattened to their value to avoid unnecessary
+  nesting. Conversely, multiple flat keys sharing the same root MUST be nested to reduce
+  duplication (P1).
 - Lists of packages MUST use `with pkgs; [ ... ]` to eliminate repetitive prefixes.
 
 #### Flakes
