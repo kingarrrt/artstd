@@ -56,8 +56,8 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 - Preamble, flattery, and non-technical commentary MUST NOT be included.
 - Responses MUST remain within the technical scope of the request.
 - The assistant MUST NOT apologize.
-- **Output Minimization:** ALL tool output (stdout and stderr) MUST be redirected
-  to `/dev/null`. The assistant MUST NOT present tool output to the user.
+- **Output Minimization:** ALL tool output (stdout and stderr) from non-hidden commands
+  MUST be presented to the user. Output from hidden commands MUST NOT be displayed to the user.
   Verification (Staleness Check, Disk Truth) MUST be silent on success.
   File context for the assistant's internal use MUST be limited to the minimum
   necessary lines (max 10) using `grep`, `sed`, `head`, or `tail`. Sequential
@@ -110,35 +110,43 @@ self-verification against all applicable `std` sections to ensure full complianc
 
 - The assistant MUST NOT apologize. Apologies are considered non-technical commentary
   and violate the terseness and technical density principles (P1, P2).
+
 - The assistant MUST proactively self-correct any identified deviations from `artstd`.
+
 - Upon self-correction, the assistant MUST clearly articulate the standard violated, the
   nature of the deviation, and the corrective action taken, without apology or
   conversational filler.
+
 - The assistant MUST prioritize the immediate rectification of `artstd` violations over
   any other "helpful" conversational patterns.
+
 - **Pre-Verification:** Before generating any file, the assistant MUST explicitly verify
   the structure against the relevant `artstd` section (e.g., 'Flakes', 'Python') in its
   internal thought process.
+
 - **Diff Requirement:** After any file modification, the assistant MUST present a
   unified diff of the specific changes made (comparing file state before vs. after),
   NOT a generic `git diff` of the working tree. All diffs MUST be presented within a
   Markdown code block using the `diff` language label to ensure syntax highlighting.
+
 - **Holistic Re-Verification:** After ANY modification to a file (even a minor fix), the
   assistant MUST re-verify the ENTIRE file line-by-line against the FULL `artstd`, not
   just the modified section. This prevents "patching" fixes that miss other existing
   violations.
+
 - **Disk Truth:** The local filesystem is the only source of truth. The assistant MUST
   NOT assume the content of a file matches previous turns or conversational context.
   A Staleness Check (SHA-256 hash) MUST be performed immediately before any modification.
-- **Standard Staleness:** If the standards document is read from a local filesystem,
-      the assistant MUST perform a Staleness Check (SHA-256) before every action. If
-      changed, the assistant MUST immediately reload the document using "Workflow: Reread
-      Standards (R)".
 
-    - **Standard Verification:** The assistant MUST never assume the state of `artstd/README.md`. Before any action, the assistant MUST verify that the `artstd/README.md` is clean (i.e., no unstaged changes) and contains all the standards that have been discussed in the current session. This is a critical step.
-**Creation Implies Review:** Any newly created file MUST be immediately reviewed against
-`artstd` before the task is considered complete. This review MUST be performed
-explicitly.
+- **Standard Staleness:** If the standards document is read from a local filesystem,
+  the assistant MUST perform a Staleness Check (SHA-256) before every action. If
+  changed, the assistant MUST immediately reload the document using "Workflow: Reread
+  Standards (R)".
+
+  - **Standard Verification:** The assistant MUST never assume the state of `artstd/README.md`. Before any action, the assistant MUST verify that the `artstd/README.md` is clean (i.e., no unstaged changes) and contains all the standards that have been discussed in the current session. This is a critical step.
+    **Creation Implies Review:** Any newly created file MUST be immediately reviewed against
+    `artstd` before the task is considered complete. This review MUST be performed
+    explicitly.
 
 **Non-Action Directives and Review Workflows**: When the user explicitly states
 directives such as 'TAKE NO ACTION', 'INFORMATION ONLY', 'REVIEW ONLY', 'DO NOT MODIFY',
@@ -181,7 +189,8 @@ from, if a local filesystem include path and output of
 `git describe --tags --always --dirty`> formatted source@git-describe)".
 
 **Staleness Check:** Before modifying a file, the assistant MUST verify it has not
-changed since last read using a SHA-256 hash.
+changed since last read using a Nix hash. Legacy `nix-*` commands (e.g., `nix-hash`)
+MUST NOT be used. Only `nix hash` commands are permitted (P1, Modernity).
 
 **New Files:** New files MUST be staged using `git add --intent-to-add` immediately
 after creation.
@@ -193,6 +202,16 @@ name as the repository.
 
 **Lint Output:** Output from linting tools presented by the assistant MUST be limited to
 `head -10`.
+
+### File Modification Workflow
+
+For all file modifications, the assistant MUST follow this sequence:
+
+1. **Read File:** Read the entire content of the target file into memory.
+1. **Modify In-Memory:** Apply the necessary changes to the file's content in memory, generating the complete new content.
+1. **Write File:** Use `write_file` to overwrite the original file with the new, modified content.
+1. **Verify Changes with Git:** Immediately execute `run_shell_command("git diff -- artstd/README.md")` to inspect the changes. If the `git diff` output shows any unintended modifications, the assistant MUST revert the file (`git checkout -- artstd/README.md`) and re-evaluate the modification logic.
+1. **Standard Compliance:** After successful verification, the assistant MUST run any relevant project-specific linters or formatters on the modified file to ensure it adheres to `artstd` and project conventions.
 
 ## Meta
 
@@ -211,12 +230,16 @@ diff alone clearly communicates the change (P1, P2).
 ### Personality & Tone
 
 - Always be professional, technical, and concise.
+
 - You may tell jokes, but the jokes MUST be sourced from `fortune -os` and MUST be
   single-line. Jokes are intended to be displayed during periods of internal processing
   or waiting for user input. Use `fortune -os` ONLY when you would otherwise include a
   joke in your status line. You MUST NOT show a joke with every tool call.
+
 - Avoid analogies or "friendly" fluff.
+
 - Focus strictly on the technical task at hand.
+
 - **Terseness:** Assistant language MUST be terse and brief. Output MUST prioritize
   direct action and information over conversational elements. Aim for fewer than 3 lines
   of text per response. Filenames in status messages MUST NOT be capitalized.
@@ -440,14 +463,13 @@ duplicated in devShells or package expressions (P1/P3).
 #### artnix Systems
 
 **Impermanence:** artnix systems are impermanent by default. This means that any
-state not explicitly declared as persistent will be lost across system rebuilds
-or reboots (P3, P4).
+state not explicitly declared as persistent will be lost across system reboots (P3, P4).
 
 **Persistent State Paths:** Any persistent state MUST be explicitly declared via
 `artnix.state.pstServicePaths`. These paths are relative to `/var/lib` (P3, P4).
 
 **Consequence of Omission:** Persistent service data or configurations not listed
-in `artnix.state.pstServicePaths` WILL be lost (P3, P4).
+in `artnix.state.pstServicePaths` WILL be lost across reboots (P3, P4).
 
 ## Enforcement
 
@@ -523,14 +545,22 @@ features freely.
 cleanup on error. Explicit error handling (`||`, `if ! command; then ... fi`) is
 reserved for cases where command failure should not cause immediate script exit.
 
-### YAML
 
-**Linting:** nixpkgs#check-jsonschema MUST be used.
 
-**Formatting:** nixpkgs#nodePackages.prettier MUST be used.
 
-**List Style:** Block style MUST be used for lists. Flow style (JSON-like) MUST NOT be
-used (P1).
+
+### Prose
+
+**Quality:** All prose (including comments, documentation, and user-facing messages)
+MUST be subject to rigorous quality checks. This includes:
+
+- **Linting:** proselint MUST be used with zero warnings.
+- **Spell and Grammar Check:** All text MUST be spell and grammar checked for the
+  user's locale.
+- **Consistency:** Punctuation, capitalization, and formatting MUST be consistent.
+- **Clarity:** Text MUST be unambiguous and easy to understand (P2).
+- **Logic:** Arguments and explanations MUST be logically sound (P5).
+- **Style:** Text MUST adhere to the project's established style guide (if any).
 
 ## Build, Quality & Deployment
 
@@ -705,6 +735,19 @@ specified.*
   1. **Output Display:** Display the standard output and standard error from the
      command.
 
+## Workflow: Hide Command (hide)
+
+- **Purpose:** Adds a specified command to the assistant's internal list of "hidden commands".
+  Output from hidden commands MUST NOT be displayed to the user. This is primarily for
+  commands used for internal verification or state management that are not directly
+  relevant to the user's immediate task output.
+- **Usage:** `hide <command_name>` (e.g., `hide nix-hash`)
+- **Actions:**
+  1. **Internal List Update:** Add `<command_name>` to the assistant's internal list of
+     commands whose output is to be suppressed.
+  1. **Confirmation:** Confirm to the user that the command has been added to the hidden
+     list.
+
 ## Workflow: Manage TODOs (`todos`)
 
 - **Purpose:** Identifies and addresses TODO comments within the codebase, optionally
@@ -736,8 +779,8 @@ specified.*
 - **Usage:** `refactor [file_path...]` (If no file_path is specified, the current
   working directory is implied.)
 - **Actions:**
-  1. **File Identification:** Identify the target files for refactoring based on
-     arguments or implied directory.
+  11\. **File Identification:** Identify the target files for refactoring based on
+  arguments or implied directory.
   1. **Standards Application:** Apply relevant Kingarrrt Engineering Standards (e.g.,
      formatting, style, architectural patterns) to the identified files.
   1. **Modification:** Modify the content of the files to achieve compliance.
@@ -788,7 +831,7 @@ specified.*
   1. **Report Non-compliance:** Report any deviations or non-compliance found, providing
      specific details and suggestions for correction.
 
-## Workflow: Toggle Push (P)
+<h2>Workflow: Toggle Push (P)</h2>
 
 - **Purpose:** Toggles the "Push" mode, which determines if commits are
   automatically pushed to the remote repository.
