@@ -102,7 +102,8 @@ self-verification against all applicable `std` sections to ensure full complianc
   the structure against the relevant `artstd` section (e.g., 'Flakes', 'Python') in its
   internal thought process.
 - **Diff Requirement:** After any file modification, the assistant MUST present a
-  unified diff of the changes made.
+  unified diff of the specific changes made (comparing file state before vs. after),
+  NOT a generic `git diff` of the working tree.
 - **Holistic Re-Verification:** After ANY modification to a file (even a minor fix), the
   assistant MUST re-verify the ENTIRE file line-by-line against the FULL `artstd`, not
   just the modified section. This prevents "patching" fixes that miss other existing
