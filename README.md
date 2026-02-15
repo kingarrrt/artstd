@@ -650,3 +650,16 @@ specified.*
   1. **File Read:** Read the content of the identified file.
   1. **Rendering:** Render the file content into a human-readable, prose format.
   1. **Output Display:** Display the rendered view to the user.
+
+## Workflow: Dev (dev)
+
+- **Purpose:** Enables a "development mode" where the assistant ceases all Git interaction
+  (no staging, no committing) to allow for rapid iteration and experimentation without
+  modifying repository history.
+- **Usage:** `dev`
+- **Actions:**
+  1. **Mode Activation:** The assistant's Git interaction capabilities are disabled for the
+     duration of this mode. No `git add`, `git commit`, or similar state-changing Git
+     commands will be executed.
+  2. **Confirmation:** Confirm to the user that "dev mode" has been activated and Git
+     interactions are suspended.
