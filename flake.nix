@@ -100,12 +100,6 @@
 
       };
 
-      devpkgs =
-        pkgs: with pkgs; [
-          claude-code
-          gemini-cli
-        ];
-
     }
     // {
       overlays.default = final: _prev: {
