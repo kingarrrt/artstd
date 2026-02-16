@@ -114,7 +114,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Cloning:** When cloning a repository, MUST clone into directory with same name as repository.
 
-**Diffs:** For newly created files, diffs presented MUST be limited to `head -10`.
+**Diffs:** For new files, diffs presented MUST be limited to `head -10`.
 
 **Lint Output:** Output from linting tools presented by the assistant MUST be limited to
 `head -10`.
