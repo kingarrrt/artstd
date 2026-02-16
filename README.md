@@ -100,9 +100,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Fix Validation:** When fixing, validate immediately after applying change, before other tasks/reporting completion.
 
-**Cleanup:** Project-specific linters and formatters (e.g., `lint`, `treefmt`) MUST be
-executed after file modifications to ensure standards compliance. They MUST only be run
-against modified files.
+**Cleanup:** Project linters/formatters MUST run after file modifications (ensures compliance) on modified files ONLY.
 
 **Reasoning:** Complex architectural decisions MUST be briefly justified with reference
 to P1-P5.
