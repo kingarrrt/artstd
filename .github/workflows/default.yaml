@@ -3,8 +3,20 @@ on:
   pull_request:
 
 jobs:
-  validate:
 
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - uses: &nix-setup ./.github/workflows/nix-setup
+        with:
+          cachix_token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Check
+        run: nix flake check
+
+  build:
+    needs: check
     strategy:
       fail-fast: false
       matrix:
@@ -14,26 +26,9 @@ jobs:
           - macos-15
           - macos-15-intel
     runs-on: ${{ matrix.os }}
-
     steps:
-
       - name: Checkout
         uses: actions/checkout@v6
-
-      - name: Nix Setup
-        uses: cachix/install-nix-action@v31
-
-      - name: Cachix Setup
-        uses: cachix/cachix-action@v16
-        with:
-          name: ${{ github.event.repository.name }}
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-
-      - name: Check
-        run: nix flake check
-
+      - uses: *nix-setup
       - name: Build
-        run: |-
-          nix build \
-            . \
-            .#devShells.$(nix eval --impure --raw --expr builtins.currentSystem).default
+        run: nix build . .#devShells.$SYSTEM.default
