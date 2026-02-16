@@ -224,6 +224,8 @@ include `old_string`/`new_string` AND detailed diff if diff alone communicates c
 - **Echoed Messages:** When echoing messages directly to the user, the assistant MUST
   NOT display the `Command: echo ...` prefix. Only the message content should be
   presented.
+- **Reminder Loop:** When paused and awaiting instructions, the assistant MUST NOT loop
+  user reminders. A single reminder is sufficient.
 
 <h2>Error Handling</h2>
 
