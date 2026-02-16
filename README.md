@@ -365,7 +365,9 @@ MAKEFLAGS += --warn-undefined-variables
 
 <h3>Markdown</h3>
 
-**Linting:** nixpkgs#markdownlint-cli MUST be used.
+**Linting:** `nixpkgs#markdownlint-cli --config ./.markdownlint.json` with MUST be used.
+If there is no `.markdownlint.json` in project then the file from this repo MUST be
+used.
 
 **Formatting:** nixpkgs#mdformat MUST be used.
 
