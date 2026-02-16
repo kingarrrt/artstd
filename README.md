@@ -227,7 +227,7 @@ include `old_string`/`new_string` AND detailed diff if diff alone communicates c
 - **Reminder Loop:** When paused and awaiting instructions, the assistant MUST NOT loop
   user reminders. A single reminder is sufficient.
 
-<h2>Error Handling</h2>
+## Error Handling
 
 **Propagation:** Errors MUST propagate to the caller. No swallowing exceptions.
 
@@ -242,7 +242,7 @@ to fix.
 **Logging:** Log at point of handling, not at point of throwing. Include correlation IDs
 for distributed systems.
 
-<h2>Documentation</h2>
+## Documentation
 
 **Comment Syntax:** Language-appropriate comment syntax MUST be used for all
 boilerplate, headers, and code annotations.
@@ -265,7 +265,7 @@ examples, development setup.
 
 **Changelogs:** MUST follow Keep a Changelog format. Semantic versioning required.
 
-<h2>Dependency Management</h2>
+## Dependency Management
 
 **Licensing:** Dependencies MUST be under an open source license, prefer (L)GPL.
 Stallman was right!
@@ -285,7 +285,7 @@ libraries that duplicate standard library functionality.
 **Vendoring:** MUST NOT vendor dependencies unless absolutely necessary for hermetic
 builds.
 
-<h2>Git Workflow</h2>
+## Git Workflow
 
 **Commit Messages:** Based on Linux kernel style:
 
@@ -334,7 +334,7 @@ rather than creating a new commit. This maintains a clean and linear project his
 apply only to the submodule's repository. DO NOT commit changes to the parent repository
 from within a submodule context.
 
-<h2>Security</h2>
+## Security
 
 **Secrets:** MUST NOT be committed to version control. Use environment variables or
 secret management systems.
@@ -354,11 +354,11 @@ enforced.
 
 **Audit Logging:** Security-relevant events MUST be logged with tamper-evident storage.
 
-<h2>Language & Tooling Standards</h2>
+## Language & Tooling Standards
 
 **Tool Execution:** Required tools MUST be executed through `nix run`.
 
-<h3>C/C++</h3>
+### C/C++
 
 **Standard:** C++20 MUST be the minimum standard.
 
@@ -374,7 +374,7 @@ pointers. Use std::span for array views.
 **Error Handling:** Use std::expected (C++23) or similar Result types. Avoid exceptions
 in performance-critical paths.
 
-<h3>Make</h3>
+### Make
 
 **Boilerplate:** Makefiles MUST start with:
 
@@ -386,7 +386,7 @@ MAKEFLAGS += --warn-undefined-variables
 
 **Warnings:** Makefiles MUST NOT emit warnings.
 
-<h3>Markdown</h3>
+### Markdown
 
 **Linting:** `nixpkgs#markdownlint-cli` with `--config ./.markdownlint.json` MUST be
 used. If there is no `.markdownlint.json` in project then the file from this repo MUST
@@ -401,7 +401,7 @@ flake output patterns, attribute set flattening).
 
 **Links:** MUST be checked for validity in CI.
 
-<h3>Nix</h3>
+### Nix
 
 **Environment:** Flakes MUST be used. Nixpkgs unstable SHOULD be used (stable acceptable
 for LTS deployments).
@@ -409,7 +409,7 @@ for LTS deployments).
 Linting: nixpkgs#deadnix and nixpkgs#statix MUST be run against Nix files.
 nixpkgs#nixfmt for formatting.
 
-<h4>Patterns</h4>
+#### Patterns
 
 - finalAttrs MUST be used for stdenv.mkDerivation self-references.
 - nix overlays MUST use `final: prev:` pattern.
@@ -425,7 +425,7 @@ nixpkgs#nixfmt for formatting.
   duplication (P1).
 - Lists of packages MUST use `with pkgs; [ ... ]` to eliminate repetitive prefixes.
 
-<h4>Flakes</h4>
+#### Flakes
 
 **Structure:** Define exactly one pkgs instance per system via a let binding at the top
 of the outputs lambda.
@@ -448,7 +448,7 @@ outputs = inputs:
 **Dependencies:** Tools and dependencies and defined in the project manifest MUST NOT be
 duplicated in devShells or package expressions (P1/P3).
 
-<h4>artnix Systems</h4>
+#### artnix Systems
 
 **Impermanence:** artnix systems are impermanent by default. This means that any state
 not explicitly declared as persistent will be lost across system reboots (P3, P4).
@@ -459,7 +459,7 @@ not explicitly declared as persistent will be lost across system reboots (P3, P4
 **Consequence of Omission:** Persistent service data or configurations not listed in
 `artnix.state.pstServicePaths` WILL be lost across reboots (P3, P4).
 
-<h2>Enforcement</h2>
+## Enforcement
 
 **Automated Validation:** Every project MUST include a CI job that validates the
 codebase against `artstd`.
@@ -485,7 +485,7 @@ compliance.
 immediately before every commit. Any validation failure MUST be treated as a blocking
 error (Fail Fast).
 
-<h3>CI/CD Integration</h3>
+### CI/CD Integration
 
 Use the provided reusable workflow to enforce standards in CI:
 
@@ -495,7 +495,7 @@ jobs:
     uses: kingarrrt/artstd/.github/workflows/std.yml@master
 ```
 
-<h3>Python</h3>
+### Python
 
 **Version:** Latest release at time of writing MUST be used.
 
@@ -519,7 +519,7 @@ argument parsing.
 
 **Error Handling:** Use custom exception hierarchies inheriting from built-in types.
 
-<h3>Shell</h3>
+### Shell
 
 **Interpreter:** bash 4.x
 
@@ -540,7 +540,7 @@ features freely.
 cleanup on error. Explicit error handling (`||`, `if ! command; then ... fi`) is
 reserved for cases where command failure should not cause immediate script exit.
 
-<h3>YAML</h3>
+### YAML
 
 **Linting:** `nixpkgs#check-jsonschema` MUST be used.
 
@@ -559,7 +559,7 @@ with a hyphen) instead of flow style (inline, comma-separated).
 # [item1, item2, item3]
 ```
 
-<h3>Prose</h3>
+### Prose
 
 **Quality:** All prose (including comments, documentation, and user-facing messages)
 MUST be subject to rigorous quality checks. This includes:
@@ -572,7 +572,7 @@ MUST be subject to rigorous quality checks. This includes:
 - **Logic:** Arguments and explanations MUST be logically sound (P5).
 - **Style:** Text MUST adhere to the project's established style guide (if any).
 
-<h2>Build, Quality & Deployment</h2>
+## Build, Quality & Deployment
 
 **Hermeticity:** All inputs MUST be declared and pinned. No implicit dependencies on
 host system.
@@ -597,7 +597,7 @@ aarch64-darwin unless platform-specific functionality is required.
 **CI/CD:** All checks (lint, format, test, build) MUST pass before merge. Automate
 deployment to staging.
 
-<h2>Testing</h2>
+## Testing
 
 **Coverage:** Unit tests MUST achieve 100% line and branch coverage.
 
@@ -618,7 +618,7 @@ to verify.
 **Fixtures:** Use factories or builders over fixed fixtures. Prefer explicit over
 implicit test data.
 
-<h2>Formatting Standards</h2>
+## Formatting Standards
 
 **Strings:**
 
@@ -649,7 +649,7 @@ nixpkgs#shfmt).
 **Code Blocks:** All code blocks MUST include a language label, unless the language is
 shell.
 
-<h2>Workflows</h2>
+## Workflows
 
 *Note: For file operations, if no arguments are provided, the current working directory
 is implied. If the operation is initiated from outside a submodule, the submodule's
@@ -659,7 +659,7 @@ explicitly specified or if the operation started directly within it.*
 *Note: Workflow name is contained in the section title in brackets. A second bracketed
 string indicates an alias for the workflow.*
 
-<h2>Add Standard (`std`)</h2>
+## Add Standard (`std`)
 
 - **Purpose:** Adds a new standard to this document and ensures all standards are
   applied.
@@ -676,7 +676,7 @@ string indicates an alias for the workflow.*
   1. **Commit:** Commit changes to `artstd/README.md` after every modification.
   1. **Push:** Push the committed changes to the remote repository.
 
-<h2>Add Workflow (`workflow`)</h2>
+## Add Workflow (`workflow`)
 
 - **Purpose:** Creates a new workflow and appends it to the "Workflows" list in this
   document.
@@ -690,7 +690,7 @@ string indicates an alias for the workflow.*
      correctness of language, and compliance with itself.
   1. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
 
-<h2>Continue Operation (`continue`) (c)</h2>
+## Continue Operation (`continue`) (c)
 
 - **Purpose:** Continues the current operation or process if it was paused or awaiting
   input.
@@ -699,7 +699,7 @@ string indicates an alias for the workflow.*
   1. **Context Check:** Determine the context of the current paused operation.
   1. **Execution:** Resume or continue the operation based on its context.
 
-<h2>Dev (`dev`)</h2>
+## Dev (`dev`)
 
 - **Purpose:** Toggles "development mode"
 - **Usage:** `dev`
@@ -710,7 +710,7 @@ string indicates an alias for the workflow.*
      nor any lints/formatters.
   1. **Confirmation:** Respond with "Dev Mode: {current state}".
 
-<h2>Diagnose Clipboard Error (`clipboard`) (C)</h2>
+## Diagnose Clipboard Error (`clipboard`) (C)
 
 - **Purpose:** Diagnoses an error based on provided clipboard content.
 - **Usage:** `C` (requires clipboard content to be available)
@@ -721,7 +721,7 @@ string indicates an alias for the workflow.*
   1. **Diagnosis Report:** Provide a diagnosis of the error, including potential causes
      and suggestions for resolution.
 
-<h2>Fix Issue (`fix`) (f)</h2>
+## Fix Issue (`fix`) (f)
 
 - **Purpose:** Attempts to fix a reported issue or error.
 - **Actions:**
@@ -733,7 +733,7 @@ string indicates an alias for the workflow.*
   1. **Verification:** Validate that the fix has resolved the issue and introduced no
      new regressions.
 
-<h2>Hide Command (`hide`)</h2>
+## Hide Command (`hide`)
 
 - **Purpose:** Adds a specified command to the `Hidden Commands` list.
 - **Usage:** `hide <command_name>` (e.g., `hide nix-hash`)
@@ -743,7 +743,7 @@ string indicates an alias for the workflow.*
   1. **Confirmation:** Confirm to the user that the command has been added to the hidden
      list.
 
-<h2>Manage TODOs (`todos`)</h2>
+## Manage TODOs (`todos`)
 
 - **Purpose:** Identifies and addresses TODO comments within the codebase, optionally
   using specific tags.
@@ -758,7 +758,7 @@ string indicates an alias for the workflow.*
      resolve the underlying task or clarify/update the comment.
   1. **Output Report:** Provide a report of found TODOs and actions taken.
 
-<h2>Print Focused File (`print`) (p)</h2>
+## Print Focused File (`print`) (p)
 
 - **Purpose:** Prints the content of the currently focused file within a code block.
 - **Usage:** `p`
@@ -767,7 +767,7 @@ string indicates an alias for the workflow.*
   1. **File Read:** Read the content of the identified file.
   1. **Output Display:** Display the file content within a formatted code block.
 
-<h2>Refactor Code (`refactor`)</h2>
+## Refactor Code (`refactor`)
 
 - **Purpose:** Ensures one or more specified files comply with Kingarrrt Engineering
   Standards.
@@ -778,7 +778,7 @@ string indicates an alias for the workflow.*
   1. **Apply Standards:** Modify files to comply with Kingarrrt Engineering Standards.
   1. **Report Changes:** Present a diff of modifications.
 
-<h2>Reapply Standards (`reapply`) (R)</h2>
+## Reapply Standards (`reapply`) (R)
 
 - **Purpose:** Re-reads the `artstd/README.md` document and applies all standards
   defined within it.
@@ -793,7 +793,7 @@ string indicates an alias for the workflow.*
   1. **Compliance:** All applicable files that were part of the last interaction or task
      performed MUST be modified to comply with the newly re-read and applied standards.
 
-<h2>Reset Context (`reset`) (r)</h2>
+## Reset Context (`reset`) (r)
 
 - **Purpose:** Resets the current conversational context of the agent. This clears
   previous turns, memory, and task states.
@@ -804,7 +804,7 @@ string indicates an alias for the workflow.*
   1. execute workflow `reapply`
   1. **Confirmation:** Confirm to the user that the context has been reset.
 
-<h2>Review Code (`review`)</h2>
+## Review Code (`review`)
 
 - **Purpose:** Reviews one or more specified files for compliance with the Kingarrrt
   Engineering Standards.
@@ -819,7 +819,7 @@ string indicates an alias for the workflow.*
   1. **Report Non-compliance:** Report any deviations or non-compliance found, providing
      specific details and suggestions for correction.
 
-<h2>Toggle Push (`push`) (P)</h2>
+## Toggle Push (`push`) (P)
 
 - **Purpose:** Toggles the "Push" mode, which determines if commits are automatically
   pushed to the remote repository.
@@ -830,7 +830,7 @@ string indicates an alias for the workflow.*
      immediately push all unpushed local commits to the remote repository.
   1. **Confirmation:** Confirm the new state (enabled/disabled) to the user.
 
-<h2>Toggle Diff Display (`diff`) (d)</h2>
+## Toggle Diff Display (`diff`) (d)
 
 - **Purpose:** Toggles the display format of responses between unified diff blocks and
   regular output mode.
@@ -841,7 +841,7 @@ string indicates an alias for the workflow.*
      regular, or regular to diff).
   1. **Confirmation:** Confirm the new display mode to the user.
 
-<h2>View Focused File (`view`) (v)</h2>
+## View Focused File (`view`) (v)
 
 - **Purpose:** Displays the content of the currently focused file in a rendered,
   prose-like view, suitable for human readability.
