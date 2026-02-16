@@ -576,7 +576,7 @@ specified.*
      `artstd/README.md`.
   1. **Document Review:** Review `artstd/README.md` for logic, consistency, clarity,
      correctness of language, and compliance with itself.
-  1. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
+  11. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
 
 ## Workflow: Continue Operation (c)
 
@@ -719,7 +719,7 @@ specified.*
   1. **Report Non-compliance:** Report any deviations or non-compliance found, providing
      specific details and suggestions for correction.
 
-<h2>Workflow: Toggle Push (P)</h2>
+## Workflow: Toggle Push (P)
 
 - **Purpose:** Toggles the "Push" mode, which determines if commits are
   automatically pushed to the remote repository.
