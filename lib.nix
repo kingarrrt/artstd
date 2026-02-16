@@ -22,7 +22,10 @@ inputs: {
 
         pkgs = import inputs.nixpkgs {
           inherit system;
-          overlays = lib.optionals (self ? overlays && self.overlays ? default) [
+          overlays = [
+            (_final: _prev: { artstd-lint = lint-fail-on-change; })
+          ]
+          ++ lib.optionals (self ? overlays && self.overlays ? default) [
             self.overlays.default
           ];
         };
@@ -145,7 +148,7 @@ inputs: {
             '';
         };
 
-        # for `nic fmt`
+        # for `nix fmt`
         inherit formatter;
 
         packages = packages';

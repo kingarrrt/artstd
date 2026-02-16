@@ -57,6 +57,12 @@
     self-lib.flakeSet {
       inherit (inputs) self;
       name = "artstd";
+      apps = pkgs: {
+        default = {
+          type = "app";
+          program = lib.getExe pkgs.artstd-lint;
+        };
+      };
       checks = pkgs: {
         links = pkgs.runCommand "link-check" {
           __impure = true;
