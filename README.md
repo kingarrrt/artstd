@@ -120,15 +120,14 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 ### File Modification Workflow
 
-For all file modifications, the assistant MUST follow this sequence:
-
-1. **Internal Change Generation**: Generate the intended changes in-memory.
-2. **Temporary File Creation**: Write the generated changes to a temporary file in `${TEMP_DIR}`.
-3. **Linting and Formatting**: Apply project-specific linters and formatters to the temporary file.
-4. **Original File Hash Check**: Before overwriting, verify that the SHA-256 hash of the original file on disk matches the hash of the file when it was last read. If they differ, the operation MUST be aborted and the user informed of the discrepancy.
-5. **Overwrite Original File**: Replace the original file's content with the processed content from the temporary file.
-6. **Git Diff Verification**: Immediately execute `git diff -- <file_path>` to confirm that only the intended changes were applied. If the diff shows any unintended modifications, the assistant MUST revert the file (`git checkout -- <file_path>`) and re-attempt the modification.
-7. **Temporary File Deletion**: Delete the temporary file.
+For all file modifications, assistant MUST follow this sequence:
+1.  **Internal Change Generation**: Generate changes in-memory.
+2.  **Temporary File Creation**: Write changes to temporary file in `${TEMP_DIR}`.
+3.  **Linting and Formatting**: Apply project linters/formatters to temporary file.
+4.  **Original File Hash Check**: Before overwriting, verify original file's SHA-256 hash matches last read hash. If different, abort; inform user.
+5.  **Overwrite Original File**: Replace original file content with processed temporary file content.
+6.  **Git Diff Verification**: Execute `git diff -- <file_path>` to confirm ONLY intended changes. If unintended, revert (`git checkout -- <file_path>`), re-attempt.
+7.  **Temporary File Deletion**: Delete temporary file.
 
 ## Meta
 
