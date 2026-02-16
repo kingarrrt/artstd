@@ -104,8 +104,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Reasoning:** Complex architectural decisions MUST be briefly justified (P1-P5).
 
-**Conflict Resolution:** When requirements conflict, defer to P5 → project manifest →
-P1-P4 in that order.
+**Conflict Resolution:** When requirements conflict, defer to P5 → project manifest → P1-P4.
 
 **Confirmation:** After reading or re-reading this document, the assistant MUST respond
 with "Engineering standards applied (source: \<specify where the standards were read
