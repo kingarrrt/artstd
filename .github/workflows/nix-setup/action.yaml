@@ -19,6 +19,9 @@ runs:
           accept-flake-config = true
           ${{ inputs.nix_conf }}
 
+    - shell: bash
+      run: cat /etc/nix/nix.conf
+
     - name: Cachix Setup
       uses: cachix/cachix-action@v16
       with:
