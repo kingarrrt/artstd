@@ -1,45 +1,11 @@
 {
   "nodes": {
-    "artpkgs": {
-      "inputs": {
-        "flake-compat": "flake-compat",
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "git-hooks": "git-hooks",
-        "nix-index-database": "nix-index-database",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "nixpkgsu": "nixpkgsu",
-        "systems": [
-          "systems"
-        ],
-        "treefmt": "treefmt",
-        "treefmt-nix": "treefmt-nix"
-      },
-      "locked": {
-        "lastModified": 1771088627,
-        "narHash": "sha256-qKwpVBqUotfI3sl/Wveu5z77mO8TNYk40iAMVkiyT3A=",
-        "ref": "refs/heads/master",
-        "rev": "b30d626b33c3b8b7e30df27036a7c0ebb62c1f34",
-        "revCount": 392,
-        "type": "git",
-        "url": "file:///home/arthur/wrk/artdev/artpkgs"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:///home/arthur/wrk/artdev/artpkgs"
-      }
-    },
     "blueprint": {
       "inputs": {
         "nixpkgs": [
-          "artpkgs",
-          "nixpkgsu"
+          "nixpkgs"
         ],
         "systems": [
-          "artpkgs",
           "systems"
         ]
       },
@@ -96,13 +62,11 @@
     "git-hooks": {
       "inputs": {
         "flake-compat": [
-          "artpkgs",
           "flake-compat"
         ],
         "gitignore": "gitignore",
         "nixpkgs": [
-          "artpkgs",
-          "nixpkgsu"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -122,7 +86,6 @@
     "gitignore": {
       "inputs": {
         "nixpkgs": [
-          "artpkgs",
           "git-hooks",
           "nixpkgs"
         ]
@@ -156,43 +119,7 @@
         "type": "github"
       }
     },
-    "nix-index-database": {
-      "inputs": {
-        "nixpkgs": [
-          "artpkgs",
-          "nixpkgsu"
-        ]
-      },
-      "locked": {
-        "lastModified": 1770315571,
-        "narHash": "sha256-hy0gcAgAcxrnSWKGuNO+Ob0x6jQ2xkR6hoaR0qJBHYs=",
-        "owner": "Mic92",
-        "repo": "nix-index-database",
-        "rev": "2684bb8080a6f2ca5f9d494de5ef875bc1c4ecdb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Mic92",
-        "repo": "nix-index-database",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
-      "locked": {
-        "lastModified": 1770989743,
-        "narHash": "sha256-ySKJe4hBAQwYFBKt+3TX1Q9x7FLuExDnnChpIfnzjO4=",
-        "ref": "refs/heads/nixpkgs-unstable",
-        "rev": "19ce2e3a88e9fc1f0729844f46b9089212a121d8",
-        "revCount": 934401,
-        "type": "git",
-        "url": "file:///home/arthur/wrk/ext/nixpkgs/unstable"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:///home/arthur/wrk/ext/nixpkgs/unstable"
-      }
-    },
-    "nixpkgsu": {
       "locked": {
         "lastModified": 1770989743,
         "narHash": "sha256-ySKJe4hBAQwYFBKt+3TX1Q9x7FLuExDnnChpIfnzjO4=",
@@ -209,10 +136,12 @@
     },
     "root": {
       "inputs": {
-        "artpkgs": "artpkgs",
+        "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
+        "git-hooks": "git-hooks",
         "nixpkgs": "nixpkgs",
-        "systems": "systems"
+        "systems": "systems",
+        "treefmt": "treefmt"
       }
     },
     "systems": {
@@ -234,18 +163,13 @@
       "inputs": {
         "blueprint": "blueprint",
         "flake-compat": [
-          "artpkgs",
           "flake-compat"
         ],
         "nix-filter": "nix-filter",
         "nixpkgs": [
-          "artpkgs",
-          "nixpkgsu"
+          "nixpkgs"
         ],
-        "treefmt-nix": [
-          "artpkgs",
-          "treefmt-nix"
-        ]
+        "treefmt-nix": "treefmt-nix"
       },
       "locked": {
         "lastModified": 1770910311,
@@ -264,22 +188,22 @@
     "treefmt-nix": {
       "inputs": {
         "nixpkgs": [
-          "artpkgs",
-          "nixpkgsu"
+          "treefmt",
+          "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1769865426,
-        "narHash": "sha256-3dCXkOlLdC+e4nsYrbeWU6+AGDaTZUIq4Fv2Us2vJUA=",
-        "ref": "refs/heads/main",
-        "rev": "d61b88114525e117c8d8168eba885cebb7f7446b",
-        "revCount": 537,
-        "type": "git",
-        "url": "file:///home/arthur/wrk/ext/treefmt-nix"
+        "lastModified": 1739829690,
+        "narHash": "sha256-mL1szCeIsjh6Khn3nH2cYtwO5YXG6gBiTw1A30iGeDU=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "3d0579f5cc93436052d94b73925b48973a104204",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/arthur/wrk/ext/treefmt-nix"
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "type": "github"
       }
     }
   },

@@ -12,7 +12,10 @@ stdenv.mkDerivation {
 
   src = lib.fileset.toSource {
     root = ./.;
-    fileset = lib.fileset.unions [ ./README.md ];
+    fileset = lib.fileset.unions [
+      ./README.md
+      ./bin/shlib
+    ];
   };
 
   nativeBuildInputs = [ pandoc ];
@@ -30,13 +33,13 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
 
-    # Install man page
     mkdir -p $out/share/man/man1
     install -m 444 artstd.1 $out/share/man/man1/
 
-    # Install README
     mkdir -p $out/share/doc/$pname
     install -m 444 README.rev.md $out/share/doc/$pname/README.md
+
+    cp -a bin $out
 
     runHook postInstall
   '';
