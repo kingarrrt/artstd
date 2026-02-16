@@ -77,10 +77,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Completeness:** Solutions MUST be fully implemented; no placeholders/TODOs. Existing user TODOs removed ONLY if explicitly instructed.
 
-**Continuous Execution:** The assistant MUST continue executing subtasks without pausing
-for confirmation unless a critical security boundary is reached or user input is
-strictly required for the next step. Unnecessary pauses or empty responses between tool
-calls are prohibited.
+**Continuous Execution:** Continue executing subtasks without pause/confirmation unless critical boundary/user input required. No unnecessary pauses/empty responses.
 
 **Self-Verification:** After making any change, the assistant MUST perform an internal
 self-verification against all applicable `std` sections to ensure full compliance.
