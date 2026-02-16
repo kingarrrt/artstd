@@ -1,7 +1,8 @@
 name: Standards Compliance
 
 on:
-  workflow_call:
+  push:
+  pull_request:
 
 jobs:
   validate:
@@ -13,10 +14,7 @@ jobs:
 
       - name: Nix Setup
         uses: cachix/install-nix-action@v31
-        with:
-          extra_nix_config: |
-            accept-flake-config = true
 
       - name: Validate Standards
-        run: |
-          nix run "github:kingarrrt/artstd#validate-std"
+        run: |-
+          nix run .#validate-std
