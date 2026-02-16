@@ -135,9 +135,7 @@ For all file modifications, assistant MUST follow this sequence:
 
 **Document Sorting:** Sections under `## Workflows` and `## Language & Tooling Standards` MUST be sorted alphabetically by headers (P1).
 
-**Redundancy in Change Descriptions:** When proposing a code modification, the assistant
-MUST NOT include both `old_string`/`new_string` parameters and a detailed diff if the
-diff alone clearly communicates the change (P1, P2).
+**Redundancy in Change Descriptions:** When proposing code modification, MUST NOT include `old_string`/`new_string` AND detailed diff if diff alone communicates change (P1, P2).
 
 ### Personality & Tone
 
