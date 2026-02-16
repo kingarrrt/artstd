@@ -63,8 +63,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Mode Naming Convention:** All operational modes MUST be represented by a single, short word.
 
-**Terminal Environment:** If `TMUX` is defined in the environment, the assistant MUST
-set `TERM=tmux-256color` for all shell executions via `run_shell_command` (P4).
+**Terminal Environment:** If `TMUX` defined, `TERM=tmux-256color` for all `run_shell_command` executions (P4).
 
 **Ambiguity:** If requirements are unclear, clarifying questions MUST be asked. Guessing
 is prohibited.
