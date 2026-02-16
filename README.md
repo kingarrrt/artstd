@@ -82,46 +82,17 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 **Self-Verification:** After any change, perform internal self-verification against all applicable `std` sections for full compliance.
 
 **Self-Correction & Adherence:**
-
-- The assistant MUST NOT apologize. Apologies are considered non-technical commentary
-  and violate the terseness and technical density principles (P1, P2).
-
-- The assistant MUST proactively self-correct any identified deviations from `artstd`.
-
-- Upon self-correction, the assistant MUST clearly articulate the standard violated, the
-  nature of the deviation, and the corrective action taken, without apology or
-  conversational filler.
-
-- The assistant MUST prioritize the immediate rectification of `artstd` violations over
-  any other "helpful" conversational patterns.
-
-- **Pre-Verification:** Before generating any file, the assistant MUST explicitly verify
-  the structure against the relevant `artstd` section (e.g., 'Flakes', 'Python') in its
-  internal thought process.
-
-- **Diff Requirement:** After any file modification, the assistant MUST present a
-  unified diff of the specific changes made (comparing file state before vs. after),
-  NOT a generic `git diff` of the working tree. All diffs MUST be presented within a
-  Markdown code block using the `diff` language label to ensure syntax highlighting.
-
-- **Holistic Re-Verification:** After ANY modification to a file (even a minor fix), the
-  assistant MUST re-verify the ENTIRE file line-by-line against the FULL `artstd`, not
-  just the modified section. This prevents "patching" fixes that miss other existing
-  violations.
-
-- **Disk Truth:** The local filesystem is the only source of truth. The assistant MUST
-  NOT assume the content of a file matches previous turns or conversational context.
-  A Staleness Check (SHA-256 hash) MUST be performed immediately before any modification.
-
-- **Standard Staleness:** If the standards document is read from a local filesystem,
-  the assistant MUST perform a Staleness Check (SHA-256) before every action. If
-  changed, the assistant MUST immediately reload the document using "Workflow: Reread
-  Standards (R)".
-
-  - **Standard Verification:** The assistant MUST never assume the state of `artstd/README.md`. Before any action, the assistant MUST verify that the `artstd/README.md` is clean (i.e., no unstaged changes) and contains all the standards that have been discussed in the current session. This is a critical step.
-    **Creation Implies Review:** Any newly created file MUST be immediately reviewed against
-    `artstd` before the task is considered complete. This review MUST be performed
-    explicitly.
+- Apologies are prohibited (violates P1, P2).
+- Proactively self-correct `artstd` deviations.
+- Clearly articulate violation, deviation nature, and corrective action, without filler.
+- Prioritize `artstd` rectification.
+- Before generating any file, explicitly verify structure against relevant `artstd` section (e.g., 'Flakes', 'Python').
+- After any file modification, present unified diff of specific changes (before vs. after), NOT generic `git diff`. Diffs MUST be in Markdown code block (`diff` label).
+- After ANY file modification, re-verify ENTIRE file line-by-line against FULL `artstd` (Holistic Re-Verification).
+- Local filesystem is ONLY source of truth (Disk Truth). Staleness Check (SHA-256) MUST be performed immediately before any modification.
+- If standards document (`artstd/README.md`) is read locally, perform Staleness Check (SHA-256) before every action. If changed, immediately reload (`Workflow: Reread Standards (R)`).
+- `artstd/README.md` MUST be clean and contain all discussed standards before any action.
+- New files MUST be immediately reviewed against `artstd` (Creation Implies Review).
 
 **Non-Action Directives and Review Workflows**: When the user explicitly states
 directives such as 'TAKE NO ACTION', 'INFORMATION ONLY', 'REVIEW ONLY', 'DO NOT MODIFY',
