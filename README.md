@@ -113,7 +113,10 @@ applicable `std` sections for full compliance.
 - After any file modification, present unified diff of specific changes (before vs.
   after), NOT generic `git diff`. Diffs MUST be in Markdown code block (`diff` label).
 - After ANY file modification, re-verify ENTIRE file line-by-line against FULL `artstd`
-  (Holistic Re-Verification).
+  (Holistic Re-Verification). This protocol requires that after *any* modification to a
+  file (even a minor fix), the *entire* file must be re-verified line-by-line against
+  the *full* standard, not just the modified section. This directly addresses the root
+  cause of "patching" fixes without checking for other violations.
 - Local filesystem is ONLY source of truth (Disk Truth). Staleness Check (SHA-256) MUST
   be performed immediately before any modification.
 - If standards document (`artstd/README.md`) is read locally, perform Staleness Check
@@ -365,11 +368,11 @@ MAKEFLAGS += --warn-undefined-variables
 
 <h3>Markdown</h3>
 
-**Linting:** `nixpkgs#markdownlint-cli --config ./.markdownlint.json` with MUST be used.
+**Linting:** `nixpkgs#markdownlint-cli` with `--config ./.markdownlint.json` MUST be used.
 If there is no `.markdownlint.json` in project then the file from this repo MUST be
 used.
 
-**Formatting:** nixpkgs#mdformat MUST be used.
+**Formatting:** `nixpkgs#mdformat` MUST be used.
 
 **Embedded Code:** Embedded code blocks MUST be fully validated, linted, and formatted.
 Code MUST be syntactically valid, pass all defined linters and formatters for its
