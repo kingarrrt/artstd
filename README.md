@@ -98,9 +98,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Standards Re-evaluation on Modification:** When `artstd/README.md` modified, automatically execute all actions in `Workflow: Reread Standards (R)` (ensures compliance).
 
-**Fix Validation:** When attempting to fix an issue, the assistant MUST validate that
-the fix worked as intended immediately after applying the change, before proceeding with
-other tasks or reporting completion.
+**Fix Validation:** When fixing, validate immediately after applying change, before other tasks/reporting completion.
 
 **Cleanup:** Project-specific linters and formatters (e.g., `lint`, `treefmt`) MUST be
 executed after file modifications to ensure standards compliance. They MUST only be run
