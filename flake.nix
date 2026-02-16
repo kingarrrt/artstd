@@ -11,7 +11,7 @@
 
   inputs = {
 
-    nixpkgs.url = "git+file:///home/arthur/wrk/ext/nixpkgs/unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     # transitive
     flake-compat = {
