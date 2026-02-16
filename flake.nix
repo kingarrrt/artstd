@@ -78,9 +78,9 @@
       nixosModules.artstd.home-manager.sharedModules = [
         (
           { config, ... }:
-          with config.artstd.tool-config;
+          with config.artstd.config;
           {
-            imports = [ ./tool-config.nix ];
+            imports = [ ./tools.nix ];
             home.file = {
               ".markdownlintrc".source = markdownlint;
             };

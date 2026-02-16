@@ -4,7 +4,7 @@ let
 in
 {
 
-  options.artstd.tool-config = mkOption {
+  options.artstd.toolCfg = mkOption {
 
     default = {
 

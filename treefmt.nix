@@ -5,11 +5,11 @@
   ...
 }:
 let
-  inherit (config.artstd) tool-config;
+  inherit (config.artstd) toolCfg;
 in
 {
 
-  imports = [ ./tool-config.nix ];
+  imports = [ ./tools.nix ];
 
   programs =
     lib.genAttrs [ "jsonfmt" "nixfmt" "ruff-format" "taplo" ] (_name: {
@@ -98,7 +98,7 @@ in
         command = lib.getExe' python3.pkgs.yamlfix "yamlfix";
         options = [
           "--config-file"
-          "${tool-config.yamlfix}"
+          "${toolCfg.yamlfix}"
         ];
         includes = [
           "*.yaml"

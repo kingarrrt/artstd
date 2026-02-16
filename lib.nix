@@ -2,15 +2,22 @@ inputs: {
 
   flakeSet =
     {
+      # inputs.self
       self,
+      # ...
       name,
+      # std flake attrs
       apps ? _pkgs: { },
       checks ? _pkgs: { },
       packages ? _pkgs: { },
-      devpkgs ? _pkgs: [ ],
-      fmtcfg ? ./treefmt.nix,
-      lintcfg ? ./lint.nix,
-      nvimcfg ? "",
+      # passed to `pkgs.mkShell` as `packages`
+      devPkgs ? _pkgs: [ ],
+      # cfgs for treefmt and treefmt lint (which extends base treefmt)
+      fmtCfg ? ./treefmt.nix,
+      lintCfg ? ./lint.nix,
+      # appended to .nvim.local.lua
+      nvimCfg ? "",
+      # set in envrc
       env ? { },
     }:
     let
@@ -23,7 +30,11 @@ inputs: {
         pkgs = import inputs.nixpkgs {
           inherit system;
           overlays = [
-            (_final: _prev: { artstd-lint = lint-fail-on-change; })
+            # export fmt and lint
+            (_final: _prev: {
+              artstd-fmt = fmt;
+              artstd-lint = lint-fail-on-change;
+            })
           ]
           ++ lib.optionals (self ? overlays && self.overlays ? default) [
             self.overlays.default
@@ -41,9 +52,9 @@ inputs: {
           fmtcfg:
           if builtins.typeOf fmtcfg == "lambda" then fmtcfg inputs.self else fmtcfg;
 
-        formatter = (treefmt pkgs (withself fmtcfg)).build.wrapper;
+        fmt = (treefmt pkgs (withself fmtCfg)).build.wrapper;
 
-        lintcfg' = treefmt pkgs (withself lintcfg);
+        lintcfg' = treefmt pkgs (withself lintCfg);
         lint = lintcfg'.build.wrapper;
         lint-fail-on-change = pkgs.scriptWrapper {
           override = "lint";
@@ -59,9 +70,13 @@ inputs: {
         apps = apps pkgs;
 
         checks = (checks pkgs) // {
-          # lint includes fmt
           lint = lintcfg'.build.check self;
         };
+
+        packages = packages';
+
+        # for `nix fmt`
+        formatter = fmt;
 
         devShells.default = pkgs.mkShellNoCC {
 
@@ -70,11 +85,11 @@ inputs: {
           inputsFrom = builtins.attrValues packages';
 
           packages = [
-            formatter
+            fmt
             lint-fail-on-change
           ]
           ++ (builtins.attrValues lintcfg'.build.programs)
-          ++ (devpkgs pkgs);
+          ++ (devPkgs pkgs);
 
           shellHook =
             let
@@ -112,14 +127,16 @@ inputs: {
                     })
                   end,
                 }
-                vim.opt.path:prepend {${
-                  builtins.concatStringsSep ", " (
-                    lib.mapAttrsToList (
-                      env: path: ''vim.env.${env} .. "${path}"''
-                    ) shellcheck.paths
-                  )
-                }}
-                ${nvimcfg}
+                ${lib.optionalString (shellcheck.paths != [ ])
+                  "vim.opt.path:prepend {${
+                    builtins.concatStringsSep ", " (
+                      lib.mapAttrsToList (
+                        env: path: ''vim.env.${env} .. "${path}"''
+                      ) shellcheck.paths
+                    )
+                  }}"
+                }
+                ${lib.optionalString (nvimCfg != "") nvimCfg}
               '';
 
               # lint is the git hook (it includes fmt)
@@ -147,11 +164,6 @@ inputs: {
               cp -f ${exrc} .nvim.local.lua
             '';
         };
-
-        # for `nix fmt`
-        inherit formatter;
-
-        packages = packages';
 
       }
 

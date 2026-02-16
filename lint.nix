@@ -6,12 +6,12 @@
 }:
 let
   inherit (lib) mkOption types;
-  inherit (config.artstd) tool-config;
+  inherit (config.artstd) toolCfg;
 in
 {
 
   imports = [
-    ./tool-config.nix
+    ./tools.nix
     ./treefmt.nix
   ];
 
@@ -58,7 +58,7 @@ in
         command = nodePackages.markdownlint-cli;
         options = [
           "-c"
-          "${tool-config.markdownlint}"
+          "${toolCfg.markdownlint}"
         ];
         includes = [ "*.md" ];
       };
@@ -128,7 +128,7 @@ in
         command = pkgs.yamllint;
         options = [
           "-c"
-          "${tool-config.yamllint}"
+          "${toolCfg.yamllint}"
         ];
         includes = [
           "*.yaml"
