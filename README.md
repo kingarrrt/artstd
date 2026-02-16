@@ -636,7 +636,7 @@ specified.*
 
 ## Workflow: Hide Command (hide)
 
-- **Purpose:** Adds a specified command to the `Hidden Commands` list; the `Hidden Commands` section under `Assistant Behavior` explains why commands are hidden.
+- **Purpose:** Adds a specified command to the `Hidden Commands` list.
 - **Usage:** `hide <command_name>` (e.g., `hide nix-hash`)
 - **Actions:**
   1. **Add to Hidden Commands List:** Add `<command_name>` to the `Hidden Commands` section under `Assistant Behavior`.
