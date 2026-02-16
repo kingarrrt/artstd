@@ -57,6 +57,12 @@
     self-lib.flakeSet {
       inherit (inputs) self;
       name = "artstd";
+      checks = pkgs: {
+        links = pkgs.runCommand "link-check" {
+          __impure = true;
+          nativeBuildInputs = with pkgs; [ lychee ];
+        } "lychee --no-progress ${./.}**/*.md | tee $out";
+      };
       packages = pkgs: { default = pkgs.artstd; };
     }
     // {

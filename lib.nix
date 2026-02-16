@@ -56,10 +56,6 @@ inputs: {
         apps = apps pkgs;
 
         checks = (checks pkgs) // {
-          links = pkgs.runCommand "link-check" {
-            __impure = true;
-            nativeBuildInputs = with pkgs; [ lychee ];
-          } "lychee --no-progress ${./.}**/*.md | tee $out";
           # lint includes fmt
           lint = lintcfg'.build.check self;
         };

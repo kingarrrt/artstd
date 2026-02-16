@@ -5,7 +5,7 @@ inputs:
   cachix_token:
     description: Cachix auth token
     required: true
-  nix_config:
+  nix_conf:
     description: Appended to /etc/nix/nix.conf
 
 runs:
@@ -17,7 +17,7 @@ runs:
       with:
         extra_nix_config: |
           accept-flake-config = true
-          ${{ inputs.nix_config }}
+          ${{ inputs.nix_conf }}
 
     - name: Cachix Setup
       uses: cachix/cachix-action@v16

@@ -9,9 +9,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - uses: &nix-setup ./.github/workflows/nix-setup
+      - uses: ./.github/workflows/nix-setup
         with:
           cachix_token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          # checks.links requires net
+          nix_conf: extra-experimental-features = impure-derivations
       - name: Check
         run: nix flake check
 
@@ -29,6 +31,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - uses: *nix-setup
+      - uses: ./.github/workflows/nix-setup
+        with:
+          cachix_token: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - name: Build
         run: nix build . .#devShells.$SYSTEM.default
