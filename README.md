@@ -431,7 +431,7 @@ of the outputs lambda.
 
 **Metadata:** metadata MUST be sourced from the project manifest (P3).
 
-**Outputs:** Flake outputs MUST use the pattern:
+**Outputs:** Flake outputs MUST use the pattern, and ALL `flake.nix` files (including examples and sub-projects) MUST strictly adhere to this pattern without exception:
 
 ```nix
 outputs = inputs:
@@ -534,6 +534,25 @@ features freely.
 **Error Handling:** Rely on `set -e` for immediate exit on failure. Use `trap` for
 cleanup on error. Explicit error handling (`||`, `if ! command; then ... fi`) is
 reserved for cases where command failure should not cause immediate script exit.
+
+<h3>YAML</h3>
+
+**Linting:** `nixpkgs#check-jsonschema` MUST be used.
+
+**Formatting:** `nixpkgs#prettier` MUST be used.
+
+**Structure:** Lists in YAML MUST use block style (each item on a new line, indented
+with a hyphen) instead of flow style (inline, comma-separated).
+
+```yaml
+# GOOD: Block style list
+- item1
+- item2
+- item3
+
+# BAD: Flow style list
+# [item1, item2, item3]
+```
 
 <h3>Prose</h3>
 
