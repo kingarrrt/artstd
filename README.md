@@ -658,16 +658,13 @@ specified.*
 
 <h2>Workflow: Dev (`dev`)</h2>
 
-- **Purpose:** Enables a "development mode" to allow for rapid iteration and
-  experimentation without waiting for lints/formatters and without modifying repository
-  history.
+- **Purpose:** Toggles "development mode"
 - **Usage:** `dev`
 - **Actions:**
   1. **Mode Activation:** The assistant's Git interaction capabilities as well as all
      lint and format requirements are disabled for the duration of this mode. No
      `git add`, `git commit`, or similar state-changing Git commands will be executed.
-  1. **Confirmation:** Confirm to the user that "dev mode" has been activated and Git
-     interactions are suspended.
+  1. **Confirmation:** Respond with "Dev Mode: {current state}".
 
 <h2>Workflow: Diagnose Clipboard Error (`clipboard`) (C)</h2>
 
@@ -748,8 +745,7 @@ specified.*
      definitions.
   1. **Internal Application:** Apply all parsed standards to the agent's operational
      guidelines and behavior.
-  1. **Confirmation:** Confirm to the user that the standards have been re-read and
-     applied.
+  1. **Confirmation:** Respond with "Standards reloaded."
   1. **Compliance:** All applicable files that were part of the last interaction or task
      performed MUST be modified to comply with the newly re-read and applied standards.
 
