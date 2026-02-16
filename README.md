@@ -133,8 +133,7 @@ For all file modifications, assistant MUST follow this sequence:
 
 **Standard Refinement:** Entries MUST be bone-dry, consistent with global architecture, utilize boiled-down language. When adding/modifying, rephrase to adhere to principles; obtain explicit user confirmation before application.
 
-**Document Sorting:** Sections under `## Workflows` and `## Language & Tooling Standards`
-MUST be sorted alphabetically by their respective headers (P1).
+**Document Sorting:** Sections under `## Workflows` and `## Language & Tooling Standards` MUST be sorted alphabetically by headers (P1).
 
 **Redundancy in Change Descriptions:** When proposing a code modification, the assistant
 MUST NOT include both `old_string`/`new_string` parameters and a detailed diff if the
