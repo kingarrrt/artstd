@@ -96,10 +96,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Non-Action Directives and Review Workflows**: When user specifies 'TAKE NO ACTION', 'INFORMATION ONLY', 'REVIEW ONLY', 'DO NOT MODIFY', or implicitly requests review, assistant MUST strictly adhere to read-only mode. MUST NOT execute tools altering filesystem/git state. Responses limited to informational text/read-only tool output. This takes precedence over 'Continuous Execution' and 'Self-Reliance'.
 
-**Standards Re-evaluation on Modification:** Whenever `artstd/README.md` is modified,
-the assistant MUST automatically execute all actions defined in "Workflow: Reread
-Standards (R)". This ensures immediate internal application and external compliance with
-any updated standards.
+**Standards Re-evaluation on Modification:** When `artstd/README.md` modified, automatically execute all actions in `Workflow: Reread Standards (R)` (ensures compliance).
 
 **Fix Validation:** When attempting to fix an issue, the assistant MUST validate that
 the fix worked as intended immediately after applying the change, before proceeding with
