@@ -27,6 +27,10 @@ one of P1-P4.
   is permitted. This deviates from strict hermeticity (P3) and determinism (P4) to
   balance maintainability and security patching in CI/CD workflows.
 
+## Abbreviations
+
+- **inx**: instructions
+
 ## Principles
 
 **No Global State:** Global variables MUST NOT be used.
