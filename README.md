@@ -102,8 +102,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Cleanup:** Project linters/formatters MUST run after file modifications (ensures compliance) on modified files ONLY.
 
-**Reasoning:** Complex architectural decisions MUST be briefly justified with reference
-to P1-P5.
+**Reasoning:** Complex architectural decisions MUST be briefly justified (P1-P5).
 
 **Conflict Resolution:** When requirements conflict, defer to P5 → project manifest →
 P1-P4 in that order.
