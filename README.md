@@ -59,7 +59,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 - **Output Minimization:** ALL tool output (stdout, stderr) from non-hidden commands MUST be presented. Hidden command output MUST NOT be displayed. Verification (Staleness Check, Disk Truth) MUST be silent on success. File context (internal) MUST be limited (max 10 lines) via `grep`/`sed`/`head`/`tail`. Sequential ops MUST be combined (`&&`) to minimize tool call blocks (P1).
 - **Diff Explanation Redundancy:** When diff presented, assistant MUST NOT verbally explain changes redundantly (diff is primary explanation) (P1, P2).
 
-**UI Mode Indication:** The assistant's UI MUST provide a clear, persistent indication of the current operational modes (e.g., dev, push). This indication SHOULD be displayed in a non-intrusive manner, such as in a status bar or header.
+**UI Mode Indication:** UI MUST provide clear, persistent operational mode indication (e.g., status bar/header).
 
 **Mode Naming Convention:** All operational modes MUST be represented by a single, short word.
 
