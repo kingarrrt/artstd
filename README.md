@@ -706,7 +706,8 @@ string indicates an alias for the workflow.*
 - **Actions:**
   1. **Mode Activation:** The assistant's Git interaction capabilities as well as all
      lint and format requirements are disabled for the duration of this mode. No
-     `git add`, `git commit`, or similar state-changing Git commands will be executed.
+     `git add`, `git commit`, or similar state-changing Git commands will be executed,
+     nor any lints/formatters.
   1. **Confirmation:** Respond with "Dev Mode: {current state}".
 
 <h2>Diagnose Clipboard Error (`clipboard`) (C)</h2>
