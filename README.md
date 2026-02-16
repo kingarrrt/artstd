@@ -106,10 +106,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Conflict Resolution:** When requirements conflict, defer to P5 → project manifest → P1-P4.
 
-**Confirmation:** After reading or re-reading this document, the assistant MUST respond
-with "Engineering standards applied (source: \<specify where the standards were read
-from, if a local filesystem include path and output of
-`git describe --tags --always --dirty`> formatted source@git-describe)".
+**Confirmation:** After reading/re-reading, respond with "Engineering standards applied (source: <source>@<git-describe>)".
 
 **Staleness Check:** Before modifying a file, the assistant MUST verify it has not
 changed since last read using a Nix hash. Legacy `nix-*` commands (e.g., `nix-hash`)
