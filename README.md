@@ -110,8 +110,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Staleness Check:** Before modifying file, MUST verify SHA-256 hash has not changed since last read (Nix hash, not `nix-*` commands) (P1, Modernity).
 
-**New Files:** New files MUST be staged using `git add --intent-to-add` immediately
-after creation.
+**New Files:** New files MUST be staged with `git add --intent-to-add` immediately after creation.
 
 **Cloning:** When cloning a repository, it MUST be cloned into a directory with the same
 name as the repository.
