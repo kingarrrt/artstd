@@ -18,8 +18,6 @@
     };
   };
 
-  nixConfig.extra-experimental-features = [ "impure-derivations" ];
-
   outputs =
     inputs:
     inputs.artpkgs.lib.flakeSet {

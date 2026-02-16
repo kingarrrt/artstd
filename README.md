@@ -632,10 +632,10 @@ is implied. If the operation is initiated from outside a submodule, the submodul
 directory is not implicitly included in the "current working directory" unless
 explicitly specified or if the operation started directly within it.*
 
-*Note: For all aliases, actions MUST be performed in sequence unless otherwise
-specified.*
+*Note: Workflow name is contained in the section title in brackets. A second bracketed
+string indicates an alias for the workflow.*
 
-<h2>Workflow: Add Standard (`std`)</h2>
+<h2>Add Standard (`std`)</h2>
 
 - **Purpose:** Adds a new standard to this document and ensures all standards are
   applied.
@@ -652,7 +652,7 @@ specified.*
   1. **Commit:** Commit changes to `artstd/README.md` after every modification.
   1. **Push:** Push the committed changes to the remote repository.
 
-<h2>Workflow: Add Workflow (`workflow`)</h2>
+<h2>Add Workflow (`workflow`)</h2>
 
 - **Purpose:** Creates a new workflow and appends it to the "Workflows" list in this
   document.
@@ -666,7 +666,7 @@ specified.*
      correctness of language, and compliance with itself.
   1. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
 
-<h2>Workflow: Continue Operation (`continue`) (c)</h2>
+<h2>Continue Operation (`continue`) (c)</h2>
 
 - **Purpose:** Continues the current operation or process if it was paused or awaiting
   input.
@@ -675,7 +675,7 @@ specified.*
   1. **Context Check:** Determine the context of the current paused operation.
   1. **Execution:** Resume or continue the operation based on its context.
 
-<h2>Workflow: Dev (`dev`)</h2>
+<h2>Dev (`dev`)</h2>
 
 - **Purpose:** Toggles "development mode"
 - **Usage:** `dev`
@@ -685,7 +685,7 @@ specified.*
      `git add`, `git commit`, or similar state-changing Git commands will be executed.
   1. **Confirmation:** Respond with "Dev Mode: {current state}".
 
-<h2>Workflow: Diagnose Clipboard Error (`clipboard`) (C)</h2>
+<h2>Diagnose Clipboard Error (`clipboard`) (C)</h2>
 
 - **Purpose:** Diagnoses an error based on provided clipboard content.
 - **Usage:** `C` (requires clipboard content to be available)
@@ -696,7 +696,7 @@ specified.*
   1. **Diagnosis Report:** Provide a diagnosis of the error, including potential causes
      and suggestions for resolution.
 
-<h2>Workflow: Fix Issue (`fix`) (f)</h2>
+<h2>Fix Issue (`fix`) (f)</h2>
 
 - **Purpose:** Attempts to fix a reported issue or error.
 - **Actions:**
@@ -708,7 +708,7 @@ specified.*
   1. **Verification:** Validate that the fix has resolved the issue and introduced no
      new regressions.
 
-<h2>Workflow: Hide Command (`hide`)</h2>
+<h2>Hide Command (`hide`)</h2>
 
 - **Purpose:** Adds a specified command to the `Hidden Commands` list.
 - **Usage:** `hide <command_name>` (e.g., `hide nix-hash`)
@@ -718,7 +718,7 @@ specified.*
   1. **Confirmation:** Confirm to the user that the command has been added to the hidden
      list.
 
-<h2>Workflow: Manage TODOs (`todos`)</h2>
+<h2>Manage TODOs (`todos`)</h2>
 
 - **Purpose:** Identifies and addresses TODO comments within the codebase, optionally
   using specific tags.
@@ -733,7 +733,7 @@ specified.*
      resolve the underlying task or clarify/update the comment.
   1. **Output Report:** Provide a report of found TODOs and actions taken.
 
-<h2>Workflow: Print Focused File (`print`) (p)</h2>
+<h2>Print Focused File (`print`) (p)</h2>
 
 - **Purpose:** Prints the content of the currently focused file within a code block.
 - **Usage:** `p`
@@ -742,7 +742,7 @@ specified.*
   1. **File Read:** Read the content of the identified file.
   1. **Output Display:** Display the file content within a formatted code block.
 
-<h2>Workflow: Refactor Code (`refactor`)</h2>
+<h2>Refactor Code (`refactor`)</h2>
 
 - **Purpose:** Ensures one or more specified files comply with Kingarrrt Engineering
   Standards.
@@ -753,7 +753,7 @@ specified.*
   1. **Apply Standards:** Modify files to comply with Kingarrrt Engineering Standards.
   1. **Report Changes:** Present a diff of modifications.
 
-<h2>Workflow: Reapply Standards (`reapply`) (R)</h2>
+<h2>Reapply Standards (`reapply`) (R)</h2>
 
 - **Purpose:** Re-reads the `artstd/README.md` document and applies all standards
   defined within it.
@@ -768,7 +768,7 @@ specified.*
   1. **Compliance:** All applicable files that were part of the last interaction or task
      performed MUST be modified to comply with the newly re-read and applied standards.
 
-<h2>Workflow: Reset Context (`reset`) (r)</h2>
+<h2>Reset Context (`reset`) (r)</h2>
 
 - **Purpose:** Resets the current conversational context of the agent. This clears
   previous turns, memory, and task states.
@@ -779,7 +779,7 @@ specified.*
   1. execute workflow `reapply`
   1. **Confirmation:** Confirm to the user that the context has been reset.
 
-<h2>Workflow: Review Code (`review`)</h2>
+<h2>Review Code (`review`)</h2>
 
 - **Purpose:** Reviews one or more specified files for compliance with the Kingarrrt
   Engineering Standards.
@@ -794,7 +794,7 @@ specified.*
   1. **Report Non-compliance:** Report any deviations or non-compliance found, providing
      specific details and suggestions for correction.
 
-<h2>Workflow: Toggle Push (`push`) (P)</h2>
+<h2>Toggle Push (`push`) (P)</h2>
 
 - **Purpose:** Toggles the "Push" mode, which determines if commits are automatically
   pushed to the remote repository.
@@ -805,7 +805,7 @@ specified.*
      immediately push all unpushed local commits to the remote repository.
   1. **Confirmation:** Confirm the new state (enabled/disabled) to the user.
 
-<h2>Workflow: Toggle Diff Display (`diff`) (d)</h2>
+<h2>Toggle Diff Display (`diff`) (d)</h2>
 
 - **Purpose:** Toggles the display format of responses between unified diff blocks and
   regular output mode.
@@ -816,7 +816,7 @@ specified.*
      regular, or regular to diff).
   1. **Confirmation:** Confirm the new display mode to the user.
 
-<h2>Workflow: View Focused File (`view`) (v)</h2>
+<h2>View Focused File (`view`) (v)</h2>
 
 - **Purpose:** Displays the content of the currently focused file in a rendered,
   prose-like view, suitable for human readability.
