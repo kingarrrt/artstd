@@ -636,10 +636,7 @@ specified.*
 
 ## Workflow: Hide Command (hide)
 
-- **Purpose:** Adds a specified command to the `Hidden Commands` section under `Assistant Behavior`.
-  Output from hidden commands MUST NOT be displayed to the user. This is primarily for
-  commands used for internal verification or state management that are not directly
-  relevant to the user's immediate task output.
+- **Purpose:** Adds a specified command to the `Hidden Commands` list. Refer to the `Hidden Commands` section under `Assistant Behavior` for an explanation of why commands are hidden.
 - **Usage:** `hide <command_name>` (e.g., `hide nix-hash`)
 - **Actions:**
   1. **Add to Hidden Commands List:** Add `<command_name>` to the `Hidden Commands` section under `Assistant Behavior`.
