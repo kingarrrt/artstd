@@ -108,9 +108,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Confirmation:** After reading/re-reading, respond with "Engineering standards applied (source: <source>@<git-describe>)".
 
-**Staleness Check:** Before modifying a file, the assistant MUST verify it has not
-changed since last read using a Nix hash. Legacy `nix-*` commands (e.g., `nix-hash`)
-MUST NOT be used. Only `nix hash` commands are permitted (P1, Modernity).
+**Staleness Check:** Before modifying file, MUST verify SHA-256 hash has not changed since last read (Nix hash, not `nix-*` commands) (P1, Modernity).
 
 **New Files:** New files MUST be staged using `git add --intent-to-add` immediately
 after creation.
