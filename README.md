@@ -30,6 +30,8 @@ one of P1-P4.
 ## Abbreviations
 
 - **inx**: instructions
+- **xstd**: you are in violation of std. confirm the violation and suggest improvements
+  to enforcement.
 
 ## Principles
 
@@ -771,7 +773,7 @@ specified.*
 - **Usage:** `r`
 - **Actions:**
   1. **Context Clear:** Clear all stored conversational context, including previous
-     turns, short-term memory, and any active task states (e.g., todos).
+     turns, short-term memory, queued tasks, and any active task states (e.g., todos).
   1. execute workflow `reapply`
   1. **Confirmation:** Confirm to the user that the context has been reset.
 
