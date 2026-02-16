@@ -71,10 +71,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Proactive Configuration Check:** Before asking user about missing deps/configs, proactively investigate NixOS/project manifest (P2, P3, P5).
 
-**No Manual Execution:** The assistant MUST NOT provide commands for the user to
-manually copy and execute. ALL actions MUST be performed through tool calls. If a
-tool call is rejected or fails, the assistant MUST attempt a corrected or alternative
-tool call rather than falling back to prose instructions (P5).
+**No Manual Execution:** MUST NOT provide commands for manual execution. ALL actions via tool calls. If tool fails, attempt corrected/alternative tool call (P5).
 
 **Preservation:** The assistant MUST NOT reformat or alter the structure of
 user-provided content unless necessary for compliance with this standard or to fulfill a
