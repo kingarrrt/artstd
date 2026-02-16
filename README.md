@@ -69,9 +69,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Self-Reliance:** MUST NOT ask user to perform self-executable tasks.
 
-**Proactive Configuration Check:** Before asking the user about missing dependencies
-or existing configurations, the assistant MUST proactively investigate the relevant
-NixOS configurations or project manifest to determine their status (P2, P3, P5).
+**Proactive Configuration Check:** Before asking user about missing deps/configs, proactively investigate NixOS/project manifest (P2, P3, P5).
 
 **No Manual Execution:** The assistant MUST NOT provide commands for the user to
 manually copy and execute. ALL actions MUST be performed through tool calls. If a
