@@ -23,83 +23,41 @@
     inputs.artpkgs.lib.flakeSet {
       inherit (inputs) self;
       name = "artstd";
-      packages = pkgs: {
-
-        default = pkgs.artstd;
-
-        validate-std = pkgs.writeShellApplication {
-          name = "validate-std";
-          runtimeInputs = with pkgs; [
-            deadnix
-            statix
-            nixfmt
-            markdownlint-cli
-            mdformat
-            shellcheck
-            shfmt
-          ];
-          text = ''
-            set -eo pipefail
-            echo "Checking Nix files..."
-            deadnix --fail .
-            statix check .
-            nixfmt --check .
-
-            echo "Checking Markdown files..."
-            markdownlint .
-            mdformat --check .
-
-            echo "Checking Shell scripts..."
-            mapfile -t scripts < <(find . -name "*.sh")
-            if [[ ''${#scripts[@]} -gt 0 ]]; then
-              shellcheck "''${scripts[@]}"
-              shfmt -d "''${scripts[@]}"
-            fi
-
-            echo "Standards check passed."
-          '';
-        };
-
-      };
+      packages = pkgs: { default = pkgs.artstd; };
       checks = pkgs: {
 
-        validate-markdown =
-          let
-            mdlintConfig = pkgs.writeText "markdownlint.json" (
-              builtins.toJSON {
-                line-length = {
-                  line_length = 88;
-                  code_blocks = false;
-                  tables = false;
-                };
-              }
-            );
-          in
-          pkgs.runCommand "validate-markdown"
-            {
-              nativeBuildInputs = with pkgs; [
-                markdownlint-cli
-                mdformat
-              ];
-            }
-            ''
-              markdownlint --config ${mdlintConfig} ${./README.md}
-              mdformat --wrap 88 --check ${./README.md} | tee $out
-            '';
+        validate =
+          (pkgs.writeShellApplication {
+            name = "validate";
+            runtimeInputs = with pkgs; [
+              deadnix
+              statix
+              nixfmt
+              lychee
+              markdownlint-cli
+              mdformat
+              shellcheck
+              shfmt
+            ];
+            text = ''
+              set -euo pipefail
 
-        validate-links =
-          pkgs.runCommand "validate-links"
-            {
-              __impure = true;
-              nativeBuildInputs = with pkgs; [ lychee ];
-            }
-            ''
-              lychee --no-progress ${./README.md}
-              mkdir $out
+              echo "Validating Nix files..."
+              deadnix --fail .
+              statix check .
+              nixfmt --check .
+
+              echo "Validating Markdown files..."
+              markdownlint .
+              mdformat --check .
+
+              echo "Validating links..."
+              lychee --no-progress ./**/*.md
             '';
+          }).overrideAttrs
+            { __impure = true; };
 
       };
-
     }
     // {
       overlays.default = final: _prev: {
