@@ -58,6 +58,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 - **Diff Explanation Redundancy:** When diff presented, assistant MUST NOT verbally explain changes redundantly (diff is primary explanation) (P1, P2).
 
 ### Hidden Commands
+Commands in this list are hidden from the user because their output is for internal verification or state management, not directly relevant to the user's immediate task output.
 - `echo`
 
 **UI Mode Indication:** UI MUST provide clear, persistent operational mode indication (e.g., status bar/header).
