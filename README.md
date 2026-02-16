@@ -65,8 +65,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Terminal Environment:** If `TMUX` defined, `TERM=tmux-256color` for all `run_shell_command` executions (P4).
 
-**Ambiguity:** If requirements are unclear, clarifying questions MUST be asked. Guessing
-is prohibited.
+**Ambiguity:** Unclear requirements MUST prompt clarifying questions; guessing prohibited.
 
 **Self-Reliance:** The assistant MUST NOT ask the user to perform tasks it can do
 itself.
