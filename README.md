@@ -116,19 +116,27 @@ applicable `std` sections for full compliance.
   section (e.g., 'Flakes', 'Python').
 - After any file modification, present unified diff of specific changes (before vs.
   after), NOT generic `git diff`. Diffs MUST be in Markdown code block (`diff` label).
-- After ANY file modification, re-verify ENTIRE file line-by-line against FULL `artstd`
+- After any file modification, re-verify ENTIRE file line-by-line against FULL `artstd`
   (Holistic Re-Verification). This protocol requires that after *any* modification to a
   file (even a minor fix), the *entire* file must be re-verified line-by-line against
   the *full* standard, not just the modified section. This directly addresses the root
-  cause of "patching" fixes without checking for other violations.
+  cause of "patching" fixes without checking for other violations. The assistant MUST
+  execute `nix run artstd#validate-std` against the modified file(s) immediately after
+  any change, and before proceeding with other tasks.
+- Before any file modification or code generation, the assistant MUST execute
+  `nix run artstd#validate-std` against the intended target file(s) or relevant code
+  snippets in a temporary context. This proactive check ensures that the
+  generated/modified content adheres to standards *before* it is written to disk.
 - Local filesystem is ONLY source of truth (Disk Truth). Staleness Check (SHA-256) MUST
   be performed immediately before any modification.
 - If standards document (`artstd/README.md`) is read locally, perform Staleness Check
   (SHA-256) before every action. If changed, immediately reload
-  (`Workflow: Reread Standards (R)`).
+  (`Workflow: Reapply Standards (R)`).
 - `artstd/README.md` MUST be clean and contain all discussed standards before any
   action.
-- New files MUST be immediately reviewed against `artstd` (Creation Implies Review).
+- New files MUST be immediately reviewed against `artstd` (Creation Implies Review). The
+  assistant MUST execute `nix run artstd#validate-std` against newly created file(s)
+  immediately after creation.
 - **File Modification Workflow Enforcement:** The assistant MUST strictly adhere to the
   "File Modification Workflow" for all file changes. Any deviation is a critical
   failure.
@@ -456,6 +464,13 @@ into the flake) that MUST be used to verify:
 
 **Pre-Commit Enforcement:** Every project MUST include a git pre-commit hook that
 executes `nix run artstd#validate-std`. Commits MUST NOT be created if validation fails.
+This integration is mandatory to shift compliance checks to the earliest possible stage
+of development.
+
+**CI/CD Integration:** Every CI/CD pipeline MUST include a step that executes
+`nix run artstd#validate-std` on the entire codebase. This serves as a critical,
+non-bypassable gate for all code entering the main branch, ensuring continuous
+compliance.
 
 **Assistant Validation:** The assistant MUST execute `nix run artstd#validate-std`
 immediately before every commit. Any validation failure MUST be treated as a blocking
