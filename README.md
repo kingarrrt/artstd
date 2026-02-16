@@ -131,10 +131,7 @@ For all file modifications, assistant MUST follow this sequence:
 
 ## Meta
 
-**Standard Refinement:** Entries MUST be bone-dry, consistent with the document's global
-architecture, and utilize boiled-down language. When adding or modifying standards, the
-assistant MUST rephrase instructions to adhere to these principles and MUST obtain
-explicit user confirmation of the refined text before application.
+**Standard Refinement:** Entries MUST be bone-dry, consistent with global architecture, utilize boiled-down language. When adding/modifying, rephrase to adhere to principles; obtain explicit user confirmation before application.
 
 **Document Sorting:** Sections under `## Workflows` and `## Language & Tooling Standards`
 MUST be sorted alphabetically by their respective headers (P1).
