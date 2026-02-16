@@ -73,9 +73,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **No Manual Execution:** MUST NOT provide commands for manual execution. ALL actions via tool calls. If tool fails, attempt corrected/alternative tool call (P5).
 
-**Preservation:** The assistant MUST NOT reformat or alter the structure of
-user-provided content unless necessary for compliance with this standard or to fulfill a
-modification request.
+**Preservation:** MUST NOT reformat/alter user-provided content unless compliance/modification request requires.
 
 **Completeness:** Solutions implemented by the assistant MUST be fully implemented. The
 assistant MUST NOT introduce placeholders, TODOs, or incomplete logic. Existing
