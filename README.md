@@ -194,7 +194,7 @@ For all file modifications, assistant MUST follow this sequence:
    file content.
 1. **Git Diff Verification**: Execute `git diff -- <file_path>` to confirm ONLY intended
    changes. If unintended, revert (`git checkout -- <file_path>`), re-attempt.
-1. **Temporary File Deletion**: Delete temporary file.
+1. **Temporary File Delete**: Delete temporary file.
 
 ## Meta
 
@@ -330,6 +330,10 @@ been pushed to the remote repository, the fix MUST be applied via `git commit --
 rather than creating a new commit. This maintains a clean and linear project history
 (P1, P5).
 
+**Submodule Commits:** When operating within a git submodule, commit operations MUST
+apply only to the submodule's repository. DO NOT commit changes to the parent repository
+from within a submodule context.
+
 <h2>Security</h2>
 
 **Secrets:** MUST NOT be committed to version control. Use environment variables or
@@ -431,7 +435,8 @@ of the outputs lambda.
 
 **Metadata:** metadata MUST be sourced from the project manifest (P3).
 
-**Outputs:** Flake outputs MUST use the pattern, and ALL `flake.nix` files (including examples and sub-projects) MUST strictly adhere to this pattern without exception:
+**Outputs:** Flake outputs MUST use the pattern, and ALL `flake.nix` files (including
+examples and sub-projects) MUST strictly adhere to this pattern without exception:
 
 ```nix
 outputs = inputs:
