@@ -368,9 +368,9 @@ MAKEFLAGS += --warn-undefined-variables
 
 <h3>Markdown</h3>
 
-**Linting:** `nixpkgs#markdownlint-cli` with `--config ./.markdownlint.json` MUST be used.
-If there is no `.markdownlint.json` in project then the file from this repo MUST be
-used.
+**Linting:** `nixpkgs#markdownlint-cli` with `--config ./.markdownlint.json` MUST be
+used. If there is no `.markdownlint.json` in project then the file from this repo MUST
+be used.
 
 **Formatting:** `nixpkgs#mdformat` MUST be used.
 
@@ -629,7 +629,7 @@ specified.*
   1. **Commit:** Commit changes to `artstd/README.md` after every modification.
   1. **Push:** Push the committed changes to the remote repository.
 
-<h2>Workflow: Add Workflow (a)</h2>
+<h2>Workflow: Add Workflow (`workflow`)</h2>
 
 - **Purpose:** Creates a new workflow and appends it to the "Workflows" list in this
   document.
@@ -643,7 +643,7 @@ specified.*
      correctness of language, and compliance with itself.
   1. **Standards Application:** Re-read and apply all standards from `artstd/README.md`.
 
-<h2>Workflow: Continue Operation (c)</h2>
+<h2>Workflow: Continue Operation (`continue`) (c)</h2>
 
 - **Purpose:** Continues the current operation or process if it was paused or awaiting
   input.
@@ -652,20 +652,20 @@ specified.*
   1. **Context Check:** Determine the context of the current paused operation.
   1. **Execution:** Resume or continue the operation based on its context.
 
-<h2>Workflow: Dev (dev)</h2>
+<h2>Workflow: Dev (`dev`)</h2>
 
-- **Purpose:** Enables a "development mode" where the assistant ceases all Git
-  interaction (no staging, no committing) to allow for rapid iteration and
-  experimentation without modifying repository history.
+- **Purpose:** Enables a "development mode" to allow for rapid iteration and
+  experimentation without waiting for lints/formatters and without modifying repository
+  history.
 - **Usage:** `dev`
 - **Actions:**
-  1. **Mode Activation:** The assistant's Git interaction capabilities are disabled for
-     the duration of this mode. No `git add`, `git commit`, or similar state-changing
-     Git commands will be executed.
+  1. **Mode Activation:** The assistant's Git interaction capabilities as well as all
+     lint and format requirements are disabled for the duration of this mode. No
+     `git add`, `git commit`, or similar state-changing Git commands will be executed.
   1. **Confirmation:** Confirm to the user that "dev mode" has been activated and Git
      interactions are suspended.
 
-<h2>Workflow: Diagnose Clipboard Error (C)</h2>
+<h2>Workflow: Diagnose Clipboard Error (`clipboard`) (C)</h2>
 
 - **Purpose:** Diagnoses an error based on provided clipboard content.
 - **Usage:** `C` (requires clipboard content to be available)
@@ -676,7 +676,7 @@ specified.*
   1. **Diagnosis Report:** Provide a diagnosis of the error, including potential causes
      and suggestions for resolution.
 
-<h2>Workflow: Fix Issue (f)</h2>
+<h2>Workflow: Fix Issue (`fix`) (f)</h2>
 
 - **Purpose:** Attempts to fix a reported issue or error.
 - **Actions:**
@@ -688,16 +688,7 @@ specified.*
   1. **Verification:** Validate that the fix has resolved the issue and introduced no
      new regressions.
 
-<h2>Workflow: Git Status (g)</h2>
-
-- **Purpose:** Displays the status of the Git working tree in a short format.
-- **Usage:** `g`
-- **Actions:**
-  1. **Execution:** Run the `git status -s` command in the current working directory.
-  1. **Output Display:** Display the standard output and standard error from the
-     command.
-
-<h2>Workflow: Hide Command (hide)</h2>
+<h2>Workflow: Hide Command (`hide`)</h2>
 
 - **Purpose:** Adds a specified command to the `Hidden Commands` list.
 - **Usage:** `hide <command_name>` (e.g., `hide nix-hash`)
@@ -714,15 +705,15 @@ specified.*
 - **Usage:** `todos [file_path...]` (If no file_path is specified, the current working
   directory is implied.)
 - **Actions:**
-  1. **Comment Scan:** Scan the specified files (or current working directory) for
-     comments containing TODO tags.
   1. **Tag Reference:** Refer to `@artnvim/config/lua/plugin/todo-comments.lua` for the
      defined TODO tags in use within the project.
+  1. **Comment Scan:** Scan the specified files (or current working directory) for
+     comments containing TODO tags.
   1. **Issue Resolution:** For each identified TODO, analyze the context and either
      resolve the underlying task or clarify/update the comment.
   1. **Output Report:** Provide a report of found TODOs and actions taken.
 
-<h2>Workflow: Print Focused File (p)</h2>
+<h2>Workflow: Print Focused File (`print`) (p)</h2>
 
 - **Purpose:** Prints the content of the currently focused file within a code block.
 - **Usage:** `p`
@@ -742,7 +733,7 @@ specified.*
   1. **Apply Standards:** Modify files to comply with Kingarrrt Engineering Standards.
   1. **Report Changes:** Present a diff of modifications.
 
-<h2>Workflow: Reread Standards (R)</h2>
+<h2>Workflow: Reapply Standards (`reapply`) (R)</h2>
 
 - **Purpose:** Re-reads the `artstd/README.md` document and applies all standards
   defined within it.
@@ -758,7 +749,7 @@ specified.*
   1. **Compliance:** All applicable files that were part of the last interaction or task
      performed MUST be modified to comply with the newly re-read and applied standards.
 
-<h2>Workflow: Reset Context (r)</h2>
+<h2>Workflow: Reset Context (`reset`) (r)</h2>
 
 - **Purpose:** Resets the current conversational context of the agent. This clears
   previous turns, memory, and task states.
@@ -766,6 +757,7 @@ specified.*
 - **Actions:**
   1. **Context Clear:** Clear all stored conversational context, including previous
      turns, short-term memory, and any active task states (e.g., todos).
+  1. execute workflow `reapply`
   1. **Confirmation:** Confirm to the user that the context has been reset.
 
 <h2>Workflow: Review Code (`review`)</h2>
@@ -783,7 +775,7 @@ specified.*
   1. **Report Non-compliance:** Report any deviations or non-compliance found, providing
      specific details and suggestions for correction.
 
-<h2>Workflow: Toggle Push (P)</h2>
+<h2>Workflow: Toggle Push (`push`) (P)</h2>
 
 - **Purpose:** Toggles the "Push" mode, which determines if commits are automatically
   pushed to the remote repository.
@@ -794,7 +786,7 @@ specified.*
      immediately push all unpushed local commits to the remote repository.
   1. **Confirmation:** Confirm the new state (enabled/disabled) to the user.
 
-<h2>Workflow: Toggle Diff Display (d)</h2>
+<h2>Workflow: Toggle Diff Display (`diff`) (d)</h2>
 
 - **Purpose:** Toggles the display format of responses between unified diff blocks and
   regular output mode.
@@ -805,7 +797,7 @@ specified.*
      regular, or regular to diff).
   1. **Confirmation:** Confirm the new display mode to the user.
 
-<h2>Workflow: View Focused File (v)</h2>
+<h2>Workflow: View Focused File (`view`) (v)</h2>
 
 - **Purpose:** Displays the content of the currently focused file in a rendered,
   prose-like view, suitable for human readability.
