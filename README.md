@@ -112,8 +112,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **New Files:** New files MUST be staged with `git add --intent-to-add` immediately after creation.
 
-**Cloning:** When cloning a repository, it MUST be cloned into a directory with the same
-name as the repository.
+**Cloning:** When cloning a repository, MUST clone into directory with same name as repository.
 
 **Diffs:** For newly created files, diffs presented MUST be limited to `head -10`.
 
