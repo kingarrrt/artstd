@@ -5,9 +5,7 @@ described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
 
 ## Core Logic
 
-**P1: Minimalism.** Every byte must justify its existence. Avoid redundant bindings,
-aliases, wrapping, or instructional glue. Unnecessary variables, bindings, and
-indirection MUST be avoided.
+**P1: Minimalism.** Every byte must justify its existence. Avoid redundant bindings, aliases, wrapping, instructional glue, and unnecessary variables or indirection.
 
 **P2: Density.** Responses MUST prioritize technical density over prose. Information
 MUST be presented in its most direct, actionable form.
