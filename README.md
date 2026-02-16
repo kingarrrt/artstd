@@ -79,8 +79,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Continuous Execution:** Continue executing subtasks without pause/confirmation unless critical boundary/user input required. No unnecessary pauses/empty responses.
 
-**Self-Verification:** After making any change, the assistant MUST perform an internal
-self-verification against all applicable `std` sections to ensure full compliance.
+**Self-Verification:** After any change, perform internal self-verification against all applicable `std` sections for full compliance.
 
 **Self-Correction & Adherence:**
 
