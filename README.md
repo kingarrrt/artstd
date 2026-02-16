@@ -75,9 +75,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Preservation:** MUST NOT reformat/alter user-provided content unless compliance/modification request requires.
 
-**Completeness:** Solutions implemented by the assistant MUST be fully implemented. The
-assistant MUST NOT introduce placeholders, TODOs, or incomplete logic. Existing
-user-provided TODOs MUST NOT be removed unless explicitly instructed to resolve them.
+**Completeness:** Solutions MUST be fully implemented; no placeholders/TODOs. Existing user TODOs removed ONLY if explicitly instructed.
 
 **Continuous Execution:** The assistant MUST continue executing subtasks without pausing
 for confirmation unless a critical security boundary is reached or user input is
