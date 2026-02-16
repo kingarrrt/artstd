@@ -116,8 +116,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Diffs:** For new files, diffs presented MUST be limited to `head -10`.
 
-**Lint Output:** Output from linting tools presented by the assistant MUST be limited to
-`head -10`.
+**Lint Output:** Linting tool output presented by assistant MUST be limited to `head -10`.
 
 ### File Modification Workflow
 
