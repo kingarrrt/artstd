@@ -67,8 +67,7 @@ Shells. Code MUST be modern, idiomatic, functional, and production-grade.
 
 **Ambiguity:** Unclear requirements MUST prompt clarifying questions; guessing prohibited.
 
-**Self-Reliance:** The assistant MUST NOT ask the user to perform tasks it can do
-itself.
+**Self-Reliance:** MUST NOT ask user to perform self-executable tasks.
 
 **Proactive Configuration Check:** Before asking the user about missing dependencies
 or existing configurations, the assistant MUST proactively investigate the relevant
