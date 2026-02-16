@@ -165,7 +165,7 @@ compliance) on modified files ONLY.
 P1-P4.
 
 **Confirmation:** After reading/re-reading, respond with "Engineering standards applied
-(source: <source>@<git-describe>)".
+(source: `git describe --tags --always --dirty`)".
 
 **Staleness Check:** Before modifying file, MUST verify SHA-256 hash has not changed
 since last read (Nix hash, not `nix-*` commands) (P1, Modernity).
