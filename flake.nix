@@ -61,13 +61,23 @@
         default = {
           type = "app";
           program = lib.getExe pkgs.artstd-lint;
+          meta = {
+            description = "Wrapped treefmt with artstd ruleset";
+            mainProgram = "lint";
+          };
         };
       };
       checks = pkgs: {
-        links = pkgs.runCommand "link-check" {
-          __impure = true;
-          nativeBuildInputs = with pkgs; [ lychee ];
-        } "lychee --no-progress ${./.}**/*.md | tee $out";
+        # links must exist
+        links =
+          pkgs.runCommand "links"
+            {
+              __impure = true;
+              nativeBuildInputs = [ pkgs.lychee ];
+            }
+            ''
+              lychee --no-progress ${./.}**/*.md | tee $out
+            '';
       };
       packages = pkgs: { default = pkgs.artstd; };
     }

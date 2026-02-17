@@ -1,17 +1,27 @@
-final: _prev:
+final: prev:
 let
+
+  inherit (final.lib) getExe' optionalString hiPrio;
+  inherit (final.writers) writeBashBin;
+
   execDefault = exe: ''exec -a "$0" ${exe} "$@"'';
-  inherit (final) lib;
+
 in
 {
+
+  writers = prev.writers // {
+    writeBashBin =
+      name: script:
+      prev.writers.writeBashBin name ''
+        set -euo pipefail
+        ${script}
+      '';
+  };
 
   script =
     name: content:
     # using writeBashBin so we get a proper basename under logtrace
-    lib.getExe' (final.writers.writeBashBin name ''
-      . ${lib.getExe' final.artstd "shlib"}
-      ${content}
-    '') name;
+    getExe' (writeBashBin name content) name;
 
   scriptFile =
     name: src: attrs:
@@ -23,13 +33,12 @@ in
       name ? package.meta.mainProgram,
       override ? name,
       script ? "",
-      exe ? final.lib.getExe' package name,
+      exe ? getExe' package name,
       exec ? execDefault,
     }:
-    final.writers.writeBashBin override ''
-      . ${lib.getExe' final.artstd "shlib"}
+    writeBashBin override ''
       ${script}
-      ${lib.optionalString (exec != null) (exec exe)}
+      ${optionalString (exec != null) (exec exe)}
     '';
 
   scriptWrapperEnv =
@@ -47,7 +56,7 @@ in
         name = "${package.name}-wrapper-env";
         meta.mainProgram = name;
         paths = attrs.paths or [ ] ++ [
-          (lib.hiPrio (
+          (hiPrio (
             final.scriptWrapper {
               inherit
                 package

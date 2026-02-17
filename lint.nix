@@ -5,7 +5,16 @@
   ...
 }:
 let
-  inherit (lib) mkOption types;
+  inherit (lib)
+    genAttrs
+    getExe
+    getExe'
+    mapAttrsToList
+    mkOption
+    optionals
+    types
+    ;
+  inherit (pkgs.writers) writeBashBin;
   inherit (config.artstd) toolCfg;
 in
 {
@@ -23,17 +32,17 @@ in
   config = {
 
     programs =
-      lib.genAttrs [ "deadnix" "ruff-check" "shellcheck" "statix" ]
+      genAttrs [ "deadnix" "ruff-check" "shellcheck" "statix" ]
         (_name: {
           enable = true;
         });
 
-    settings.formatter = with pkgs; {
+    settings.formatter = {
 
       flake-lock-dirty-inputs = {
-        command = writers.writeBashBin "flake-lock-dirty-inputs-check" ''
+        command = writeBashBin "flake-lock-dirty-inputs-check" ''
           dirty=$(
-            ${lib.getExe jq} --raw-output < $1 '.. | objects | select(has("dirtyRev")) | .url'
+            ${getExe pkgs.jq} --raw-output < $1 '.. | objects | select(has("dirtyRev")) | .url'
           )
           if [[ -n $dirty ]]; then
             echo -e >&2 "$1 has dirty inputs:\n"
@@ -45,9 +54,9 @@ in
       };
 
       flake-lock-dupe-inputs = {
-        command = writers.writeBashBin "flake-lock-dupe-inputs-check" ''
+        command = writeBashBin "flake-lock-dupe-inputs-check" ''
           if grep -q _2 $1; then
-            echo >&2 "$1 has duplicate inputs:\n"
+            echo >&2 "$1 has duplicate inputs - check your `follows`"
             exit 1
           fi
         '';
@@ -55,7 +64,7 @@ in
       };
 
       markdownlint = {
-        command = nodePackages.markdownlint-cli;
+        command = pkgs.nodePackages.markdownlint-cli;
         options = [
           "-c"
           "${toolCfg.markdownlint}"
@@ -65,10 +74,10 @@ in
 
       nil = {
         # TOGO: pending https://github.com/oxalica/nil/pull/127
-        command = writers.writeBashBin "nil" ''
+        command = writeBashBin "nil" ''
           errors=
           for file in "$@"; do
-            errors+="$(${lib.getExe nil} diagnostics "$file" 2>&1)"
+            errors+="$(${getExe pkgs.nil} diagnostics "$file" 2>&1)"
           done
           if [[ -n "$errors" ]]; then
             echo -e >&2 "$errors"
@@ -78,32 +87,41 @@ in
         includes = [ "*.nix" ];
       };
 
+      proselint = {
+        # replace code blocks with empty lines to preserve line numbering
+        # s/./ /g; replaces content with spaces to preserve column accuracy
+        # :a; s/`[^`]*`/ /; ta; handles multiple inline code blocks per line
+        command = writeBashBin "proselint" ''
+          ${getExe pkgs.gnused} '/^```/,/^```/ { /^```/! s/./ /g; }; :a; s/`[^`]*`/ /; ta' "$@" \
+            | ${getExe' pkgs.proselint "proselint"} --config ${toolCfg.proselint}
+        '';
+        includes = [ "*.md" ];
+      };
+
       shellcheck =
         let
           inherit (config.settings) formatter;
           cfg = formatter.shellcheck;
         in
         {
-          command = writers.writeBashBin "shellcheck-shlib" ''
-            ln -sf ${./.}/bin/shlib shlib
-            ${lib.getExe pkgs.shellcheck} "$@"
+          command = writeBashBin "shellcheck" ''
+            ${getExe pkgs.shellcheck} "$@"
           '';
           includes =
-            lib.optionals config.programs.beautysh.enable formatter.beautysh.includes
-            ++ lib.optionals config.programs.shfmt.enable formatter.shfmt.includes;
+            optionals config.programs.beautysh.enable formatter.beautysh.includes
+            ++ optionals config.programs.shfmt.enable formatter.shfmt.includes;
           paths = { };
           exclude = [
             2046 # Quote this to prevent word splitting
             2053 # Quote the right-hand side of == in [[ ]] to prevent glob matching
             2086 # Double quote to prevent globbing and word splitting
-            2164 # Use 'popd ... || exit' or 'popd ... || return' in case popd fails
             2206 # Quote to prevent word splitting/globbing, or split robustly with mapfile or read -a
           ];
           options = [
             "--shell=bash"
             "--external-sources"
           ]
-          ++ lib.mapAttrsToList (
+          ++ mapAttrsToList (
             # use env var so this works with both treefmt and nvim
             env: path: "--source-path=\$${env}${path}"
           ) cfg.paths

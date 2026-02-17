@@ -6,13 +6,20 @@
 }:
 let
   inherit (config.artstd) toolCfg;
+  inherit (lib)
+    genAttrs
+    getExe
+    getExe'
+    mkForce
+    mkIf
+    ;
 in
 {
 
   imports = [ ./tools.nix ];
 
   programs =
-    lib.genAttrs [ "jsonfmt" "nixfmt" "ruff-format" "taplo" ] (_name: {
+    genAttrs [ "jsonfmt" "nixfmt" "ruff-format" "taplo" ] (_name: {
       enable = true;
     })
     // {
@@ -22,27 +29,31 @@ in
   settings = {
 
     # force override defaults which exclude .gitignore
-    excludes = lib.mkForce [ "*.patch" ];
+    excludes = mkForce [ "*.patch" ];
 
-    formatter = with pkgs; {
+    formatter = {
 
       mdformat = {
-        command = python3.pkgs.mdformat;
+        command = pkgs.python3.pkgs.mdformat;
         includes = [ "*.md" ];
         options = [
           "--wrap"
-          "88"
+          "${toString config.artstd.line-length}"
         ];
       };
 
-      nixfmt.options = [
-        "--width"
-        # default is 100, is not a hard limit - this makes it in effect 95
-        "77"
-        "--strict"
-      ];
+      nixfmt = {
+        # treefmt references nixfmt-rfc-style which gives a warning on nixpkgs-unstable
+        command = getExe pkgs.nixfmt;
+        options = [
+          "--width"
+          # default is 100, is not a hard limit - this makes it in effect 95
+          "77"
+          "--strict"
+        ];
+      };
 
-      shfmt = lib.mkIf config.programs.shfmt.enable {
+      shfmt = mkIf config.programs.shfmt.enable {
         includes = [
           # FIXME: pattern for all bins???
           "bin/*"
@@ -54,39 +65,39 @@ in
       sorted = {
         command =
           let
-            sort = lib.getExe' coreutils "sort";
+            sort = getExe' pkgs.coreutils "sort";
           in
-          writers.writeBashBin "sorted" ''
-            ${sort} --check=quiet $1 || ${sort} $1 | ${lib.getExe' moreutils "sponge"} $1
+          pkgs.writers.writeBashBin "sorted" ''
+            ${sort} --check=quiet $1 || ${sort} $1 | ${getExe' pkgs.moreutils "sponge"} $1
           '';
         includes = [ "*gitignore" ];
       };
 
-      # FIXME: leaves whitespace.XXXXXX files in pwd
+      # FIXME: leaves whitespace.XXXXXX files in PWD
       whitespace = {
         # make this run first
         priority = -1;
         command =
           let
-            sed = "${lib.getExe gnused} -e 's/[[:space:]]*$//' -e ' \${/^$/d;}' ";
-            strip = writers.writeBash "strip" ''
+            sed = "${getExe pkgs.gnused} -e 's/[[:space:]]*$//' -e ' \${/^$/d;}' ";
+            strip = pkgs.writers.writeBash "strip" ''
               path="$1"
               tmp=$(mktemp --tmpdir -t whitespace.XXXXXX)
               ${sed} "$path" > $tmp
-              if ${lib.getExe' diffutils "diff"} -q "$path" $tmp >/dev/null; then
+              if ${getExe' pkgs.diffutils "diff"} -q "$path" $tmp >/dev/null; then
                 rm $tmp
               else
-                mode=$(${lib.getExe' coreutils "stat"} --format=%a "$path")
+                mode=$(${getExe' pkgs.coreutils "stat"} --format=%a "$path")
                 mv $tmp "$path"
-                ${lib.getExe' coreutils "chmod"} $mode "$path"
+                ${getExe' pkgs.coreutils "chmod"} $mode "$path"
               fi
             '';
           in
-          writers.writeBashBin "whitespace" ''
+          pkgs.writers.writeBashBin "whitespace" ''
             if [[ -p /dev/stdin ]]; then
               ${sed} "$@"
             elif [[ $# -gt 1 ]]; then
-              ${lib.getExe' moreutils "parallel"} ${strip} -- "$@"
+              ${getExe' pkgs.moreutils "parallel"} ${strip} -- "$@"
             else
               ${strip} "$@"
             fi
@@ -95,7 +106,7 @@ in
       };
 
       yamlfix = {
-        command = lib.getExe' python3.pkgs.yamlfix "yamlfix";
+        command = getExe' pkgs.python3.pkgs.yamlfix "yamlfix";
         options = [
           "--config-file"
           "${toolCfg.yamlfix}"
