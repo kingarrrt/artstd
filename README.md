@@ -81,7 +81,7 @@ other tasks/reporting completion.
 **Reasoning:** Complex architectural decisions MUST be briefly justified.
 
 **Confirmation:** After reading/re-reading this document, respond with "Engineering
-standards applied (source: <git-describe-output>)".
+standards applied (source: output of `git describe --tags --always --dirty`)".
 
 **Staleness Check:** Before modifying file, MUST verify SHA-256 hash has not changed
 since last read.
@@ -683,8 +683,7 @@ string indicates an alias for the workflow.*
 
 ### Reapply Standards (`reapply`) (`R`)
 
-- **Purpose:** Re-reads the this document document and applies all standards defined
-  within it.
+- **Purpose:** Re-reads this document and applies all standards defined within it.
 - **Usage:** `R`
 - **Actions:**
   1. **File Read:** Read the content of this document.
