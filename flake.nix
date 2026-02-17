@@ -56,7 +56,6 @@
     in
     self-lib.flakeSet {
       inherit (inputs) self;
-      name = "artstd";
       apps = pkgs: {
         default = {
           type = "app";

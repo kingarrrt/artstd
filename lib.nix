@@ -4,8 +4,6 @@ inputs: {
     {
       # inputs.self
       self,
-      # ...
-      name,
       # std flake attrs
       apps ? _pkgs: { },
       checks ? _pkgs: { },
@@ -19,11 +17,13 @@ inputs: {
       nvimCfg ? "",
       # set in envrc
       env ? { },
-    }:
+      # NOTE: any change in args must be reflected in the removeAttrs call below
+      ...
+    }@args:
     let
       inherit (inputs.nixpkgs) lib;
     in
-    inputs.flake-utils.lib.eachSystem (import inputs.systems) (
+    (inputs.flake-utils.lib.eachSystem (import inputs.systems) (
       system:
       let
 
@@ -36,9 +36,10 @@ inputs: {
               artstd-lint = lint-fail-on-change;
             })
           ]
-          ++ lib.optionals (self ? overlays && self.overlays ? default) [
-            self.overlays.default
-          ];
+          ++ [ inputs.self.overlays.default ]
+          ++ lib.optionals (
+            self != inputs.self && self ? overlays && self.overlays ? default
+          ) [ self.overlays.default ];
         };
 
         treefmt =
@@ -97,7 +98,7 @@ inputs: {
               inherit (lintcfg'.settings.formatter) shellcheck;
 
               # make .env
-              dotenv = pkgs.writeText "${name}-env" (
+              dotenv = pkgs.writeText "artstd-env" (
                 lib.concatLines (
                   lib.mapAttrsToList (name: value: ''${name}="${toString value}"'') (
                     env
@@ -112,7 +113,7 @@ inputs: {
               # nvim compat:
               # - bashls/shellcheck
               # - paths
-              exrc = pkgs.writeText "${name}-nvim-local.lua" ''
+              exrc = pkgs.writeText "artstd-nvim-local.lua" ''
                 local ctx = require("exrc").init()
                 ctx:lsp_setup {
                   bashls = function(config)
@@ -167,6 +168,18 @@ inputs: {
 
       }
 
-    );
+    ))
+    # remaining args set direct on flake
+    // builtins.removeAttrs args [
+      "self"
+      "apps"
+      "checks"
+      "packages"
+      "devPkgs"
+      "fmtCfg"
+      "lintCfg"
+      "nvimCfg"
+      "env"
+    ];
 
 }
