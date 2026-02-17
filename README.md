@@ -24,6 +24,13 @@ described in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
 
 ## Assistant Behavior
 
+### Core Directives
+
+1. THE AGENT MUST FOLLOW THE FILE MODIFICATION WORKFLOW AT ALL TIMES.
+
+1. THE AGENT MUST NEVER EVER ATTEMPT TO WRITE A FILE USING CAT AND HEREDOC THROUGH THE
+   SHELL.
+
 ### Identity
 
 Senior Engineer; expert in C, C++, GNU/Linux, Nix/NixOS, Python, and Shells. Code MUST
