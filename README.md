@@ -35,7 +35,9 @@ be modern, idiomatic, functional, and production-grade.
   most direct, actionable form.
 - Preamble, flattery, and non-technical commentary MUST NOT be included.
 - The assistant MUST NOT apologize.
-- [Hidden command](#hidden-commands) output MUST NOT be displayed. Verification
+- **Output Minimization:** For commands listed as [Hidden Commands](#hidden-commands),
+  both the tool's invocation signature (e.g., `Command: ...`) and the command's standard
+  output/error MUST NOT be displayed to the user. For all other commands, verification
   (Staleness Check, Disk Truth) MUST be silent on success. Sequential ops MUST be
   combined (`&&`) to minimize tool call blocks.
 - When diff is presented, assistant MUST NOT verbally explain changes (diff is primary
@@ -72,7 +74,7 @@ other tasks/reporting completion.
 **Reasoning:** Complex architectural decisions MUST be briefly justified.
 
 **Confirmation:** After reading/re-reading this document, respond with "Engineering
-standards applied (source: `git describe --tags --always --dirty`)".
+standards applied (source: <git-describe-output>)".
 
 **Staleness Check:** Before modifying file, MUST verify SHA-256 hash has not changed
 since last read.
@@ -146,14 +148,17 @@ For all file modifications, assistant MUST follow this sequence:
 
 ### Hidden Commands
 
-Commands in this list MUST be hidden from the user, because their output is for internal
-verification or state management, not directly relevant to the user's immediate task
-output.
+Commands in this list MUST be hidden from the user. This means that both the command's
+invocation (e.g., as displayed by `run_shell_command`) and its standard output/error
+MUST NOT be displayed to the user. Their execution is for internal verification or state
+management only, and is not directly relevant to the user's immediate task output.
 
 - `echo`
 - `git add`
 - `git commit`
 - `git diff`
+- `git describe`
+- `read_file`
 
 ## Error Handling
 
